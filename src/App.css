@@ -1,38 +1,53 @@
 .App {
-  text-align: center;
+  height: 100vh;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.HomeButton {
+  background-color: #1e3239;
+  border: none;
   color: white;
+  padding: 0.3rem 1.4rem;
+  border-radius: 0.7rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+}
+.HomeButton:hover {
+  color: #00f4a6 !important;
 }
 
-.App-link {
-  color: #61dafb;
+.chat-bubble {
+  border: none !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.sidebar-icon {
+  font-size: 1.8rem;
+  padding: 0px 0.5rem;
+  color: #1e3239;
+}
+
+.sidebar-button {
+  margin-bottom: 0.5rem;
+  padding: 4px 0px;
+  background-color: #00f4a6 !important;
+  /* border-color:  !important; */
+  border: none;
+  height: auto;
+}
+.sidebar-button:hover {
+  background-color: white !important;
+}
+.active {
+  background-color: white !important;
+}
+.feedback-button {
+  border: none;
+  padding: 2px 4px;
+  background-color: white;
+  transition: font-size 0.2s;
+}
+
+.feedback-button:hover {
+  font-size: 1.5rem;
 }
