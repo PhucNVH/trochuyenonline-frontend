@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { LogoutOutlined, MessageOutlined } from "@ant-design/icons";
+import { BellTwoTone, LogoutOutlined, MessageOutlined, ThunderboltTwoTone } from "@ant-design/icons";
 import { Button, Modal } from "antd";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../hooks/use-auth";
 
-export default function SideBar() {
+export default function SideBar(props) {
+  const {handleFindPartner, handleEndConversation} = props
   const Auth = useAuth();
   const history = useHistory();
   const [isVisible, setVisible] = useState(false);
@@ -34,6 +35,12 @@ export default function SideBar() {
       </Button>
       <Button className="sidebar-button" onClick={askLogout}>
         <LogoutOutlined className="sidebar-icon" />
+      </Button>
+      <Button className="sidebar-button" onClick={handleFindPartner}>
+        <BellTwoTone className="sidebar-icon" />
+      </Button>
+      <Button className="sidebar-button" onClick={handleEndConversation}>
+        <ThunderboltTwoTone className="sidebar-icon" />
       </Button>
       <Modal
         title="Confirm"
