@@ -1,25 +1,44 @@
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import { Home, Chat, Login, Signup, Survey } from "./pages";
 import { ProvideAuth, useAuth } from "./hooks/use-auth";
+
+function AuthorizedRoute({ path, children }) {
+  const auth = useAuth();
+  return (
+    <Route path={path}>{auth.user ? children : <Redirect to="/login" />}</Route>
+  );
+}
+
+function UnauthorizedRoute({ path, children }) {
+  const auth = useAuth();
+  return (
+    <Route path={path}>{auth.user ? <Redirect to="/chat" /> : children}</Route>
+  );
+}
 
 function App() {
   return (
     <ProvideAuth>
       <Router>
         <Switch>
-          <Route path="/login">
+          <UnauthorizedRoute path="/login">
             <Login />
-          </Route>
-          <Route path="/signup">
+          </UnauthorizedRoute>
+          <UnauthorizedRoute path="/signup">
             <Signup />
-          </Route>
-          <Route path="/chat">
+          </UnauthorizedRoute>
+          <AuthorizedRoute path="/chat">
             <Chat />
-          </Route>
-          <Route path="/survey">
+          </AuthorizedRoute>
+          <AuthorizedRoute path="/survey">
             <Survey />
-          </Route>
+          </AuthorizedRoute>
           <Route path="/">
             <Home />
           </Route>

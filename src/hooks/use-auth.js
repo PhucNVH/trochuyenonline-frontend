@@ -31,7 +31,6 @@ function useProvideAuth() {
   useEffect(() => {
     if (loading) {
       Auth.getUser(token).then((data) => {
-        console.log(token);
         setUser(data.result ? data.result : false);
         setLoading(false);
       });
@@ -68,11 +67,9 @@ function useProvideAuth() {
   };
 
   const logout = () => {
-    return Auth.logout().then((res) => {
-      setUser(false);
-      setToken("");
-      return res.data;
-    });
+    setUser(false);
+    setToken("");
+    return { status: "success" };
   };
 
   return {

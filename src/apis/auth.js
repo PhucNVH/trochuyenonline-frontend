@@ -26,6 +26,7 @@ export const Auth = {
       .catch((e) => console.log(e));
   },
   getUser: async (token) => {
+    console.log(token);
     const res = await axios
       .post(`${REACT_APP_SERVER_URI}/users/check-token`, { token: token })
       .catch((e) => console.log(e));

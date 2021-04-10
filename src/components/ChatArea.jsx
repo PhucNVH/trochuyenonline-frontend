@@ -13,7 +13,8 @@ import {
   ThemeProvider,
   Bubble,
 } from "@livechat/ui-kit";
-
+import { Alert } from "antd";
+import UseAnimations from "react-useanimations";
 const Maximized = ({ onMessageSend, messages }) => {
   return (
     <ThemeProvider theme={theme}>
@@ -31,6 +32,19 @@ const Maximized = ({ onMessageSend, messages }) => {
             height: "100%",
           }}
         >
+          <Alert
+            message="Success Text"
+            description="Success Description Success Description Success Description"
+            type="success"
+            showIcon
+            icon={
+              <UseAnimations
+                animationKey="github"
+                size={56}
+                style={{ padding: 100 }}
+              />
+            }
+          />
           <MessageList active containScrollInSubtree>
             {messages.map((e, i) => (
               <Message isOwn={e.isOwn} key={i.toString()}>

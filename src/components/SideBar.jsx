@@ -20,9 +20,8 @@ export default function SideBar() {
     showModal();
   };
   const logout = async () => {
-    const res = await Auth.logout();
-    console.log(res);
-    if (res.status == "success") {
+    const result = await Auth.logout();
+    if (result.status == "success") {
       history.push("/login");
     }
   };

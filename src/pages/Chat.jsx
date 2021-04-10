@@ -33,7 +33,7 @@ export function Chat() {
       user: user.username,
       channel: "websocket",
     };
-    socket.emit("message", {});
+    // socket.emit("message", {});
     setMessage((prev) => prev.concat({ message: text, isOwn: true }));
   };
 
