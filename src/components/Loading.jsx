@@ -1,4 +1,4 @@
-import { useLoading, Puff } from "@agney/react-loading";
+import { useLoading, Puff } from '@agney/react-loading';
 
 export default function Loading({ loading }) {
   const { indicatorEl } = useLoading({

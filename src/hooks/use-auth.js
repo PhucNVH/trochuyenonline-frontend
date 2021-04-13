@@ -1,7 +1,7 @@
-import React, { useState, useContext, createContext, useEffect } from "react";
-import { Auth } from "../apis/auth";
-import Loading from "../components/Loading";
-import { useLocalStorage } from "./use-localstorage";
+import React, { useState, useContext, createContext, useEffect } from 'react';
+import { Auth } from '../apis/auth';
+import Loading from '../components/Loading';
+import { useLocalStorage } from './use-localstorage';
 
 const authContext = createContext();
 
@@ -20,13 +20,13 @@ export const useAuth = () => {
 
 function getRememberCookie() {
   const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${"remember_token"}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
+  const parts = value.split(`; ${'remember_token'}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
 }
 function useProvideAuth() {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useLocalStorage("token", "");
-  const [loading, setLoading] = useState(token === "" ? false : true);
+  const [token, setToken] = useLocalStorage('token', '');
+  const [loading, setLoading] = useState(token === '' ? false : true);
 
   useEffect(() => {
     if (loading) {
@@ -60,7 +60,7 @@ function useProvideAuth() {
         setUser(response.data.result);
       } else {
         setUser(false);
-        setToken("");
+        setToken('');
       }
       return response.data;
     });
@@ -68,8 +68,8 @@ function useProvideAuth() {
 
   const logout = () => {
     setUser(false);
-    setToken("");
-    return { status: "success" };
+    setToken('');
+    return { status: 'success' };
   };
 
   return {

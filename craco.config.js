@@ -1,6 +1,7 @@
 const CracoLessPlugin = require("craco-less");
 const { when } = require("@craco/craco");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const { ESLINT_MODES } = require('@craco/craco');
 
 module.exports = {
   plugins: [
@@ -29,5 +30,8 @@ module.exports = {
     postcss: {
       plugins: [require("tailwindcss"), require("autoprefixer")],
     },
+  },
+  eslint: {
+    mode: ESLINT_MODES.file,
   },
 };

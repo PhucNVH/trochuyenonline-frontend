@@ -1,33 +1,33 @@
 const theme = {
   vars: {
-    "primary-color": "#00f4a6",
-    "secondary-color": "#fbfbfb",
-    "tertiary-color": "white",
+    'primary-color': '#00f4a6',
+    'secondary-color': '#fbfbfb',
+    'tertiary-color': 'white',
   },
   AgentBar: {
     Avatar: {
-      size: "42px",
+      size: '42px',
       css: {
-        marginRight: ".6em",
+        marginRight: '.6em',
       },
     },
     css: {
-      backgroundColor: "var(--secondary-color)",
+      backgroundColor: 'var(--secondary-color)',
     },
   },
   Avatar: {
-    size: "30px",
+    size: '30px',
   },
   Bubble: {
-    sharpBorderRadius: "0.3em",
-    ovalBorderRadius: "1.4em",
+    sharpBorderRadius: '0.3em',
+    ovalBorderRadius: '1.4em',
     css: {
       backgroundColor: {
-        default: "white",
-        bot: "white",
+        default: 'white',
+        bot: 'white',
       },
       color: {
-        default: "black",
+        default: 'black',
       },
     },
   },
@@ -35,57 +35,57 @@ const theme = {
   ChatListItem: {
     Avatar: {
       css: {
-        marginRight: ".5em",
+        marginRight: '.5em',
       },
     },
   },
   FixedWrapperMaximized: {
     animationDuration: 100,
-    width: "400px",
-    height: "500px",
+    width: '400px',
+    height: '500px',
   },
   FixedWrapperMinimized: {
     animationDuration: 100,
   },
   FixedWrapperRoot: {
-    position: "right",
+    position: 'right',
     css: {},
   },
   Message: {
-    secondaryTextColor: "#000",
-    horizontalAlign: "left",
+    secondaryTextColor: '#000',
+    horizontalAlign: 'left',
     own: {
-      horizontalAlign: "right",
+      horizontalAlign: 'right',
 
-      sharpBorderRadius: "1.4em",
-      ovalBorderRadius: "0.9em",
+      sharpBorderRadius: '1.4em',
+      ovalBorderRadius: '0.9em',
       Bubble: {
         css: {
-          backgroundColor: "var(--primary-color)",
-          color: "black",
+          backgroundColor: 'var(--primary-color)',
+          color: 'black',
         },
       },
       Content: {
         css: {
-          alignItems: "flex-end",
+          alignItems: 'flex-end',
         },
       },
       MessageMeta: {
         css: {
-          textAlign: "right",
+          textAlign: 'right',
         },
       },
       Time: {
         css: {
-          textAlign: "right",
+          textAlign: 'right',
         },
       },
     },
     bot: {
       Bubble: {
         css: {
-          backgroundColor: "white",
-          color: "black",
+          backgroundColor: 'white',
+          color: 'black',
         },
       },
     },
@@ -94,7 +94,7 @@ const theme = {
   MessageGroup: {},
   MessageList: {
     css: {
-      backgroundColor: "var(--tertiary-color)",
+      backgroundColor: 'var(--tertiary-color)',
     },
   },
   MessageMedia: {},
@@ -102,30 +102,30 @@ const theme = {
   MessageTitle: {},
   QuickReply: {
     css: {
-      borderColor: "var(--primary-color)",
-      backgroundColor: "#fff",
-      color: "var(--primary-color)",
+      borderColor: 'var(--primary-color)',
+      backgroundColor: '#fff',
+      color: 'var(--primary-color)',
     },
   },
   TextComposer: {
     // TODO: this is a color for text, but sounds like a color for background
-    inputColor: "#000",
+    inputColor: '#000',
     Icon: {
-      color: "#aaa",
+      color: '#aaa',
     },
     IconButton: {
       active: {
         Icon: {
-          color: "var(--primary-color)",
+          color: 'var(--primary-color)',
         },
       },
     },
   },
   TitleBar: {
-    iconsColor: "#fff",
-    behaviour: "default",
+    iconsColor: '#fff',
+    behaviour: 'default',
     css: {
-      backgroundColor: "var(--primary-color)",
+      backgroundColor: 'var(--primary-color)',
     },
   },
 };

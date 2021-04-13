@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useAuth } from "../hooks/use-auth";
+import React, { useEffect } from 'react';
+import { useAuth } from '../hooks/use-auth';
 
 export const Logout = () => {
   const auth = useAuth();

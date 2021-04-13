@@ -1,6 +1,6 @@
-import React from "react";
-import { ReactTypeformEmbed } from "react-typeform-embed";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { ReactTypeformEmbed } from 'react-typeform-embed';
+import { useHistory } from 'react-router-dom';
 export function Survey() {
   const history = useHistory();
   return (

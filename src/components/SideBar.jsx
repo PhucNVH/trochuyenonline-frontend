@@ -1,11 +1,16 @@
-import React, { useState } from "react";
-import { BellTwoTone, LogoutOutlined, MessageOutlined, ThunderboltTwoTone } from "@ant-design/icons";
-import { Button, Modal } from "antd";
-import { Link, useHistory } from "react-router-dom";
-import { useAuth } from "../hooks/use-auth";
+import React, { useState } from 'react';
+import {
+  BellTwoTone,
+  LogoutOutlined,
+  MessageOutlined,
+  ThunderboltTwoTone,
+} from '@ant-design/icons';
+import { Button, Modal } from 'antd';
+import { Link, useHistory } from 'react-router-dom';
+import { useAuth } from '../hooks/use-auth';
 
 export default function SideBar(props) {
-  const {handleFindPartner, handleEndConversation} = props
+  const { handleFindPartner, handleEndConversation } = props;
   const Auth = useAuth();
   const history = useHistory();
   const [isVisible, setVisible] = useState(false);
@@ -22,12 +27,12 @@ export default function SideBar(props) {
   };
   const logout = async () => {
     const result = await Auth.logout();
-    if (result.status == "success") {
-      history.push("/login");
+    if (result.status == 'success') {
+      history.push('/login');
     }
   };
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <Button className="sidebar-button bg-red-300">
         <Link to="chat">
           <MessageOutlined className="sidebar-icon" />

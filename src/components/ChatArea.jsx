@@ -1,5 +1,5 @@
-import React from "react";
-import theme from "./theme";
+import React from 'react';
+import theme from './theme';
 import {
   TextInput,
   MessageList,
@@ -12,27 +12,26 @@ import {
   SendButton,
   ThemeProvider,
   Bubble,
-} from "@livechat/ui-kit";
-import { Alert } from "antd";
-import UseAnimations from "react-useanimations";
+} from '@livechat/ui-kit';
+import { Alert } from 'antd';
+import UseAnimations from 'react-useanimations';
 const Maximized = (props) => {
-
-  const {handleSendMessage, messages, alert} = props
+  const { handleSendMessage, messages, alert } = props;
 
   return (
     <ThemeProvider theme={theme}>
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
         }}
       >
         <div
           style={{
             flexGrow: 1,
             minHeight: 0,
-            height: "100%",
+            height: '100%',
           }}
         >
           {alert}
@@ -59,17 +58,17 @@ const Maximized = (props) => {
               <TextInput />
             </Fill>
             <Fit>
-              <SendButton style={{ color: "#00f4a6 !important" }} />
+              <SendButton style={{ color: '#00f4a6 !important' }} />
             </Fit>
           </Row>
         </TextComposer>
         <div
           style={{
-            textAlign: "center",
-            fontSize: ".6em",
-            padding: ".4em",
-            background: "#fff",
-            color: "#888",
+            textAlign: 'center',
+            fontSize: '.6em',
+            padding: '.4em',
+            background: '#fff',
+            color: '#888',
           }}
         ></div>
       </div>

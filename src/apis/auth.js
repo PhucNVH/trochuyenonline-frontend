@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 const { REACT_APP_SERVER_URI } = process.env;
 
 export const Auth = {
@@ -20,13 +20,12 @@ export const Auth = {
     return await axios
       .post(`${REACT_APP_SERVER_URI}/users`, {
         username: data.username,
-        fullName: data.fullName ? data.fullName : "name",
+        fullName: data.fullName ? data.fullName : 'name',
         password: data.password,
       })
       .catch((e) => console.log(e));
   },
   getUser: async (token) => {
-    console.log(token);
     const res = await axios
       .post(`${REACT_APP_SERVER_URI}/users/check-token`, { token: token })
       .catch((e) => console.log(e));

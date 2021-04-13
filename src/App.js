@@ -1,12 +1,13 @@
-import "./App.css";
+import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
-} from "react-router-dom";
-import { Home, Chat, Login, Signup, Survey } from "./pages";
-import { ProvideAuth, useAuth } from "./hooks/use-auth";
+} from 'react-router-dom';
+import { Home, Login, Signup, Survey } from './pages';
+import { ProvideAuth, useAuth } from './hooks/use-auth';
+import Chat from './pages/Chat';
 
 function AuthorizedRoute({ path, children }) {
   const auth = useAuth();

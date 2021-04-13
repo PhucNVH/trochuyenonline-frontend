@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Typography, Tabs, Modal } from "antd";
-import ProfilePicture from "../asset/profile.jpg";
-import ProfilePicture1 from "../asset/profile2.jpg";
-import ProfilePicture2 from "../asset/profile3.jpg";
-import ProfilePicture3 from "../asset/profile4.jpg";
-import TabList from "./TabList";
-import { useAuth } from "../hooks/use-auth";
+import React, { useState } from 'react';
+import { Typography, Tabs, Modal } from 'antd';
+import ProfilePicture from '../asset/profile.jpg';
+import ProfilePicture1 from '../asset/profile2.jpg';
+import ProfilePicture2 from '../asset/profile3.jpg';
+import ProfilePicture3 from '../asset/profile4.jpg';
+import TabList from './TabList';
+import { useAuth } from '../hooks/use-auth';
 const { TabPane } = Tabs;
 const { Title } = Typography;
 
@@ -33,16 +33,16 @@ const AvatarModal = ({ visible, setVisible }) => {
               key={i}
               className="ProfileAvatar"
               style={{
-                borderColor: "black",
-                borderWidth: "2px",
-                borderStyle: "solid",
-                borderRadius: "9999px",
+                borderColor: 'black',
+                borderWidth: '2px',
+                borderStyle: 'solid',
+                borderRadius: '9999px',
               }}
             >
               <img
                 src={e}
                 alt="Profile Picture"
-                style={{ height: 128, width: 128, borderRadius: "50%" }}
+                style={{ height: 128, width: 128, borderRadius: '50%' }}
               />
             </div>
           );
@@ -55,26 +55,26 @@ const AvatarModal = ({ visible, setVisible }) => {
 export default function Profile() {
   const [visible, setVisible] = useState(false);
   const { user } = useAuth();
-  const data = ["Điểm kém", "Hết tiền", "Chia tay"];
+  const data = ['Điểm kém', 'Hết tiền', 'Chia tay'];
   return (
     <div>
       <AvatarModal visible={visible} setVisible={setVisible}></AvatarModal>
       <div
         className="ProfileInfo"
         style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
         }}
       >
         <div
           className="ProfileAvatar"
           style={{
-            borderColor: "#00f4a6",
-            borderWidth: "2px",
-            borderStyle: "solid",
-            borderRadius: "9999px",
+            borderColor: '#00f4a6',
+            borderWidth: '2px',
+            borderStyle: 'solid',
+            borderRadius: '9999px',
           }}
           onClick={() => {
             setVisible(true);
@@ -83,11 +83,11 @@ export default function Profile() {
           <img
             src={ProfilePicture}
             alt="Profile Picture"
-            style={{ height: 128, width: 128, borderRadius: "50%" }}
+            style={{ height: 128, width: 128, borderRadius: '50%' }}
           />
         </div>
         <div>
-          <Title level={2} style={{ color: "white" }}>
+          <Title level={2} style={{ color: 'white' }}>
             {user.username}
           </Title>
         </div>

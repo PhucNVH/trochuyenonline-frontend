@@ -1,8 +1,8 @@
-import React from "react";
-import { Form, Input, Button, Checkbox, Row, Col, Card } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { useHistory, Link } from "react-router-dom";
-import { useAuth } from "../hooks/use-auth";
+import React from 'react';
+import { Form, Input, Button, Checkbox, Row, Col, Card } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { useHistory, Link } from 'react-router-dom';
+import { useAuth } from '../hooks/use-auth';
 
 export const SignupComponent = () => {
   const { signup } = useAuth();
@@ -10,14 +10,14 @@ export const SignupComponent = () => {
 
   const onFinish = async (values) => {
     const res = await signup(values);
-    console.log(res)
-    if (res && res.status == "success") {
-      history.push("chat");
+    console.log(res);
+    if (res && res.status == 'success') {
+      history.push('chat');
     }
   };
 
   return (
-    <Row justify="center" align="middle" style={{ minHeight: "100vh" }}>
+    <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
       <Col>
         <Card className="w-72 sm:w-80 px-2 sm:px-0">
           <Form
@@ -33,7 +33,7 @@ export const SignupComponent = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your Username!",
+                  message: 'Please input your Username!',
                 },
               ]}
             >
@@ -47,7 +47,7 @@ export const SignupComponent = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your Password!",
+                  message: 'Please input your Password!',
                 },
               ]}
             >
@@ -59,21 +59,21 @@ export const SignupComponent = () => {
             </Form.Item>
             <Form.Item
               name="confirm"
-              dependencies={["password"]}
+              dependencies={['password']}
               hasFeedback
               rules={[
                 {
                   required: true,
-                  message: "Please confirm your password!",
+                  message: 'Please confirm your password!',
                 },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
-                    if (!value || getFieldValue("password") === value) {
+                    if (!value || getFieldValue('password') === value) {
                       return Promise.resolve();
                     }
                     return Promise.reject(
                       new Error(
-                        "The two passwords that you entered do not match!"
+                        'The two passwords that you entered do not match!'
                       )
                     );
                   },
