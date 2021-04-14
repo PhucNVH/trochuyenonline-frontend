@@ -3,7 +3,6 @@ const { REACT_APP_SERVER_URI } = process.env;
 
 export const Auth = {
   login: async (data) => {
-    console.log(data);
     return await axios
       .post(`${REACT_APP_SERVER_URI}/users/login`, {
         username: data.username,

@@ -41,10 +41,8 @@ function useProvideAuth() {
     return Auth.login(data)
       .catch((e) => console.log(e))
       .then((response) => {
-        console.log(response);
         if (response.data && response.data.success === true) {
           setUser(response.data.result);
-          console.log(response, token);
           setToken(response.data.result.token);
         } else {
           setUser(false);
@@ -55,7 +53,6 @@ function useProvideAuth() {
 
   const signup = (data) => {
     return Auth.signup(data).then((response) => {
-      console.log(response);
       if (response.data && response.data.success === true) {
         setUser(response.data.result);
       } else {

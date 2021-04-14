@@ -10,7 +10,6 @@ export const SignupComponent = () => {
 
   const onFinish = async (values) => {
     const res = await signup(values);
-    console.log(res);
     if (res && res.status == 'success') {
       history.push('chat');
     }

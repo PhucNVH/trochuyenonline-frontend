@@ -16,7 +16,8 @@ const { Sider, Content } = Layout;
 const Chat = () => {
   const { user } = useAuth();
 
-  const socket = io.connect('http://localhost:3131');
+  const socket = io.connect('https://socket.trochuyenonline.com');
+
   const [conversationName, setConversationName] = React.useState(null);
   const [partnerId, setPartnerId] = React.useState(-1);
   const [message, setMessage] = React.useState([]);
@@ -80,7 +81,6 @@ const Chat = () => {
   };
 
   const handleSendMessage = (message) => {
-    console.log(user.id, partnerId);
     socket.emit('message', {
       token: user.token,
       conversationName,
@@ -160,8 +160,7 @@ const Chat = () => {
       message: m.message,
       isOwn: m.senderInfo.id === user.id,
     }));
-    console.log(storedMessage);
-    setMessage(storedMessage);
+    setMessage(storedMessage.reverse());
     if (messageStore.messages[0]) {
       const oneMessage = messageStore.messages[0];
       setConversationName(oneMessage.conversationName);

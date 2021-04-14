@@ -4,7 +4,9 @@ import { useAuth } from '../hooks/use-auth';
 export const Logout = () => {
   const auth = useAuth();
   useEffect(() => {
-    auth.logout().then((res) => console.log(res));
+    auth.logout().then((res) => {
+      console.log(res);
+    });
   });
   return <div></div>;
 };
