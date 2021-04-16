@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from '../asset/people-talking.jpg';
+import Image from '../asset/people-talking-2.jpg';
 import { Row, Col, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 const { Title } = Typography;
@@ -12,7 +12,7 @@ export function Home() {
           <img src={Image} alt="people talking" style={{ width: '100%' }} />
         </div>
       </Col>
-      <Col xs={24} lg={10} style={{ backgroundColor: '#00f4a6' }}>
+      <Col xs={24} lg={10} style={{ backgroundColor: '#DEE5FF' }}>
         <div
           style={{
             display: 'flex',

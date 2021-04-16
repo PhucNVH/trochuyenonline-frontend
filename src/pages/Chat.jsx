@@ -27,13 +27,14 @@ const Chat = () => {
 
   const [skip, setSkip] = React.useState(0);
   const [take, setTake] = React.useState(+PER_PAGE_OPTIONS[1]);
-
+  const [isCollapsed, setIsCollapsed] = React.useState(false);
   const messageStore = React.useContext(MessageStoreContext);
 
   socket.on('finding', () => {
     setAlert(
       <Spin spinning={true}>
         <Alert
+          className="absolute"
           message="Đang tìm người trò chuyện"
           description="Nhanh thôi, bạn chờ tí nhé"
           type="info"
@@ -46,6 +47,7 @@ const Chat = () => {
   socket.on('stored', (data) => {
     // setAlert(
     //   <Alert
+    // className="absolute"
     //     message="Cuộc trò chuyện vẫn còn, đang load lại nè"
     //     description="Chưa hiện thực tính năng load lại nên bạn có thể kết thúc cuộc trò chuyện này bằng nút sấm sét bên trái"
     //     type="info"
@@ -136,8 +138,9 @@ const Chat = () => {
 
       setAlert(
         <Alert
+          className="absolute"
           message="Tìm người tâm sự ngay nhé!"
-          description="Bạn đang chưa có ai tâm sự cùng. Hãy chờ người khác tìm thấy bạn, hoặc chủ động tìm bằng cách nhấn nút chuông xanh ở thanh bên trái nha"
+          description="Bạn đang chưa có ai tâm sự cùng. Hãy chờ người khác tìm thấy bạn, hoặc chủ động tìm bằng cách nhấn nút la bàn ở thanh bên trái nha"
           type="info"
           showIcon
           closeText="Tôi hiểu rồi"
@@ -174,13 +177,14 @@ const Chat = () => {
 
   return (
     <Row>
-      <Col span={1} style={{ backgroundColor: '#00f4a6' }}>
+      <Col xs={3} md={1} style={{ backgroundColor: '#18282E' }}>
         <SideBar
           handleFindPartner={handleFindPartner}
           handleEndConversation={handleEndConversation}
+          triggerSider={setIsCollapsed}
         />
       </Col>
-      <Col span={23}>
+      <Col xs={21} md={23}>
         <Layout className="App">
           <Layout>
             <Content>
@@ -194,9 +198,11 @@ const Chat = () => {
           <Sider
             width="20rem"
             style={{ backgroundColor: '#1e3239' }}
-            trigger={null}
-            breakpoint="lg"
+            breakpoint="md"
             collapsedWidth="0"
+            trigger={null}
+            collapsible
+            collapsed={isCollapsed}
           >
             <Profile></Profile>
           </Sider>

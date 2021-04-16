@@ -1,11 +1,13 @@
+// primary: "#DEE5FFcd",
+// secondary: "#1e3239",
 module.exports = {
-  purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
       colors: {
-        primary: "#00f4a6cd",
-        secondary: "#1e3239",
+        primary: '#91B3FA',
+        secondary: '#DEE5FF',
       },
     },
   },

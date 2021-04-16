@@ -1,6 +1,6 @@
 const theme = {
   vars: {
-    'primary-color': '#00f4a6',
+    'primary-color': '#DEE5FF',
     'secondary-color': '#fbfbfb',
     'tertiary-color': 'white',
   },

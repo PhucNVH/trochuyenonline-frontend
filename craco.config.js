@@ -1,7 +1,8 @@
-const CracoLessPlugin = require("craco-less");
-const { when } = require("@craco/craco");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const CracoLessPlugin = require('craco-less');
+const { when } = require('@craco/craco');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { ESLINT_MODES } = require('@craco/craco');
+// modifyVars: { '@primary-color': '#DEE5FF' },
 
 module.exports = {
   plugins: [
@@ -10,7 +11,6 @@ module.exports = {
       options: {
         lessLoaderOptions: {
           lessOptions: {
-            modifyVars: { "@primary-color": "#00f4a6" },
             javascriptEnabled: true,
           },
         },
@@ -28,7 +28,7 @@ module.exports = {
   },
   style: {
     postcss: {
-      plugins: [require("tailwindcss"), require("autoprefixer")],
+      plugins: [require('tailwindcss'), require('autoprefixer')],
     },
   },
   eslint: {
