@@ -58,7 +58,7 @@ const Maximized = (props) => {
               <TextInput />
             </Fill>
             <Fit>
-              <SendButton style={{ color: '#00f4a6 !important' }} />
+              <SendButton style={{ color: '#DEE5FF !important' }} />
             </Fit>
           </Row>
         </TextComposer>

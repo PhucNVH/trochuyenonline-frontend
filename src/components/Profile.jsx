@@ -71,7 +71,7 @@ export default function Profile() {
         <div
           className="ProfileAvatar"
           style={{
-            borderColor: '#00f4a6',
+            borderColor: '#DEE5FF',
             borderWidth: '2px',
             borderStyle: 'solid',
             borderRadius: '9999px',

@@ -3,14 +3,17 @@ import {
   BellTwoTone,
   LogoutOutlined,
   MessageOutlined,
+  UserOutlined,
   ThunderboltTwoTone,
+  CompassTwoTone,
+  PauseCircleTwoTone,
 } from '@ant-design/icons';
 import { Button, Modal } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../hooks/use-auth';
 
 export default function SideBar(props) {
-  const { handleFindPartner, handleEndConversation } = props;
+  const { handleFindPartner, handleEndConversation, triggerSider } = props;
   const Auth = useAuth();
   const history = useHistory();
   const [isVisible, setVisible] = useState(false);
@@ -33,19 +36,31 @@ export default function SideBar(props) {
   };
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <Button className="sidebar-button bg-red-300">
-        <Link to="chat">
-          <MessageOutlined className="sidebar-icon" />
-        </Link>
+      <Button
+        className="sidebar-button block md:hidden"
+        onClick={() => {
+          triggerSider((prev) => !prev);
+        }}
+        title="Find"
+      >
+        <UserOutlined className="sidebar-icon text-blue-700" />
       </Button>
-      <Button className="sidebar-button" onClick={askLogout}>
-        <LogoutOutlined className="sidebar-icon" />
+      <Button
+        className="sidebar-button"
+        onClick={handleFindPartner}
+        title="Find"
+      >
+        <CompassTwoTone className="sidebar-icon " />
       </Button>
-      <Button className="sidebar-button" onClick={handleFindPartner}>
-        <BellTwoTone className="sidebar-icon" />
+      <Button
+        className="sidebar-button"
+        onClick={handleEndConversation}
+        title="Stop conversation"
+      >
+        <PauseCircleTwoTone className="sidebar-icon" twoToneColor="#f88585" />
       </Button>
-      <Button className="sidebar-button" onClick={handleEndConversation}>
-        <ThunderboltTwoTone className="sidebar-icon" />
+      <Button className="sidebar-button" onClick={askLogout} title="Log out">
+        <LogoutOutlined className="sidebar-icon text-red-600 " />
       </Button>
       <Modal
         title="Confirm"
