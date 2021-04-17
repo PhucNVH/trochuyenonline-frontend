@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useAuth } from '../hooks/use-auth';
 import { Survey as SurveyComponent, Model, StylesManager } from 'survey-react';
 import { useHistory } from 'react-router-dom';
+import { Survey as SurveyApi } from '../apis/survey.js';
 export function Survey() {
   const { user } = useAuth();
   const history = useHistory();
@@ -80,6 +81,21 @@ export function Survey() {
 
   model.onComplete.add(function (result) {
     console.log(result.data);
+    const isOptin = result.data['optin'] == 'Có';
+    let hobby = [];
+    let prefer = [];
+    for (let h in result.data['hobby']) {
+      hobby.push(result.data['hobby'][h]);
+    }
+    for (let p in result.data['prefer']) {
+      prefer.push(result.data['prefer'][p]);
+    }
+    SurveyApi.send({
+      token: user.token,
+      isOptin: isOptin,
+      hobby: hobby,
+      prefer: prefer,
+    });
     history.push('chat');
   });
 
