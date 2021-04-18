@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
-import {
-  BellTwoTone,
-  LogoutOutlined,
-  MessageOutlined,
-  UserOutlined,
-  ThunderboltTwoTone,
-  CompassTwoTone,
-  PauseCircleTwoTone,
-} from '@ant-design/icons';
-import { Button, Modal } from 'antd';
-import { Link, useHistory } from 'react-router-dom';
+import LogoutOutlined from '@ant-design/icons/LogoutOutlined';
+import UserOutlined from '@ant-design/icons/UserOutlined';
+import CompassTwoTone from '@ant-design/icons/CompassTwoTone';
+import PauseCircleTwoTone from '@ant-design/icons/PauseCircleTwoTone';
+import Button from 'antd/lib/button';
+import Modal from 'antd/lib/modal';
+import { useHistory } from 'react-router-dom';
 import { useAuth } from '../hooks/use-auth';
 
 export default function SideBar(props) {

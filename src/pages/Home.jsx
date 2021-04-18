@@ -1,6 +1,8 @@
 import React from 'react';
 import Image from '../asset/people-talking-2.jpg';
-import { Row, Col, Typography } from 'antd';
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
+import Typography from 'antd/lib/typography';
 import { Link } from 'react-router-dom';
 const { Title } = Typography;
 

@@ -13,8 +13,7 @@ import {
   ThemeProvider,
   Bubble,
 } from '@livechat/ui-kit';
-import { Alert } from 'antd';
-import UseAnimations from 'react-useanimations';
+
 const Maximized = (props) => {
   const { handleSendMessage, messages, alert } = props;
 

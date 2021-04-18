@@ -1,5 +1,5 @@
 import React from 'react';
-import { List } from 'antd';
+import List from 'antd/lib/list';
 export default function TabList({ itemList }) {
   return (
     <div>

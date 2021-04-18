@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Typography, Tabs, Modal } from 'antd';
+import Typography from 'antd/lib/typography';
+import Tabs from 'antd/lib/tabs';
+import Modal from 'antd/lib/modal';
 import ProfilePicture from '../asset/profile.jpg';
 import ProfilePicture1 from '../asset/profile2.jpg';
 import ProfilePicture2 from '../asset/profile3.jpg';

@@ -1,12 +1,16 @@
 import React from 'react';
 import ChatArea from '../components/ChatArea';
 import SideBar from '../components/SideBar';
-import { Layout, Row, Col } from 'antd';
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
+import Layout from 'antd/lib/layout';
 import { useAuth } from '../hooks/use-auth';
 import { io } from 'socket.io-client';
 import Profile from '../components/Profile';
-import { Alert, notification, Spin } from 'antd';
-import { SmileOutlined } from '@ant-design/icons';
+import Alert from 'antd/lib/alert';
+import notification from 'antd/lib/notification';
+import Spin from 'antd/lib/spin';
+import SmileOutlined from '@ant-design/icons/SmileOutlined';
 import { MessageStoreContext } from '../stores/message.store';
 import { PER_PAGE_OPTIONS } from '../dto/commons/PaginationRequest.dto';
 import { observer } from 'mobx-react';
@@ -27,7 +31,9 @@ const Chat = () => {
 
   const [skip, setSkip] = React.useState(0);
   const [take, setTake] = React.useState(+PER_PAGE_OPTIONS[1]);
-  const [isCollapsed, setIsCollapsed] = React.useState(false);
+  const [isCollapsed, setIsCollapsed] = React.useState(
+    window.screen.width < 768 ? true : false
+  );
   const messageStore = React.useContext(MessageStoreContext);
 
   socket.on('finding', () => {
