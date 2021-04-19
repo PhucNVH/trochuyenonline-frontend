@@ -14,13 +14,15 @@ import SmileOutlined from '@ant-design/icons/SmileOutlined';
 import { MessageStoreContext } from '../stores/message.store';
 import { PER_PAGE_OPTIONS } from '../dto/commons/PaginationRequest.dto';
 import { observer } from 'mobx-react';
+import { ConversationStoreContext } from '../stores/conversation.store';
 
 const { Sider, Content } = Layout;
 
 const Chat = () => {
   const { user } = useAuth();
 
-  const socket = io.connect('https://socket.trochuyenonline.com');
+  // const socket = io.connect('https://socket.trochuyenonline.com');
+  const socket = io.connect('http://localhost:3131');
 
   const [conversationName, setConversationName] = React.useState(null);
   const [partnerId, setPartnerId] = React.useState(-1);
@@ -34,7 +36,10 @@ const Chat = () => {
   const [isCollapsed, setIsCollapsed] = React.useState(
     window.screen.width < 768 ? true : false
   );
+  const [conversations, setConversation] = React.useState([]);
+
   const messageStore = React.useContext(MessageStoreContext);
+  const conversationStore = React.useContext(ConversationStoreContext);
 
   socket.on('finding', () => {
     setAlert(
@@ -121,6 +126,10 @@ const Chat = () => {
     });
   }, [skip, take]);
 
+  const getConversations = React.useCallback(() => {
+    conversationStore.get();
+  }, []);
+
   React.useEffect(() => {
     socket.on(conversationName, (m) => {
       if (m === 'end') {
@@ -181,12 +190,21 @@ const Chat = () => {
     }
   }, [messageStore.messages]);
 
+  React.useEffect(() => {
+    getConversations();
+  }, []);
+
+  React.useEffect(() => {
+    setConversation(conversationStore.conversations);
+  }, [conversationStore.conversations]);
+
   return (
     <Row>
       <Col xs={3} md={1} style={{ backgroundColor: '#18282E' }}>
         <SideBar
           handleFindPartner={handleFindPartner}
           handleEndConversation={handleEndConversation}
+          conversations={conversations}
           triggerSider={setIsCollapsed}
         />
       </Col>

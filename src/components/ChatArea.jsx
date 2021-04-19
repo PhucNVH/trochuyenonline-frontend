@@ -69,7 +69,7 @@ const Maximized = (props) => {
             background: '#fff',
             color: '#888',
           }}
-        ></div>
+        />
       </div>
     </ThemeProvider>
   );

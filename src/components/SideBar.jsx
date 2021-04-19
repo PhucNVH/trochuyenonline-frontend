@@ -7,9 +7,16 @@ import Button from 'antd/lib/button';
 import Modal from 'antd/lib/modal';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../hooks/use-auth';
+import { Badge, Divider } from 'antd';
+import Avatar from 'antd/es/avatar/avatar';
 
 export default function SideBar(props) {
-  const { handleFindPartner, handleEndConversation, triggerSider } = props;
+  const {
+    handleFindPartner,
+    handleEndConversation,
+    triggerSider,
+    conversations,
+  } = props;
   const Auth = useAuth();
   const history = useHistory();
   const [isVisible, setVisible] = useState(false);
@@ -30,6 +37,7 @@ export default function SideBar(props) {
       history.push('/login');
     }
   };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <Button
@@ -69,6 +77,14 @@ export default function SideBar(props) {
       >
         <p>Do you want to sign out</p>
       </Modal>
+      <Divider />
+      {conversations.map((c) => (
+        <span className="avatar-item" style={{ marginLeft: '20px' }}>
+          <Badge count={1}>
+            <Avatar src={c.conversationUser.avatarUrl} />
+          </Badge>
+        </span>
+      ))}
     </div>
   );
 }
