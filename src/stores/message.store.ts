@@ -3,6 +3,7 @@ import React from 'react';
 import { Message } from '../dto/messages/Message.dto';
 import messageService from '../apis/message.service';
 import { PaginationRequest } from '../dto/commons/PaginationRequest.dto';
+import conversationService from '../apis/conversation.service';
 
 export default class MessageStore {
   messages: Message[];
@@ -27,8 +28,11 @@ export default class MessageStore {
     this.totalCount = count;
   }
 
-  async get(model: PaginationRequest) {
-    const { data, count } = await messageService.get(model);
+  async getConversation(conversationId: number, model: PaginationRequest) {
+    const { data, count } = await messageService.getConversation(
+      conversationId,
+      model
+    );
     this.setMessages(data);
     this.setTotalCount(count);
   }

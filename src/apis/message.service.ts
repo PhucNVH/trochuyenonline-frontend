@@ -3,10 +3,15 @@ import { PaginationRequest } from '../dto/commons/PaginationRequest.dto';
 import { prepareGetQuery } from '../utils/apis.util';
 
 class MessageService {
-  prefix = 'conversations/messages';
+  prefix = 'conversations';
 
-  public async get(model: PaginationRequest) {
-    const result = await http.get(`${this.prefix}${prepareGetQuery(model)}`);
+  public async getConversation(
+    conversationId: number,
+    model: PaginationRequest
+  ) {
+    const result = await http.get(
+      `${this.prefix}/${conversationId}${prepareGetQuery(model)}`
+    );
     return result.data.result;
   }
 }

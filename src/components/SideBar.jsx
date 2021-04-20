@@ -7,13 +7,13 @@ import Button from 'antd/lib/button';
 import Modal from 'antd/lib/modal';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../hooks/use-auth';
-import { Badge, Divider } from 'antd';
 import Avatar from 'antd/es/avatar/avatar';
 
 export default function SideBar(props) {
   const {
     handleFindPartner,
     handleEndConversation,
+    handleGetConversation,
     triggerSider,
     conversations,
   } = props;
@@ -82,9 +82,14 @@ export default function SideBar(props) {
           className="avatar-item"
           style={{ marginLeft: '16%', marginTop: '16%' }}
         >
-          {/* <Badge count={1}> */}
-          <Avatar src={c.conversationUser.avatarUrl} />
-          {/* </Badge> */}
+          <Button
+            className="sidebar-button"
+            onClick={() => handleGetConversation(c)}
+          >
+            {/* <Badge count={1}> */}
+            <Avatar src={c.conversationUser.avatarUrl} />
+            {/* </Badge> */}
+          </Button>
         </span>
       ))}
     </div>

@@ -15,7 +15,6 @@ export const LoginComponent = () => {
   const history = useHistory();
   const onFinish = async (values) => {
     const res = await login(values);
-    console.log(res);
     if (res && res.result.isFirstLogin == true) {
       history.push('survey');
       return;

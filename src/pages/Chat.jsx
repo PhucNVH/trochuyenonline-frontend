@@ -29,7 +29,6 @@ const Chat = () => {
   const [message, setMessage] = React.useState([]);
   const [alert, setAlert] = React.useState(null);
   const [isQueued, setIsQueued] = React.useState(false);
-  const [isStored, setIsStored] = React.useState(false);
 
   const [skip, setSkip] = React.useState(0);
   const [take, setTake] = React.useState(+PER_PAGE_OPTIONS[1]);
@@ -37,6 +36,7 @@ const Chat = () => {
     window.screen.width < 768 ? true : false
   );
   const [conversations, setConversation] = React.useState([]);
+  const [selectedConversation, setSelectedConversation] = React.useState(-1);
 
   const messageStore = React.useContext(MessageStoreContext);
   const conversationStore = React.useContext(ConversationStoreContext);
@@ -55,22 +55,10 @@ const Chat = () => {
     );
   });
 
-  socket.on('stored', (data) => {
-    // setAlert(
-    //   <Alert
-    // className="absolute"
-    //     message="Cuộc trò chuyện vẫn còn, đang load lại nè"
-    //     description="Chưa hiện thực tính năng load lại nên bạn có thể kết thúc cuộc trò chuyện này bằng nút sấm sét bên trái"
-    //     type="info"
-    //     showIcon
-    //   />
-    // );
-    setIsStored(true);
-  });
-
   socket.on('joined', (data) => {
     if (data.status === 'new') {
       handleFoundNotification();
+      // handleNewConversation(data.avatarUrl);
     } else if (data.status === 'stored') {
       handleStoredNotification();
     }
@@ -83,6 +71,8 @@ const Chat = () => {
     socket.emit('find', {
       token: user.token,
     });
+
+    // setIsQueued(false);
   };
 
   const handleEndConversation = () => {
@@ -111,6 +101,10 @@ const Chat = () => {
     });
   };
 
+  // const handleNewConversation = (avatarUrl) => {
+  //   setConversation((data) => [...data, { conversationUser: { avatarUrl } }]);
+  // };
+
   const handleStoredNotification = () => {
     notification.open({
       message: 'Cuộc trò chuyện vẫn còn đấy',
@@ -119,12 +113,21 @@ const Chat = () => {
     });
   };
 
-  const getStoredMessages = React.useCallback(() => {
-    messageStore.get({
-      skip,
-      take,
-    });
-  }, [skip, take]);
+  const handleGetConversation = (values) => {
+    setSelectedConversation(values.id);
+    setConversationName(values.name);
+    handleStoredNotification();
+    setAlert(null);
+  };
+
+  React.useEffect(() => {
+    if (selectedConversation !== -1) {
+      messageStore.getConversation(selectedConversation, {
+        skip,
+        take,
+      });
+    }
+  }, [selectedConversation, skip, take]);
 
   const getConversations = React.useCallback(() => {
     conversationStore.get();
@@ -167,13 +170,6 @@ const Chat = () => {
   }, [isQueued]);
 
   React.useEffect(() => {
-    if (isStored) {
-      getStoredMessages();
-      setAlert(null);
-    }
-  }, [isStored, getStoredMessages]);
-
-  React.useEffect(() => {
     const storedMessage = messageStore.messages.map((m) => ({
       message: m.message,
       isOwn: m.senderInfo.id === user.id,
@@ -204,6 +200,7 @@ const Chat = () => {
         <SideBar
           handleFindPartner={handleFindPartner}
           handleEndConversation={handleEndConversation}
+          handleGetConversation={handleGetConversation}
           conversations={conversations}
           triggerSider={setIsCollapsed}
         />
@@ -228,7 +225,7 @@ const Chat = () => {
             collapsible
             collapsed={isCollapsed}
           >
-            <Profile></Profile>
+            <Profile />
           </Sider>
         </Layout>
       </Col>

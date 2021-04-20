@@ -80,7 +80,6 @@ export function Survey() {
   const model = new Model(json);
 
   model.onComplete.add(function (result) {
-    console.log(result.data);
     const isOptin = result.data['optin'] == 'Có';
     let hobby = [];
     let prefer = [];
