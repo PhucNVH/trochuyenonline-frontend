@@ -106,55 +106,53 @@ export default function Profile() {
   };
 
   return (
-    <div>
+    <div
+      className="ProfileInfo"
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+      }}
+    >
       <div
-        className="ProfileInfo"
+        className="ProfileAvatar"
         style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
+          borderColor: '#DEE5FF',
+          borderWidth: '2px',
+          borderStyle: 'solid',
+          borderRadius: '9999px',
+        }}
+        onClick={() => {
+          setUpdateModalVisible(true);
         }}
       >
-        <div
-          className="ProfileAvatar"
-          style={{
-            borderColor: '#DEE5FF',
-            borderWidth: '2px',
-            borderStyle: 'solid',
-            borderRadius: '9999px',
-          }}
-          onClick={() => {
-            setUpdateModalVisible(true);
-          }}
-        >
-          <img
-            src={avatarUrl}
-            alt="Profile Picture"
-            style={{ height: 128, width: 128, borderRadius: '50%' }}
-          />
-        </div>
-        <div>
-          <Title level={2} style={{ color: 'white' }}>
-            {user.username}
-          </Title>
-        </div>
-
-        <Modal
-          title="Profile"
-          visible={updateModalVisible}
-          onCancel={handleCloseModal}
-          footer={null}
-          width={700}
-        >
-          <AvatarModal
-            form={updateForm}
-            user={user}
-            handleUpdateProfile={handleUpdateProfile}
-            handleCloseModal={handleCloseModal}
-          />
-        </Modal>
+        <img
+          src={avatarUrl}
+          alt="Profile Picture"
+          style={{ height: 128, width: 128, borderRadius: '50%' }}
+        />
       </div>
+      <div>
+        <Title level={2} style={{ color: 'white' }}>
+          {user.username}
+        </Title>
+      </div>
+
+      <Modal
+        title="Profile"
+        visible={updateModalVisible}
+        onCancel={handleCloseModal}
+        footer={null}
+        width={700}
+      >
+        <AvatarModal
+          form={updateForm}
+          user={user}
+          handleUpdateProfile={handleUpdateProfile}
+          handleCloseModal={handleCloseModal}
+        />
+      </Modal>
     </div>
   );
 }

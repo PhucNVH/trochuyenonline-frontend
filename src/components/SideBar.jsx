@@ -77,12 +77,14 @@ export default function SideBar(props) {
       >
         <p>Do you want to sign out</p>
       </Modal>
-      <Divider />
       {conversations.map((c) => (
-        <span className="avatar-item" style={{ marginLeft: '20px' }}>
-          <Badge count={1}>
-            <Avatar src={c.conversationUser.avatarUrl} />
-          </Badge>
+        <span
+          className="avatar-item"
+          style={{ marginLeft: '16%', marginTop: '16%' }}
+        >
+          {/* <Badge count={1}> */}
+          <Avatar src={c.conversationUser.avatarUrl} />
+          {/* </Badge> */}
         </span>
       ))}
     </div>
