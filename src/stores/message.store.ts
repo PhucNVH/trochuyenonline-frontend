@@ -3,7 +3,6 @@ import React from 'react';
 import { Message } from '../dto/messages/Message.dto';
 import messageService from '../apis/message.service';
 import { PaginationRequest } from '../dto/commons/PaginationRequest.dto';
-import conversationService from '../apis/conversation.service';
 
 export default class MessageStore {
   messages: Message[];

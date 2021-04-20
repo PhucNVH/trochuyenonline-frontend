@@ -15,14 +15,15 @@ import { MessageStoreContext } from '../stores/message.store';
 import { PER_PAGE_OPTIONS } from '../dto/commons/PaginationRequest.dto';
 import { observer } from 'mobx-react';
 import { ConversationStoreContext } from '../stores/conversation.store';
+import { PersonalityStoreContext } from '../stores/personality.store';
 
 const { Sider, Content } = Layout;
 
 const Chat = () => {
   const { user } = useAuth();
 
-  const socket = io.connect('https://socket.trochuyenonline.com');
-  // const socket = io.connect('http://localhost:3131');
+  // const socket = io.connect('https://socket.trochuyenonline.com');
+  const socket = io.connect(process.env.REACT_APP_SOCKET_URI);
 
   const [conversationName, setConversationName] = React.useState(null);
   const [partnerId, setPartnerId] = React.useState(-1);
@@ -32,14 +33,20 @@ const Chat = () => {
 
   const [skip, setSkip] = React.useState(0);
   const [take, setTake] = React.useState(+PER_PAGE_OPTIONS[1]);
+  const [skipPersonality, setSkipPersonality] = React.useState(0);
+  const [takePersonality, setTakePersonality] = React.useState(
+    +PER_PAGE_OPTIONS[0]
+  );
   const [isCollapsed, setIsCollapsed] = React.useState(
     window.screen.width < 768 ? true : false
   );
   const [conversations, setConversation] = React.useState([]);
   const [selectedConversation, setSelectedConversation] = React.useState(-1);
+  const [personalities, setPersonalities] = React.useState([]);
 
   const messageStore = React.useContext(MessageStoreContext);
   const conversationStore = React.useContext(ConversationStoreContext);
+  const personalityStore = React.useContext(PersonalityStoreContext);
 
   socket.on('finding', () => {
     setAlert(
@@ -122,6 +129,11 @@ const Chat = () => {
     getConversations();
   };
 
+  const handleRemovePersonality = async (values) => {
+    await personalityStore.remove(values.id);
+    getPersonality();
+  };
+
   React.useEffect(() => {
     if (selectedConversation !== -1) {
       messageStore.getConversation(selectedConversation, {
@@ -135,6 +147,17 @@ const Chat = () => {
     conversationStore.get();
   }, []);
 
+  const getPersonality = React.useCallback(() => {
+    personalityStore.get({
+      skipPersonality,
+      takePersonality,
+    });
+  }, [skipPersonality, takePersonality]);
+
+  React.useEffect(() => {
+    getPersonality();
+  }, []);
+
   React.useEffect(() => {
     socket.on(conversationName, (m) => {
       if (m === 'end') {
@@ -142,6 +165,10 @@ const Chat = () => {
         setIsQueued(false);
         setMessage([]);
         return;
+      }
+
+      if (m.isGotPersonality) {
+        getPersonality();
       }
 
       setMessage((prev) => [
@@ -190,6 +217,10 @@ const Chat = () => {
   }, [messageStore.messages]);
 
   React.useEffect(() => {
+    setPersonalities(personalityStore.personalities);
+  }, [personalityStore.personalities]);
+
+  React.useEffect(() => {
     getConversations();
   }, []);
 
@@ -228,7 +259,10 @@ const Chat = () => {
             collapsible
             collapsed={isCollapsed}
           >
-            <Profile />
+            <Profile
+              personalities={personalities}
+              handleRemovePersonality={handleRemovePersonality}
+            />
           </Sider>
         </Layout>
       </Col>
