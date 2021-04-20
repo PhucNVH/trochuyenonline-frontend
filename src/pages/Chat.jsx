@@ -21,8 +21,8 @@ const { Sider, Content } = Layout;
 const Chat = () => {
   const { user } = useAuth();
 
-  // const socket = io.connect('https://socket.trochuyenonline.com');
-  const socket = io.connect('http://localhost:3131');
+  const socket = io.connect('https://socket.trochuyenonline.com');
+  // const socket = io.connect('http://localhost:3131');
 
   const [conversationName, setConversationName] = React.useState(null);
   const [partnerId, setPartnerId] = React.useState(-1);
@@ -71,14 +71,15 @@ const Chat = () => {
     socket.emit('find', {
       token: user.token,
     });
-
-    // setIsQueued(false);
+    setMessage([]);
+    getConversations();
   };
 
   const handleEndConversation = () => {
     socket.emit('end', {
       token: user.token,
       conversationName,
+      selectedConversation,
       partnerId,
     });
   };
@@ -118,6 +119,7 @@ const Chat = () => {
     setConversationName(values.name);
     handleStoredNotification();
     setAlert(null);
+    getConversations();
   };
 
   React.useEffect(() => {
@@ -136,6 +138,7 @@ const Chat = () => {
   React.useEffect(() => {
     socket.on(conversationName, (m) => {
       if (m === 'end') {
+        getConversations();
         setIsQueued(false);
         setMessage([]);
         return;
