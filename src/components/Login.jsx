@@ -15,6 +15,7 @@ export const LoginComponent = () => {
   const history = useHistory();
   const onFinish = async (values) => {
     const res = await login(values);
+    console.log(res);
     if (res && res.result.isFirstLogin == true) {
       history.push('survey');
       return;
@@ -27,7 +28,7 @@ export const LoginComponent = () => {
   return (
     <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
       <Col>
-        <div className="flex">
+        <div className="flex flex-col md:flex-row">
           <Card className="w-72 sm:w-80 px-2 sm:px-0 border-r-0">
             <Form
               name="normal_login"

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ChatArea from '../components/ChatArea';
 import SideBar from '../components/SideBar';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
+import Tabs from 'antd/lib/tabs';
 import Layout from 'antd/lib/layout';
 import { useAuth } from '../hooks/use-auth';
 import { io } from 'socket.io-client';
@@ -17,12 +18,13 @@ import { observer } from 'mobx-react';
 import { ConversationStoreContext } from '../stores/conversation.store';
 
 const { Sider, Content } = Layout;
+const { TabPane } = Tabs;
 
 const Chat = () => {
   const { user } = useAuth();
 
-  const socket = io.connect('https://socket.trochuyenonline.com');
-  // const socket = io.connect('http://localhost:3131');
+  // const socket = io.connect('https://socket.trochuyenonline.com');
+  const socket = io.connect('http://localhost:3030');
 
   const [conversationName, setConversationName] = React.useState(null);
   const [partnerId, setPartnerId] = React.useState(-1);
@@ -35,17 +37,63 @@ const Chat = () => {
   const [isCollapsed, setIsCollapsed] = React.useState(
     window.screen.width < 768 ? true : false
   );
+  const [activeTab, setActiveTab] = useState(0);
   const [conversations, setConversation] = React.useState([]);
   const [selectedConversation, setSelectedConversation] = React.useState(-1);
 
   const messageStore = React.useContext(MessageStoreContext);
   const conversationStore = React.useContext(ConversationStoreContext);
 
+  const onChange = (activeKey) => {
+    this.setState({ activeKey });
+  };
+
+  const onEdit = (targetKey, action) => {
+    this[action](targetKey);
+  };
+
+  const add = () => {
+    const { panes } = this.state;
+    const activeKey = `newTab${this.newTabIndex++}`;
+    const newPanes = [...panes];
+    newPanes.push({
+      title: 'New Tab',
+      content: 'Content of new Tab',
+      key: activeKey,
+    });
+    this.setState({
+      panes: newPanes,
+      activeKey,
+    });
+  };
+
+  const remove = (targetKey) => {
+    const { panes, activeKey } = this.state;
+    let newActiveKey = activeKey;
+    let lastIndex;
+    panes.forEach((pane, i) => {
+      if (pane.key === targetKey) {
+        lastIndex = i - 1;
+      }
+    });
+    const newPanes = panes.filter((pane) => pane.key !== targetKey);
+    if (newPanes.length && newActiveKey === targetKey) {
+      if (lastIndex >= 0) {
+        newActiveKey = newPanes[lastIndex].key;
+      } else {
+        newActiveKey = newPanes[0].key;
+      }
+    }
+    this.setState({
+      panes: newPanes,
+      activeKey: newActiveKey,
+    });
+  };
+
   socket.on('finding', () => {
     setAlert(
       <Spin spinning={true}>
         <Alert
-          className="absolute"
           message="Đang tìm người trò chuyện"
           description="Nhanh thôi, bạn chờ tí nhé"
           type="info"
@@ -159,7 +207,7 @@ const Chat = () => {
 
       setAlert(
         <Alert
-          className="absolute"
+          className="w-full"
           message="Tìm người tâm sự ngay nhé!"
           description="Bạn đang chưa có ai tâm sự cùng. Hãy chờ người khác tìm thấy bạn, hoặc chủ động tìm bằng cách nhấn nút la bàn ở thanh bên trái nha"
           type="info"
@@ -212,11 +260,24 @@ const Chat = () => {
         <Layout className="App">
           <Layout>
             <Content>
-              <ChatArea
-                handleSendMessage={handleSendMessage}
-                messages={message}
-                alert={alert}
-              />
+              <Tabs
+                activeKey={activeTab}
+                type="editable-card"
+                className="h-screen"
+                defaultActiveKey="1"
+                onChange={onChange}
+                onEdit={onEdit}
+              >
+                {[1, 2, 3, 4].map((e) => (
+                  <TabPane tab={e} key={e.toString()}>
+                    <ChatArea
+                      handleSendMessage={handleSendMessage}
+                      messages={message}
+                      alert={alert}
+                    />
+                  </TabPane>
+                ))}
+              </Tabs>
             </Content>
           </Layout>
           <Sider

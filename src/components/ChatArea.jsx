@@ -33,7 +33,7 @@ const Maximized = (props) => {
             height: '100%',
           }}
         >
-          {alert}
+          <div className="w-full">{alert}</div>
           <MessageList active containScrollInSubtree>
             {messages.map((e, i) => (
               <Message isOwn={e.isOwn} key={i.toString()}>
