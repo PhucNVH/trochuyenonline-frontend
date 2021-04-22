@@ -69,27 +69,35 @@ export const LoginComponent = () => {
               </Form.Item>
 
               <Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  className="login-form-button"
-                >
-                  Log in
-                </Button>
-                Or <Link to="signup">register now!</Link>
+                <Row style={{ marginLeft: '16%' }}>
+                  <Col span={8}>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      className="login-form-button"
+                    >
+                      Login
+                    </Button>
+                  </Col>
+                  <Col>
+                    <Button href={'/signup'} className="login-form-button">
+                      Register now!
+                    </Button>
+                  </Col>
+                </Row>
               </Form.Item>
             </Form>
           </Card>
 
-          <Card className="w-72 sm:w-80 px-2 sm:px-0">
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="login-form-button"
-            >
-              Chat anonymously
-            </Button>
-          </Card>
+          {/*<Card className="w-72 sm:w-80 px-2 sm:px-0">*/}
+          {/*  <Button*/}
+          {/*    type="primary"*/}
+          {/*    htmlType="submit"*/}
+          {/*    className="login-form-button"*/}
+          {/*  >*/}
+          {/*    Chat anonymously*/}
+          {/*  </Button>*/}
+          {/*</Card>*/}
         </div>
       </Col>
     </Row>

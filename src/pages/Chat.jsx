@@ -16,6 +16,12 @@ import { PER_PAGE_OPTIONS } from '../dto/commons/PaginationRequest.dto';
 import { observer } from 'mobx-react';
 import { ConversationStoreContext } from '../stores/conversation.store';
 import { PersonalityStoreContext } from '../stores/personality.store';
+import {
+  AlertOutlined,
+  FrownOutlined,
+  LoadingOutlined,
+} from '@ant-design/icons';
+import { useHistory } from 'react-router-dom';
 
 const { Sider, Content } = Layout;
 
@@ -48,11 +54,12 @@ const Chat = () => {
   const conversationStore = React.useContext(ConversationStoreContext);
   const personalityStore = React.useContext(PersonalityStoreContext);
 
+  const history = useHistory();
+
   socket.on('finding', () => {
     setAlert(
-      <Spin spinning={true}>
+      <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}>
         <Alert
-          className="absolute"
           message="Đang tìm người trò chuyện"
           description="Nhanh thôi, bạn chờ tí nhé"
           type="info"
@@ -171,6 +178,26 @@ const Chat = () => {
         getPersonality();
       }
 
+      if (m.isBadword) {
+        notification['warning']({
+          message: 'Cẩn thận ngôn từ nhé',
+          description:
+            'Chúng mình nhận thấy cuộc trò chuyện đang sử dụng một số ngôn từ không phù hợp đó',
+          icon: <FrownOutlined style={{ color: '#108ee9' }} />,
+        });
+      }
+
+      if (m.isBlocked) {
+        notification['error']({
+          message: 'Liên hệ admin để mở khóa',
+          description:
+            'Tài khoản của bạn đã bị khóa vì sử dụng quá nhiều ngôn ngữ không phù hợp',
+          icon: <AlertOutlined style={{ color: '#108ee9' }} />,
+        });
+
+        history.push('/login');
+      }
+
       setMessage((prev) => [
         ...prev,
         { message: m.message, isOwn: m.partnerId !== user.id },
@@ -186,7 +213,6 @@ const Chat = () => {
 
       setAlert(
         <Alert
-          className="absolute"
           message="Tìm người tâm sự ngay nhé!"
           description="Bạn đang chưa có ai tâm sự cùng. Hãy chờ người khác tìm thấy bạn, hoặc chủ động tìm bằng cách nhấn nút la bàn ở thanh bên trái nha"
           type="info"

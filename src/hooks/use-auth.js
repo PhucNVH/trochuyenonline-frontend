@@ -2,6 +2,7 @@ import React, { useState, useContext, createContext, useEffect } from 'react';
 import { Auth } from '../apis/auth';
 import Loading from '../components/Loading';
 import { useLocalStorage } from './use-localstorage';
+import { message } from 'antd';
 
 const authContext = createContext();
 
@@ -38,17 +39,19 @@ function useProvideAuth() {
   }, []);
 
   const login = (data) => {
-    return Auth.login(data)
-      .catch((e) => console.log(e))
-      .then((response) => {
-        if (response.data && response.data.success === true) {
-          setUser(response.data.result);
-          setToken(response.data.result.token);
-        } else {
-          setUser(false);
-        }
-        return response.data;
-      });
+    return Auth.login(data).then((response) => {
+      if (!response) {
+        message.error('Invalid Credential');
+        return;
+      }
+      if (response.data && response.data.success === true) {
+        setUser(response.data.result);
+        setToken(response.data.result.token);
+      } else {
+        setUser(false);
+      }
+      return response.data;
+    });
   };
 
   const signup = (data) => {

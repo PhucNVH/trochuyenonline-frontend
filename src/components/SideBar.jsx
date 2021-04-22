@@ -78,10 +78,7 @@ export default function SideBar(props) {
         <p>Do you want to sign out</p>
       </Modal>
       {conversations.map((c) => (
-        <span
-          className="avatar-item"
-          style={{ marginLeft: '16%', marginTop: '16%' }}
-        >
+        <span className="avatar-item bubble-avatar">
           <Button
             className="sidebar-button"
             onClick={() => handleGetConversation(c)}

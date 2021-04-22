@@ -95,14 +95,22 @@ export const SignupComponent = () => {
             </Form.Item>
 
             <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                className="login-form-button"
-              >
-                Sign up
-              </Button>
-              Or <Link to="login">login!</Link>
+              <Row style={{ marginLeft: '16%' }}>
+                <Col span={10}>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    className="login-form-button"
+                  >
+                    Sign up
+                  </Button>
+                </Col>
+                <Col>
+                  <Button href={'/login'} className="login-form-button">
+                    Login!
+                  </Button>
+                </Col>
+              </Row>
             </Form.Item>
           </Form>
         </Card>
