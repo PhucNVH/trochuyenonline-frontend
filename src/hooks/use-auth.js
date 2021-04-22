@@ -56,12 +56,16 @@ function useProvideAuth() {
 
   const signup = (data) => {
     return Auth.signup(data).then((response) => {
-      if (response.data && response.data.success === true) {
-        setUser(response.data.result);
-      } else {
-        setUser(false);
-        setToken('');
+      if (!response) {
+        message.error('Invalid Credential');
+        return;
       }
+      // if (response.data && response.data.success === true) {
+      //   setUser(response.data.result);
+      // } else {
+      //   setUser(false);
+      //   setToken('');
+      // }
       return response.data;
     });
   };

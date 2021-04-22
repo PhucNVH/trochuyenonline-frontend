@@ -8,7 +8,6 @@ export function Survey() {
   const history = useHistory();
 
   useEffect(() => {
-    console.log(user);
     if (!user.isFirstLogin) {
       history.push('chat');
       return;

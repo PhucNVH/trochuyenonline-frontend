@@ -17,8 +17,7 @@ export const SignupComponent = () => {
 
   const onFinish = async (values) => {
     const res = await signup(values);
-
-    if (res && res.status == 'success') {
+    if (res.success) {
       history.push('login');
     }
   };
