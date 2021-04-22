@@ -27,6 +27,7 @@ const { Sider, Content } = Layout;
 
 const Chat = () => {
   const { user } = useAuth();
+  const Auth = useAuth();
 
   // const socket = io.connect('https://socket.trochuyenonline.com');
   const socket = io.connect(process.env.REACT_APP_SOCKET_URI);
@@ -49,6 +50,7 @@ const Chat = () => {
   const [conversations, setConversation] = React.useState([]);
   const [selectedConversation, setSelectedConversation] = React.useState(-1);
   const [personalities, setPersonalities] = React.useState([]);
+  const [isDisconnected, setIsDisconnected] = React.useState(false);
 
   const messageStore = React.useContext(MessageStoreContext);
   const conversationStore = React.useContext(ConversationStoreContext);
@@ -68,6 +70,20 @@ const Chat = () => {
       </Spin>
     );
   });
+
+  const logout = async () => {
+    const result = await Auth.logout();
+    if (result.status === 'success') {
+      history.push('/login');
+    }
+  };
+
+  React.useEffect(() => {
+    if (isDisconnected) {
+      socket.emit('logout', user.token);
+      logout();
+    }
+  }, [isDisconnected]);
 
   socket.on('joined', (data) => {
     if (data.status === 'new') {
@@ -161,6 +177,10 @@ const Chat = () => {
     });
   }, [skipPersonality, takePersonality]);
 
+  const handleDisconnected = () => {
+    setIsDisconnected(true);
+  };
+
   React.useEffect(() => {
     getPersonality();
   }, []);
@@ -194,7 +214,6 @@ const Chat = () => {
             'Tài khoản của bạn đã bị khóa vì sử dụng quá nhiều ngôn ngữ không phù hợp',
           icon: <AlertOutlined style={{ color: '#108ee9' }} />,
         });
-
         history.push('/login');
       }
 
@@ -263,6 +282,7 @@ const Chat = () => {
           handleGetConversation={handleGetConversation}
           conversations={conversations}
           triggerSider={setIsCollapsed}
+          handleDisconnected={handleDisconnected}
         />
       </Col>
       <Col xs={21} md={23}>

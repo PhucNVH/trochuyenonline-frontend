@@ -16,9 +16,9 @@ export default function SideBar(props) {
     handleGetConversation,
     triggerSider,
     conversations,
+    handleDisconnected,
   } = props;
-  const Auth = useAuth();
-  const history = useHistory();
+
   const [isVisible, setVisible] = useState(false);
 
   const showModal = () => {
@@ -32,10 +32,7 @@ export default function SideBar(props) {
     showModal();
   };
   const logout = async () => {
-    const result = await Auth.logout();
-    if (result.status == 'success') {
-      history.push('/login');
-    }
+    handleDisconnected(false);
   };
 
   return (
