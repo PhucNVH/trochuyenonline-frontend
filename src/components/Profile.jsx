@@ -1,13 +1,11 @@
 import React from 'react';
 import Typography from 'antd/lib/typography';
-import ProfilePicture from '../asset/profile.jpg';
-import { UploadOutlined } from '@ant-design/icons';
+import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
 import { useAuth } from '../hooks/use-auth';
-import { Button, Form, message, Modal, Upload } from 'antd';
+import { Button, Form, List, message, Modal, Upload } from 'antd';
 const { Title } = Typography;
 import ImgCrop from 'antd-img-crop';
 import FormButton from './commons/FormButton';
-import { MessageStoreContext } from '../stores/message.store';
 import { UserStoreContext } from '../stores/user.store';
 
 const AvatarModal = (props) => {
@@ -80,7 +78,8 @@ const AvatarModal = (props) => {
   );
 };
 
-export default function Profile() {
+export default function Profile(props) {
+  const { personalities, handleRemovePersonality } = props;
   const { user } = useAuth();
 
   const userStore = React.useContext(UserStoreContext);
@@ -153,6 +152,19 @@ export default function Profile() {
           handleCloseModal={handleCloseModal}
         />
       </Modal>
+
+      <List
+        size="small"
+        bordered
+        header={<div style={{ color: 'yellow' }}>Facts about you</div>}
+        dataSource={personalities}
+        renderItem={(item) => (
+          <List.Item style={{ color: 'white' }}>
+            {item.mention}
+            <CloseOutlined onClick={() => handleRemovePersonality(item)} />
+          </List.Item>
+        )}
+      />
     </div>
   );
 }
