@@ -6,9 +6,10 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import { Home, Login, Signup, Survey } from './pages';
+import { Home, Login, Signup, Survey, Test } from './pages';
 import { ProvideAuth, useAuth } from './hooks/use-auth';
 import Chat from './pages/Chat';
+import { ToastContainer } from 'react-toastify';
 
 function AuthorizedRoute({ path, children }) {
   const auth = useAuth();
@@ -27,6 +28,9 @@ function UnauthorizedRoute({ path, children }) {
 function App() {
   return (
     <ProvideAuth>
+      <div>
+        <ToastContainer />
+      </div>
       <Router>
         <Switch>
           <UnauthorizedRoute path="/login">
@@ -41,6 +45,9 @@ function App() {
           <AuthorizedRoute path="/survey">
             <Survey />
           </AuthorizedRoute>
+          <Route path="/test">
+            <Test />
+          </Route>
           <Route path="/">
             <Home />
           </Route>

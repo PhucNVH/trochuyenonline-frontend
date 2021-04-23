@@ -28,6 +28,7 @@
 }
 
 .sidebar-button {
+  @apply w-full;
   padding: 4px 0px !important;
   background-color: #18282e !important;
   /* border-color:  !important; */
@@ -54,12 +55,22 @@
 .alert {
   /*height: 100vh;*/
   width: 100vw;
-  position:fixed;
-  top:0;
-  left:0;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
-
-.bubble-avatar {
-  text-align: center;
-  margin-top: 16%
+.close-button {
+  padding: 0 !important;
+  width: 0 !important;
+  transition: width 0s, opacity 1s linear;
+  display: none !important;
+}
+.button-avatar:hover .close-button {
+  display: block !important;
+  padding: 8px !important;
+  width: auto !important;
+  height: auto;
+}
+.button-avatar {
+  overflow: hidden;
 }

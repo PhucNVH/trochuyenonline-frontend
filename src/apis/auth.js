@@ -3,30 +3,51 @@ const { REACT_APP_SERVER_URI } = process.env;
 
 export const Auth = {
   login: async (data) => {
-    const result = await axios.post(`${REACT_APP_SERVER_URI}/users/login`, {
-      username: data.username,
-      password: data.password,
-    });
-    return result;
+    try {
+      const res = await axios.post(`${REACT_APP_SERVER_URI}/users/login`, {
+        username: data.username,
+        password: data.password,
+      });
+      return res.data;
+    } catch (err) {
+      return { status: 'error', error: err };
+    }
   },
   logout: async () => {
-    return await axios
-      .post(`${REACT_APP_SERVER_URI}/logout`, {}, { withCredentials: true })
-      .catch((err) => console.log(err));
+    try {
+      const res = await axios.post(
+        `${REACT_APP_SERVER_URI}/logout`,
+        {},
+        { withCredentials: true }
+      );
+      return res.data;
+    } catch (err) {
+      return { status: 'error', error: err };
+    }
   },
   signup: async (data) => {
-    return await axios
-      .post(`${REACT_APP_SERVER_URI}/users`, {
+    try {
+      const res = await axios.post(`${REACT_APP_SERVER_URI}/users`, {
         username: data.username,
         fullName: data.fullName ? data.fullName : 'name',
         password: data.password,
-      })
-      .catch((e) => console.log(e));
+      });
+      return res.data;
+    } catch (err) {
+      return { status: 'error', error: err };
+    }
   },
   getUser: async (token) => {
-    const res = await axios
-      .post(`${REACT_APP_SERVER_URI}/users/check-token`, { token: token })
-      .catch((e) => console.log(e));
-    return res.data;
+    try {
+      const res = await axios.post(
+        `${REACT_APP_SERVER_URI}/users/check-token`,
+        {
+          token: token,
+        }
+      );
+      return res.data;
+    } catch (err) {
+      return { status: 'error', error: err };
+    }
   },
 };

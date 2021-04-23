@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import 'antd/dist/antd.less'; // or 'antd/dist/antd.less'
 import './style.less';
 import 'survey-react/modern.min.css';
+import 'react-toastify/dist/ReactToastify.min.css';
+
 import { hotjar } from 'react-hotjar';
 
 ReactDOM.render(

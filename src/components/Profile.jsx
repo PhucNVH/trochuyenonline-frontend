@@ -69,7 +69,7 @@ const AvatarModal = (props) => {
       <FormButton
         handleCloseModal={handleCloseModal}
         submit={
-          <Button type="primary" htmlType="submit">
+          <Button className="ml-2" type="primary" htmlType="submit">
             Update
           </Button>
         }
@@ -127,7 +127,7 @@ export default function Profile(props) {
         }}
       >
         <img
-          src={avatarUrl}
+          src={avatarUrl || '/default_profile.jpg'}
           alt="Profile Picture"
           style={{ height: 128, width: 128, borderRadius: '50%' }}
         />
@@ -152,19 +152,22 @@ export default function Profile(props) {
           handleCloseModal={handleCloseModal}
         />
       </Modal>
-
-      <List
-        size="small"
-        bordered
-        header={<div style={{ color: 'yellow' }}>Facts about you</div>}
-        dataSource={personalities}
-        renderItem={(item) => (
-          <List.Item style={{ color: 'white' }}>
-            {item.mention}
-            <CloseOutlined onClick={() => handleRemovePersonality(item)} />
-          </List.Item>
-        )}
-      />
+      <div className="mt-8 w-full flex flex-col items-center">
+        <Title level={4} className="text-white">
+          Facts about you
+        </Title>
+        <List
+          bordered
+          dataSource={personalities}
+          className="text-white w-11/12"
+          renderItem={(item) => (
+            <List.Item style={{ color: 'white' }}>
+              {item.mention}
+              <CloseOutlined onClick={() => handleRemovePersonality(item)} />
+            </List.Item>
+          )}
+        />
+      </div>
     </div>
   );
 }
