@@ -9,8 +9,21 @@ import LockOutlined from '@ant-design/icons/LockOutlined';
 import UserOutlined from '@ant-design/icons/UserOutlined';
 import { useHistory, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/use-auth';
+import { Typography } from 'antd';
+import Lottie from 'react-lottie';
+import animationData from '../asset/conversation.json';
+
+const { Title } = Typography;
 
 export const LoginComponent = () => {
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
   const { login } = useAuth();
   const history = useHistory();
   const onFinish = async (values) => {
@@ -26,9 +39,17 @@ export const LoginComponent = () => {
 
   return (
     <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
-      <Col>
-        <div className="flex flex-col md:flex-row">
-          <Card className="w-72 sm:w-80 px-2 sm:px-0 border-r-0">
+      <div className="absolute top-18 md:top-24">
+        <Link to="/">
+          <Title className="text-primary">Trò chuyện online</Title>
+        </Link>
+      </div>
+      <Col className="flex flex-col items-center">
+        <div className="w-96 md:w-full">
+          <Lottie options={defaultOptions} />
+        </div>
+        <div className="flex flex-col md:flex-row center">
+          <Card className="w-72 sm:w-80 px-2 sm:px-0 border-2">
             <Form
               name="normal_login"
               className="login-form  -mx-4 sm:-mx-2"
@@ -80,24 +101,16 @@ export const LoginComponent = () => {
                     </Button>
                   </Col>
                   <Col>
-                    <Button href={'/signup'} className="login-form-button">
-                      Register now!
-                    </Button>
+                    <Link to="signup">
+                      <Button className="login-form-button">
+                        Register now!
+                      </Button>
+                    </Link>
                   </Col>
                 </Row>
               </Form.Item>
             </Form>
           </Card>
-
-          {/*<Card className="w-72 sm:w-80 px-2 sm:px-0">*/}
-          {/*  <Button*/}
-          {/*    type="primary"*/}
-          {/*    htmlType="submit"*/}
-          {/*    className="login-form-button"*/}
-          {/*  >*/}
-          {/*    Chat anonymously*/}
-          {/*  </Button>*/}
-          {/*</Card>*/}
         </div>
       </Col>
     </Row>

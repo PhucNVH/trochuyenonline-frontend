@@ -4,3 +4,4 @@ export * from './Logout';
 export * from './Signup';
 export * from './Home';
 export * from './Survey';
+export * from './Test';

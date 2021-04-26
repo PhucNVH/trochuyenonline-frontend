@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import ChatArea from '../components/ChatArea';
 import SideBar from '../components/SideBar';
 import Row from 'antd/lib/row';
@@ -32,29 +32,27 @@ const Chat = () => {
   // const socket = io.connect('https://socket.trochuyenonline.com');
   const socket = io.connect(process.env.REACT_APP_SOCKET_URI);
 
-  const [conversationName, setConversationName] = React.useState(null);
-  const [partnerId, setPartnerId] = React.useState(-1);
-  const [message, setMessage] = React.useState([]);
-  const [alert, setAlert] = React.useState(null);
-  const [isQueued, setIsQueued] = React.useState(false);
+  const [conversationName, setConversationName] = useState(null);
+  const [partnerId, setPartnerId] = useState(-1);
+  const [message, setMessage] = useState([]);
+  const [alert, setAlert] = useState(null);
+  const [isQueued, setIsQueued] = useState(false);
 
-  const [skip, setSkip] = React.useState(0);
-  const [take, setTake] = React.useState(+PER_PAGE_OPTIONS[1]);
-  const [skipPersonality, setSkipPersonality] = React.useState(0);
-  const [takePersonality, setTakePersonality] = React.useState(
-    +PER_PAGE_OPTIONS[0]
-  );
-  const [isCollapsed, setIsCollapsed] = React.useState(
+  const [skip, setSkip] = useState(0);
+  const [take, setTake] = useState(+PER_PAGE_OPTIONS[1]);
+  const [skipPersonality, setSkipPersonality] = useState(0);
+  const [takePersonality, setTakePersonality] = useState(+PER_PAGE_OPTIONS[0]);
+  const [isCollapsed, setIsCollapsed] = useState(
     window.screen.width < 768 ? true : false
   );
-  const [conversations, setConversation] = React.useState([]);
-  const [selectedConversation, setSelectedConversation] = React.useState(-1);
-  const [personalities, setPersonalities] = React.useState([]);
-  const [isDisconnected, setIsDisconnected] = React.useState(false);
+  const [conversations, setConversation] = useState([]);
+  const [selectedConversation, setSelectedConversation] = useState(-1);
+  const [personalities, setPersonalities] = useState([]);
+  const [isDisconnected, setIsDisconnected] = useState(false);
 
-  const messageStore = React.useContext(MessageStoreContext);
-  const conversationStore = React.useContext(ConversationStoreContext);
-  const personalityStore = React.useContext(PersonalityStoreContext);
+  const messageStore = useContext(MessageStoreContext);
+  const conversationStore = useContext(ConversationStoreContext);
+  const personalityStore = useContext(PersonalityStoreContext);
 
   const history = useHistory();
 
@@ -131,10 +129,6 @@ const Chat = () => {
       icon: <SmileOutlined style={{ color: '#108ee9' }} />,
     });
   };
-
-  // const handleNewConversation = (avatarUrl) => {
-  //   setConversation((data) => [...data, { conversationUser: { avatarUrl } }]);
-  // };
 
   const handleStoredNotification = () => {
     notification.open({
@@ -274,18 +268,16 @@ const Chat = () => {
   }, [conversationStore.conversations]);
 
   return (
-    <Row>
-      <Col xs={3} md={1} style={{ backgroundColor: '#18282E' }}>
-        <SideBar
-          handleFindPartner={handleFindPartner}
-          handleEndConversation={handleEndConversation}
-          handleGetConversation={handleGetConversation}
-          conversations={conversations}
-          triggerSider={setIsCollapsed}
-          handleDisconnected={handleDisconnected}
-        />
-      </Col>
-      <Col xs={21} md={23}>
+    <Row className="flex flex-nowrap">
+      <SideBar
+        handleFindPartner={handleFindPartner}
+        handleEndConversation={handleEndConversation}
+        handleGetConversation={handleGetConversation}
+        conversations={conversations}
+        triggerSider={setIsCollapsed}
+        handleDisconnected={handleDisconnected}
+      />
+      <Col className="w-full">
         <Layout className="App">
           <Layout>
             <Content>

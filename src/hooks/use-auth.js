@@ -3,6 +3,7 @@ import { Auth } from '../apis/auth';
 import Loading from '../components/Loading';
 import { useLocalStorage } from './use-localstorage';
 import { message } from 'antd';
+import { toast } from 'react-toastify';
 
 const authContext = createContext();
 
@@ -32,41 +33,42 @@ function useProvideAuth() {
   useEffect(() => {
     if (loading) {
       Auth.getUser(token).then((data) => {
-        setUser(data.result ? data.result : false);
+        if (data.status === 'error') {
+          toast(data.error.toString(), { position: 'top-center' });
+          setUser(false);
+        } else {
+          setUser(data.result ? data.result : false);
+        }
         setLoading(false);
       });
     }
   }, []);
 
   const login = (data) => {
-    return Auth.login(data).then((response) => {
-      if (!response) {
-        message.error('Invalid Credential');
-        return;
-      }
-      if (response.data && response.data.success === true) {
-        setUser(response.data.result);
-        setToken(response.data.result.token);
-      } else {
+    Auth.login(data).then((response) => {
+      if (response && response.success === true) {
+        console.log('dsa');
+        setUser(response.result);
+        setToken(response.result.token);
+      } else if (response.status == 'error') {
         setUser(false);
+        toast('Username or password is incorrect.', { position: 'top-center' });
       }
-      return response.data;
+      return response;
     });
   };
 
   const signup = (data) => {
-    return Auth.signup(data).then((response) => {
-      if (!response) {
-        message.error('Invalid Credential');
-        return;
+    Auth.signup(data).then((response) => {
+      if (response && response.success === true) {
+        setUser(response.result);
+        toast('Account created', { position: 'top-center' });
+      } else {
+        setUser(false);
+        setToken('');
+        toast('Error creating account', { position: 'top-center' });
       }
-      // if (response.data && response.data.success === true) {
-      //   setUser(response.data.result);
-      // } else {
-      //   setUser(false);
-      //   setToken('');
-      // }
-      return response.data;
+      return response;
     });
   };
 

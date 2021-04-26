@@ -5,9 +5,13 @@ import CompassTwoTone from '@ant-design/icons/CompassTwoTone';
 import PauseCircleTwoTone from '@ant-design/icons/PauseCircleTwoTone';
 import Button from 'antd/lib/button';
 import Modal from 'antd/lib/modal';
-import { useHistory } from 'react-router-dom';
-import { useAuth } from '../hooks/use-auth';
-import Avatar from 'antd/es/avatar/avatar';
+import Avatar from 'antd/lib/avatar';
+import {
+  CloseCircleOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+} from '@ant-design/icons';
+import Sider from 'antd/lib/layout/Sider';
 
 export default function SideBar(props) {
   const {
@@ -20,7 +24,7 @@ export default function SideBar(props) {
   } = props;
 
   const [isVisible, setVisible] = useState(false);
-
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const showModal = () => {
     setVisible(true);
   };
@@ -36,9 +40,25 @@ export default function SideBar(props) {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+    <Sider
+      breakpoint="sm"
+      className={['h-screen flex']}
+      collapsedWidth="0"
+      width="68px"
+      collapsible
+      trigger={null}
+      collapsed={isCollapsed}
+    >
       <Button
-        className="sidebar-button block md:hidden"
+        className="fixed bottom-16 left-6 w-8 h-8 flex items-center justify-center z-50 rounded-full"
+        onClick={() => {
+          setIsCollapsed((prev) => !prev);
+        }}
+      >
+        {isCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+      </Button>
+      <Button
+        className="sidebar-button block"
         onClick={() => {
           triggerSider((prev) => !prev);
         }}
@@ -60,7 +80,21 @@ export default function SideBar(props) {
       >
         <PauseCircleTwoTone className="sidebar-icon" twoToneColor="#f88585" />
       </Button>
-      <Button className="sidebar-button" onClick={askLogout} title="Log out">
+      {conversations.map((c) => (
+        <span className="avatar-item bubble-avatar">
+          <Button
+            className="sidebar-button"
+            onClick={() => handleGetConversation(c)}
+          >
+            {/* <Badge count={1}> */}
+            <Avatar
+              src={c.conversationUser.avatarUrl || '/default_profile.jpg'}
+            />
+            {/* </Badge> */}
+          </Button>
+        </span>
+      ))}
+      <Button className="sidebar-button " onClick={askLogout} title="Log out">
         <LogoutOutlined className="sidebar-icon text-red-600 " />
       </Button>
       <Modal
@@ -74,18 +108,6 @@ export default function SideBar(props) {
       >
         <p>Do you want to sign out</p>
       </Modal>
-      {conversations.map((c) => (
-        <span className="avatar-item bubble-avatar">
-          <Button
-            className="sidebar-button"
-            onClick={() => handleGetConversation(c)}
-          >
-            {/* <Badge count={1}> */}
-            <Avatar src={c.conversationUser.avatarUrl} />
-            {/* </Badge> */}
-          </Button>
-        </span>
-      ))}
-    </div>
+    </Sider>
   );
 }

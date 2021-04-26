@@ -10,7 +10,11 @@ import LockOutlined from '@ant-design/icons/LockOutlined';
 import UserOutlined from '@ant-design/icons/UserOutlined';
 import { useHistory, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/use-auth';
+import Typography from 'antd/lib/typography';
+import Lottie from 'react-lottie';
+import animationData from '../asset/conversation.json';
 
+const { Title } = Typography;
 export const SignupComponent = () => {
   const { signup } = useAuth();
   const history = useHistory();
@@ -22,9 +26,26 @@ export const SignupComponent = () => {
     }
   };
 
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
+
   return (
     <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
-      <Col>
+      <div className="absolute top-16 md:top-18 lg:top24">
+        <Link to="/">
+          <Title className="text-primary">Trò chuyện online</Title>
+        </Link>
+      </div>
+      <Col className="flex flex-col items-center">
+        <div className="w-96 md:w-full">
+          <Lottie options={defaultOptions} />
+        </div>
         <Card className="w-72 sm:w-80 px-2 sm:px-0">
           <Form
             name="normal_login"
@@ -105,9 +126,9 @@ export const SignupComponent = () => {
                   </Button>
                 </Col>
                 <Col>
-                  <Button href={'/login'} className="login-form-button">
-                    Login!
-                  </Button>
+                  <Link to="login">
+                    <Button className="login-form-button">Login!</Button>
+                  </Link>
                 </Col>
               </Row>
             </Form.Item>
