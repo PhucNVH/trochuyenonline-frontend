@@ -39,7 +39,7 @@ export const LoginComponent = () => {
 
   return (
     <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
-      <div className="absolute top-24 md:top-32">
+      <div className="absolute top-18 md:top-24">
         <Link to="/">
           <Title className="text-primary">Trò chuyện online</Title>
         </Link>

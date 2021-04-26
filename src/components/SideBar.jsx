@@ -81,20 +81,18 @@ export default function SideBar(props) {
         <PauseCircleTwoTone className="sidebar-icon" twoToneColor="#f88585" />
       </Button>
       {conversations.map((c) => (
-        <div className="sidebar-button flex justify-center items-center button-avatar w-full bg-blue-400">
-          <span
-            className="avatar-item bubble-avatar hover:w-1/2 w-full flex justify-center"
+        <span className="avatar-item bubble-avatar">
+          <Button
+            className="sidebar-button"
             onClick={() => handleGetConversation(c)}
           >
+            {/* <Badge count={1}> */}
             <Avatar
-              size="small"
               src={c.conversationUser.avatarUrl || '/default_profile.jpg'}
             />
-          </span>
-          <Button className="close-button border-none border-0 w-1/2" danger>
-            <CloseCircleOutlined />
+            {/* </Badge> */}
           </Button>
-        </div>
+        </span>
       ))}
       <Button className="sidebar-button " onClick={askLogout} title="Log out">
         <LogoutOutlined className="sidebar-icon text-red-600 " />

@@ -45,9 +45,6 @@ function App() {
           <AuthorizedRoute path="/survey">
             <Survey />
           </AuthorizedRoute>
-          <Route path="/test">
-            <Test />
-          </Route>
           <Route path="/">
             <Home />
           </Route>

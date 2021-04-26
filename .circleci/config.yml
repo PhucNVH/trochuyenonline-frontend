@@ -1,0 +1,43 @@
+version: 2.1
+orbs:
+  node: circleci/node@4.2.0
+
+jobs:
+  build-source:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - checkout
+      - node/install:
+          lts: true
+          install-yarn: true
+      - node/install-packages:
+          pkg-manager: "yarn"
+      - run:
+          name: Build source
+          command: yarn build
+      - run:
+          name: Upload artifact
+          command: |
+            tar czf build.tar.gz build
+            cp -r build.tar.gz /tmp
+      - store_artifacts:
+          path: /tmp/build.tar.gz
+
+workflows:
+  build-app:
+    jobs:
+      - node/test:
+          pkg-manager: "yarn"
+          version: "14.16.0"
+          filters:
+            branches:
+              only:
+                - dev
+                - prod
+
+      - build-source:
+          filters:
+            branches:
+              only:
+                - prod
