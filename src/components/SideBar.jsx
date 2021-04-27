@@ -7,11 +7,12 @@ import Button from 'antd/lib/button';
 import Modal from 'antd/lib/modal';
 import Avatar from 'antd/lib/avatar';
 import {
-  CloseCircleOutlined,
+  BookTwoTone,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
 } from '@ant-design/icons';
 import Sider from 'antd/lib/layout/Sider';
+import Guide from './Guide';
 
 export default function SideBar(props) {
   const {
@@ -24,9 +25,18 @@ export default function SideBar(props) {
   } = props;
 
   const [isVisible, setVisible] = useState(false);
+  const [isVisibleGuide, setVisibleGuide] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const showModal = () => {
     setVisible(true);
+  };
+
+  const handleSetVisibleGuide = () => {
+    setVisibleGuide((pre) => !pre);
+  };
+
+  const handleOk = () => {
+    setVisibleGuide(false);
   };
 
   const hideModal = () => {
@@ -66,6 +76,14 @@ export default function SideBar(props) {
       >
         <UserOutlined className="sidebar-icon text-blue-700" />
       </Button>
+
+      <Button
+        className="sidebar-button"
+        onClick={handleSetVisibleGuide}
+        title="Hướng dẫn sử dụng"
+      >
+        <BookTwoTone className="sidebar-icon " />
+      </Button>
       <Button
         className="sidebar-button"
         onClick={handleFindPartner}
@@ -94,6 +112,7 @@ export default function SideBar(props) {
       >
         <p>Bạn có muốn đăng xuất ngay bây giờ?</p>
       </Modal>
+      <Guide isModalVisible={isVisibleGuide} handleOk={handleOk} />
       {conversations.map((c) => (
         <span className="avatar-item bubble-avatar">
           <Button

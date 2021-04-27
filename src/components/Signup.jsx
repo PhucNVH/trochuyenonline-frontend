@@ -128,7 +128,7 @@ export const SignupComponent = () => {
                   Đăng ký
                 </Button>
                 <Link to="login">
-                  <Button className="login-form-button">Login!</Button>
+                  <Button className="login-form-button">Đăng nhập!</Button>
                 </Link>
               </div>
             </Form.Item>
