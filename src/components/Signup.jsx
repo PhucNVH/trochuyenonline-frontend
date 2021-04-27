@@ -120,7 +120,7 @@ export const SignupComponent = () => {
             </Form.Item>
 
             <Form.Item
-              name="remember"
+              name="agreement"
               valuePropName="checked"
               rules={[
                 {
