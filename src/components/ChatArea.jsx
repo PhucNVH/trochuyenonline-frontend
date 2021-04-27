@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import theme from './theme';
 import {
   TextInput,
@@ -14,8 +14,14 @@ import {
   Bubble,
 } from '@livechat/ui-kit';
 
-const Maximized = (props) => {
-  const { handleSendMessage, messages, alert } = props;
+const Maximized = ({ handleSendMessage, messages, alert, setTake }) => {
+  useEffect(() => {
+    document.getElementById('chat-area').onscroll = (e) => {
+      if (document.getElementById('chat-area').scrollTop == 0) {
+        setTake((prev) => prev + 10);
+      }
+    };
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -34,7 +40,7 @@ const Maximized = (props) => {
           }}
         >
           <div className="w-full">{alert}</div>
-          <MessageList active containScrollInSubtree>
+          <MessageList active containScrollInSubtree id="chat-area">
             {messages.map((e, i) => (
               <Message isOwn={e.isOwn} key={i.toString()}>
                 {!e.isOwn && (

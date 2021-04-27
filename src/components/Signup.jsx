@@ -42,16 +42,16 @@ export const SignupComponent = () => {
   };
 
   return (
-    <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
-      <div className="absolute top-16 md:top-18 lg:top24">
+    <Row className="min-h-screen flex flex-col justify-center items-center">
+      <div className="text-center pt-0 mb-0 md:pt-10 md:-mb-10">
         <Link to="/">
           <Title className="text-primary">Trò chuyện online</Title>
         </Link>
-      </div>
-      <Col className="flex flex-col items-center">
         <div className="w-96 md:w-full">
           <Lottie options={defaultOptions} />
         </div>
+      </div>
+      <Col className="flex flex-col items-center">
         <Card className="w-72 sm:w-80 px-2 sm:px-0 mb-4">
           <Form
             name="normal_login"
@@ -121,22 +121,18 @@ export const SignupComponent = () => {
             </Form.Item>
 
             <Form.Item>
-              <Row style={{ marginLeft: '16%' }}>
-                <Col span={10}>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    className="login-form-button"
-                  >
-                    Sign up
-                  </Button>
-                </Col>
-                <Col>
-                  <Link to="login">
-                    <Button className="login-form-button">Login!</Button>
-                  </Link>
-                </Col>
-              </Row>
+              <div className="flex justify-evenly">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className="login-form-button"
+                >
+                  Sign up
+                </Button>
+                <Link to="login">
+                  <Button className="login-form-button">Login!</Button>
+                </Link>
+              </div>
             </Form.Item>
           </Form>
         </Card>

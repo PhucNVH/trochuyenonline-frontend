@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
 import Button from 'antd/lib/button';
-import Row from 'antd/lib/row';
+import div from 'antd/lib/row';
 import Col from 'antd/lib/col';
 import Card from 'antd/lib/card';
 import LockOutlined from '@ant-design/icons/LockOutlined';
@@ -43,16 +43,18 @@ export const LoginComponent = () => {
   };
 
   return (
-    <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
-      <div className="absolute top-18 md:top-24">
-        <Link to="/">
-          <Title className="text-primary">Trò chuyện online</Title>
-        </Link>
-      </div>
-      <Col className="flex flex-col items-center">
+    <div className="min-h-screen flex flex-col justify-center items-center">
+      <div className="text-center">
+        <div className="">
+          <Link to="/">
+            <Title className="text-primary">Trò chuyện online</Title>
+          </Link>
+        </div>
         <div className="w-96 md:w-full">
           <Lottie options={defaultOptions} />
         </div>
+      </div>
+      <Col className="flex flex-col items-center">
         <div className="flex flex-col center">
           <Card className="w-72 sm:w-80 px-2 sm:px-0 border-2 mb-4">
             <Form
@@ -95,24 +97,18 @@ export const LoginComponent = () => {
               </Form.Item>
 
               <Form.Item>
-                <Row style={{ marginLeft: '16%' }}>
-                  <Col span={8}>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      className="login-form-button"
-                    >
-                      Login
-                    </Button>
-                  </Col>
-                  <Col>
-                    <Link to="signup">
-                      <Button className="login-form-button">
-                        Đăng kí ngay!
-                      </Button>
-                    </Link>
-                  </Col>
-                </Row>
+                <div className="flex justify-evenly">
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    className="login-form-button"
+                  >
+                    Login
+                  </Button>
+                  <Link to="signup">
+                    <Button className="login-form-button">Đăng kí ngay!</Button>
+                  </Link>
+                </div>
               </Form.Item>
             </Form>
           </Card>
@@ -133,6 +129,6 @@ export const LoginComponent = () => {
           </div>
         </div>
       </Col>
-    </Row>
+    </div>
   );
 };

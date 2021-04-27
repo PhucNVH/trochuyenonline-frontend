@@ -285,6 +285,7 @@ const Chat = () => {
                 handleSendMessage={handleSendMessage}
                 messages={message}
                 alert={alert}
+                setTake={setTake}
               />
             </Content>
           </Layout>
