@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
@@ -12,18 +12,24 @@ import { useHistory, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/use-auth';
 import Typography from 'antd/lib/typography';
 import Lottie from 'react-lottie';
-import animationData from '../asset/conversation.json';
+import animationData from '../asset/lottie_conversation.json';
+import Terms from '../components/Terms';
 
 const { Title } = Typography;
 export const SignupComponent = () => {
   const { signup } = useAuth();
   const history = useHistory();
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const onFinish = async (values) => {
     const res = await signup(values);
     if (res.success) {
       history.push('login');
     }
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
   };
 
   const defaultOptions = {
@@ -46,7 +52,7 @@ export const SignupComponent = () => {
         <div className="w-96 md:w-full">
           <Lottie options={defaultOptions} />
         </div>
-        <Card className="w-72 sm:w-80 px-2 sm:px-0">
+        <Card className="w-72 sm:w-80 px-2 sm:px-0 mb-4">
           <Form
             name="normal_login"
             className="login-form -mx-4 sm:-mx-2"
@@ -134,6 +140,21 @@ export const SignupComponent = () => {
             </Form.Item>
           </Form>
         </Card>
+        <div className="flex justify-center mb-4 text-lg">
+          <a
+            className="mr-2"
+            onClick={() => {
+              setIsModalVisible(true);
+            }}
+          >
+            Điều khoản sử dụng
+          </a>
+          <Terms
+            isModalVisible={isModalVisible}
+            handleCancel={handleOk}
+            handleOk={handleOk}
+          />
+        </div>
       </Col>
     </Row>
   );

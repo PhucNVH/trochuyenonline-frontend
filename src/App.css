@@ -13,6 +13,19 @@
   display: inline-block;
   font-size: 1rem;
 }
+
+.HomeButton:hover {
+  @apply text-blue-600;
+  background-color: #1e3239;
+  border: none;
+  padding: 0.3rem 1.4rem;
+  border-radius: 0.7rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+}
+
 .HomeButton:hover {
   color: #dee5ff !important;
 }

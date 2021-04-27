@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
 import Button from 'antd/lib/button';
@@ -11,8 +11,8 @@ import { useHistory, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/use-auth';
 import { Typography } from 'antd';
 import Lottie from 'react-lottie';
-import animationData from '../asset/conversation.json';
-
+import animationData from '../asset/lottie_conversation.json';
+import Terms from '../components/Terms';
 const { Title } = Typography;
 
 export const LoginComponent = () => {
@@ -26,6 +26,7 @@ export const LoginComponent = () => {
   };
   const { login } = useAuth();
   const history = useHistory();
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const onFinish = async (values) => {
     const res = await login(values);
     if (res && res.result.isFirstLogin == true) {
@@ -35,6 +36,10 @@ export const LoginComponent = () => {
     if (res && res.status === 'success') {
       history.push('chat');
     }
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
   };
 
   return (
@@ -48,8 +53,8 @@ export const LoginComponent = () => {
         <div className="w-96 md:w-full">
           <Lottie options={defaultOptions} />
         </div>
-        <div className="flex flex-col md:flex-row center">
-          <Card className="w-72 sm:w-80 px-2 sm:px-0 border-2">
+        <div className="flex flex-col center">
+          <Card className="w-72 sm:w-80 px-2 sm:px-0 border-2 mb-4">
             <Form
               name="normal_login"
               className="login-form  -mx-4 sm:-mx-2"
@@ -103,7 +108,7 @@ export const LoginComponent = () => {
                   <Col>
                     <Link to="signup">
                       <Button className="login-form-button">
-                        Register now!
+                        Đăng kí ngay!
                       </Button>
                     </Link>
                   </Col>
@@ -111,6 +116,21 @@ export const LoginComponent = () => {
               </Form.Item>
             </Form>
           </Card>
+          <div className="flex justify-center mb-4 text-lg">
+            <a
+              className="mr-2"
+              onClick={() => {
+                setIsModalVisible(true);
+              }}
+            >
+              Điều khoản sử dụng
+            </a>
+            <Terms
+              isModalVisible={isModalVisible}
+              handleCancel={handleOk}
+              handleOk={handleOk}
+            />
+          </div>
         </div>
       </Col>
     </Row>
