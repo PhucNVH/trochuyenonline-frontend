@@ -61,7 +61,7 @@ const Chat = () => {
     setAlert(
       <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}>
         <Alert
-          className="absolute"
+          className="absolute w-full"
           message="Đang tìm người trò chuyện"
           description="Nhanh thôi, bạn chờ tí nhé"
           type="info"
@@ -235,7 +235,7 @@ const Chat = () => {
 
       setAlert(
         <Alert
-          className="absolute"
+          className="absolute w-full"
           message="Tìm người tâm sự ngay nhé!"
           description="Bạn đang chưa có ai tâm sự cùng. Hãy chờ người khác tìm thấy bạn, hoặc chủ động tìm bằng cách nhấn nút la bàn ở thanh bên trái nha"
           type="info"
