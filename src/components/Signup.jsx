@@ -66,13 +66,13 @@ export const SignupComponent = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Please input your Username!',
+                  message: 'Bạn chưa nhập tên đăng nhập!',
                 },
               ]}
             >
               <Input
                 prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Username"
+                placeholder="Tên đăng nhập"
               />
             </Form.Item>
             <Form.Item
@@ -80,14 +80,14 @@ export const SignupComponent = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Please input your Password!',
+                  message: 'Bạn chưa nhập mật khẩu!',
                 },
               ]}
             >
               <Input
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
-                placeholder="Password"
+                placeholder="Mật khẩu"
               />
             </Form.Item>
             <Form.Item
@@ -97,7 +97,7 @@ export const SignupComponent = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Please confirm your password!',
+                  message: 'Xác nhận lại mật khẩu của bạn nhé!',
                 },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
@@ -105,9 +105,7 @@ export const SignupComponent = () => {
                       return Promise.resolve();
                     }
                     return Promise.reject(
-                      new Error(
-                        'The two passwords that you entered do not match!'
-                      )
+                      new Error('Hai mật khẩu của bạn không trùng khớp!')
                     );
                   },
                 }),
@@ -116,7 +114,7 @@ export const SignupComponent = () => {
               <Input
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
-                placeholder="Confirm password"
+                placeholder="Xác nhận lại mật khẩu"
               />
             </Form.Item>
 
@@ -127,7 +125,7 @@ export const SignupComponent = () => {
                   htmlType="submit"
                   className="login-form-button"
                 >
-                  Sign up
+                  Đăng ký
                 </Button>
                 <Link to="login">
                   <Button className="login-form-button">Login!</Button>
@@ -145,11 +143,7 @@ export const SignupComponent = () => {
           >
             Điều khoản sử dụng
           </a>
-          <Terms
-            isModalVisible={isModalVisible}
-            handleCancel={handleOk}
-            handleOk={handleOk}
-          />
+          <Terms isModalVisible={isModalVisible} handleOk={handleOk} />
         </div>
       </Col>
     </Row>

@@ -13,8 +13,16 @@ import {
   ThemeProvider,
   Bubble,
 } from '@livechat/ui-kit';
+import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
-const Maximized = ({ handleSendMessage, messages, alert, setTake }) => {
+const Maximized = ({
+  handleSendMessage,
+  messages,
+  alert,
+  setTake,
+  isSensitive,
+  handleSensitive,
+}) => {
   useEffect(() => {
     document.getElementById('chat-area').onscroll = (e) => {
       if (document.getElementById('chat-area').scrollTop == 0) {
@@ -62,6 +70,12 @@ const Maximized = ({ handleSendMessage, messages, alert, setTake }) => {
             <Fill>
               <TextInput />
             </Fill>
+            <div
+              style={{ fontSize: '18px', color: '#08c' }}
+              onClick={() => handleSensitive(!isSensitive)}
+            >
+              {isSensitive ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+            </div>
             <Fit>
               <SendButton style={{ color: '#DEE5FF !important' }} />
             </Fit>

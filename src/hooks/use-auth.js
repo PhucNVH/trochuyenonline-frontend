@@ -47,7 +47,6 @@ function useProvideAuth() {
   const login = (data) => {
     Auth.login(data).then((response) => {
       if (response && response.success === true) {
-        console.log('dsa');
         setUser(response.result);
         setToken(response.result.token);
       } else if (response.status == 'error') {

@@ -1,16 +1,22 @@
 import React from 'react';
 import Modal from 'antd/lib/modal';
 import Typography from 'antd/lib/typography';
-const { Title } = Typography;
+import { Button } from 'antd';
 
-export default function Terms({ isModalVisible, handleOk, handleCancel }) {
+const { Title, Paragraph } = Typography;
+
+export default function Terms({ isModalVisible, handleOk }) {
   return (
     <Modal
       title={'ĐIỀU KHOẢN SỬ DỤNG'}
       className="top-8"
       visible={isModalVisible}
-      onOk={handleOk}
-      onCancel={handleCancel}
+      width={700}
+      footer={[
+        <Button key="submit" type="primary" onClick={handleOk}>
+          Tôi đã đọc
+        </Button>,
+      ]}
     >
       <>
         <Title level={4}>Chào mừng bạn đến với trochuyenonline.com</Title>
@@ -47,7 +53,7 @@ export default function Terms({ isModalVisible, handleOk, handleCancel }) {
         <Title level={5}>
           Cam kết của bạn với Trochuyenonline và cộng đồng của chúng tôi
         </Title>
-        <p>
+        <Paragraph>
           Chúng tôi cung cấp các dịch vụ này cho bạn và người khác nhằm thúc đẩy
           sứ mệnh của mình. Để đổi lại, chúng tôi cần bạn thực hiện các cam kết
           sau:
@@ -59,7 +65,7 @@ export default function Terms({ isModalVisible, handleOk, handleCancel }) {
             <li>Tuyên truyền và quảng bá các hành vi bạo lực chống phá, ...</li>
             <li>Có ngôn từ hoặc hành vi xúc phạm người khác</li>
           </ul>
-        </p>
+        </Paragraph>
       </>
     </Modal>
   );

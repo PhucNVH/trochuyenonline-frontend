@@ -62,24 +62,38 @@ export default function SideBar(props) {
         onClick={() => {
           triggerSider((prev) => !prev);
         }}
-        title="Find"
+        title="Thông tin cá nhân"
       >
         <UserOutlined className="sidebar-icon text-blue-700" />
       </Button>
       <Button
         className="sidebar-button"
         onClick={handleFindPartner}
-        title="Find"
+        title="Tìm kiếm"
       >
         <CompassTwoTone className="sidebar-icon " />
       </Button>
       <Button
         className="sidebar-button"
         onClick={handleEndConversation}
-        title="Stop conversation"
+        title="Kết thúc cuộc trò chuyện"
       >
         <PauseCircleTwoTone className="sidebar-icon" twoToneColor="#f88585" />
       </Button>
+      <Button className="sidebar-button " onClick={askLogout} title="Đăng xuất">
+        <LogoutOutlined className="sidebar-icon text-red-600 " />
+      </Button>
+      <Modal
+        title="Đăng xuất"
+        visible={isVisible}
+        onOk={logout}
+        onCancel={hideModal}
+        okText="Đồng ý"
+        cancelText="Hủy"
+        okButtonProps={{ danger: true }}
+      >
+        <p>Bạn có muốn đăng xuất ngay bây giờ?</p>
+      </Modal>
       {conversations.map((c) => (
         <span className="avatar-item bubble-avatar">
           <Button
@@ -94,20 +108,6 @@ export default function SideBar(props) {
           </Button>
         </span>
       ))}
-      <Button className="sidebar-button " onClick={askLogout} title="Log out">
-        <LogoutOutlined className="sidebar-icon text-red-600 " />
-      </Button>
-      <Modal
-        title="Confirm"
-        visible={isVisible}
-        onOk={logout}
-        onCancel={hideModal}
-        okText="Ok"
-        cancelText="Cancel"
-        okButtonProps={{ danger: true }}
-      >
-        <p>Do you want to sign out</p>
-      </Modal>
     </Sider>
   );
 }

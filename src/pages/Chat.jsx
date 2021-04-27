@@ -49,6 +49,7 @@ const Chat = () => {
   const [selectedConversation, setSelectedConversation] = useState(-1);
   const [personalities, setPersonalities] = useState([]);
   const [isDisconnected, setIsDisconnected] = useState(false);
+  const [isSensitive, setIsSensitive] = useState(false);
 
   const messageStore = useContext(MessageStoreContext);
   const conversationStore = useContext(ConversationStoreContext);
@@ -118,7 +119,14 @@ const Chat = () => {
       conversationName,
       partnerId,
       message,
+      isSensitive,
     });
+
+    setIsSensitive(false);
+  };
+
+  const handleSensitive = (value) => {
+    setIsSensitive(value);
   };
 
   const handleFoundNotification = () => {
@@ -286,6 +294,8 @@ const Chat = () => {
                 messages={message}
                 alert={alert}
                 setTake={setTake}
+                isSensitive={isSensitive}
+                handleSensitive={handleSensitive}
               />
             </Content>
           </Layout>

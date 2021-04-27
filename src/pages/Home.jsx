@@ -35,7 +35,7 @@ export function Home() {
           >
             <Title className="hover:text-blue-600">Trò chuyện online</Title>
             <button className="HomeButton" to="chat">
-              Let's talk
+              Trò chuyện ngay nhé
             </button>
           </Link>
         </div>
@@ -48,11 +48,7 @@ export function Home() {
           >
             Điều khoản sử dụng
           </a>
-          <Terms
-            isModalVisible={isModalVisible}
-            handleCancel={handleOk}
-            handleOk={handleOk}
-          />
+          <Terms isModalVisible={isModalVisible} handleOk={handleOk} />
         </div>
       </Col>
     </Row>
