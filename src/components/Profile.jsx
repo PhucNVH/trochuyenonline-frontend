@@ -1,8 +1,12 @@
 import React from 'react';
 import Typography from 'antd/lib/typography';
-import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
+import {
+  CloseOutlined,
+  UploadOutlined,
+  QuestionCircleOutlined,
+} from '@ant-design/icons';
 import { useAuth } from '../hooks/use-auth';
-import { Button, Form, List, message, Modal, Upload } from 'antd';
+import { Button, Form, List, message, Modal, Upload, Tooltip, Row } from 'antd';
 const { Title } = Typography;
 import ImgCrop from 'antd-img-crop';
 import FormButton from './commons/FormButton';
@@ -35,9 +39,9 @@ const AvatarModal = (props) => {
       scrollToFirstError
       form={form}
     >
-      <Form.Item label="Username">{user.username}</Form.Item>
+      <Form.Item label="Tên đăng nhập">{user.username}</Form.Item>
 
-      <Form.Item label="Avatar">
+      <Form.Item label="Ảnh đại diện">
         <ImgCrop rotate>
           <Upload
             multiple={true}
@@ -60,7 +64,7 @@ const AvatarModal = (props) => {
             }}
           >
             <Button>
-              <UploadOutlined /> Select File
+              <UploadOutlined /> Chọn tệp
             </Button>
           </Upload>
         </ImgCrop>
@@ -70,7 +74,7 @@ const AvatarModal = (props) => {
         handleCloseModal={handleCloseModal}
         submit={
           <Button className="ml-2" type="primary" htmlType="submit">
-            Update
+            Cập nhật
           </Button>
         }
       />
@@ -139,7 +143,7 @@ export default function Profile(props) {
       </div>
 
       <Modal
-        title="Profile"
+        title="Thông tin cá nhân"
         visible={updateModalVisible}
         onCancel={handleCloseModal}
         footer={null}
@@ -154,7 +158,17 @@ export default function Profile(props) {
       </Modal>
       <div className="mt-8 w-full flex flex-col items-center">
         <Title level={4} className="text-white">
-          Facts about you
+          <Row>
+            Thông tin về bạn
+            <Tooltip
+              title="Để huấn luyện chatbot có tính cách, chúng mình rất mong bạn liên tục cập nhật danh sách này đúng với cá nhân bạn. Chúng mình cam kết không sử dụng thông tin này với mục đích nào khác việc training nếu chưa có sự cho phép cụ thể từ bạn"
+              color="blue"
+            >
+              <QuestionCircleOutlined
+                style={{ fontSize: '14px', marginLeft: '8px' }}
+              />
+            </Tooltip>
+          </Row>
         </Title>
         <List
           bordered

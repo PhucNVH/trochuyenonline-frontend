@@ -13,9 +13,16 @@ import {
   ThemeProvider,
   Bubble,
 } from '@livechat/ui-kit';
+import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
 const Maximized = (props) => {
-  const { handleSendMessage, messages, alert } = props;
+  const {
+    handleSendMessage,
+    messages,
+    alert,
+    isSensitive,
+    handleSensitive,
+  } = props;
 
   return (
     <ThemeProvider theme={theme}>
@@ -56,6 +63,12 @@ const Maximized = (props) => {
             <Fill>
               <TextInput />
             </Fill>
+            <div
+              style={{ fontSize: '18px', color: '#08c' }}
+              onClick={() => handleSensitive(!isSensitive)}
+            >
+              {isSensitive ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+            </div>
             <Fit>
               <SendButton style={{ color: '#DEE5FF !important' }} />
             </Fit>

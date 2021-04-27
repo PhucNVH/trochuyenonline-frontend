@@ -69,13 +69,13 @@ export const LoginComponent = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Username!',
+                    message: 'Bạn chưa nhập tên đăng nhập!',
                   },
                 ]}
               >
                 <Input
                   prefix={<UserOutlined className="site-form-item-icon" />}
-                  placeholder="Username"
+                  placeholder="Tên đăng nhập"
                 />
               </Form.Item>
               <Form.Item
@@ -83,26 +83,26 @@ export const LoginComponent = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Password!',
+                    message: 'Bạn chưa nhập mật khẩu!',
                   },
                 ]}
               >
                 <Input
                   prefix={<LockOutlined className="site-form-item-icon" />}
                   type="password"
-                  placeholder="Password"
+                  placeholder="Mật khẩu"
                 />
               </Form.Item>
 
               <Form.Item>
-                <Row style={{ marginLeft: '16%' }}>
-                  <Col span={8}>
+                <Row style={{ marginLeft: '8%' }}>
+                  <Col span={12}>
                     <Button
                       type="primary"
                       htmlType="submit"
                       className="login-form-button"
                     >
-                      Login
+                      Đăng nhập
                     </Button>
                   </Col>
                   <Col>
@@ -125,11 +125,7 @@ export const LoginComponent = () => {
             >
               Điều khoản sử dụng
             </a>
-            <Terms
-              isModalVisible={isModalVisible}
-              handleCancel={handleOk}
-              handleOk={handleOk}
-            />
+            <Terms isModalVisible={isModalVisible} handleOk={handleOk} />
           </div>
         </div>
       </Col>
