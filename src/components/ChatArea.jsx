@@ -25,6 +25,7 @@ const Maximized = ({
 }) => {
   useEffect(() => {
     document.getElementById('chat-area').onscroll = (e) => {
+      e.preventDefault();
       if (document.getElementById('chat-area').scrollTop == 0) {
         setTake((prev) => prev + 10);
       }
@@ -47,7 +48,7 @@ const Maximized = ({
             height: '100%',
           }}
         >
-          <div className="w-full">{alert}</div>
+          <div className="relative w-full">{alert}</div>
           <MessageList active containScrollInSubtree id="chat-area">
             {messages.map((e, i) => (
               <Message isOwn={e.isOwn} key={i.toString()}>

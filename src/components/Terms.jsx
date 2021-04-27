@@ -12,6 +12,7 @@ export default function Terms({ isModalVisible, handleOk }) {
       className="top-8"
       visible={isModalVisible}
       width={700}
+      onCancel={handleOk}
       footer={[
         <Button key="submit" type="primary" onClick={handleOk}>
           Tôi đã đọc

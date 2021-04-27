@@ -114,7 +114,7 @@ export default function SideBar(props) {
       </Modal>
       <Guide isModalVisible={isVisibleGuide} handleOk={handleOk} />
       {conversations.map((c) => (
-        <span className="avatar-item bubble-avatar">
+        <span className="avatar-item bubble-avatar" key={c.className}>
           <Button
             className="sidebar-button"
             onClick={() => handleGetConversation(c)}
