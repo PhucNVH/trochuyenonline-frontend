@@ -10,6 +10,7 @@ import { Home, Login, Signup, Survey, Test } from './pages';
 import { ProvideAuth, useAuth } from './hooks/use-auth';
 import Chat from './pages/Chat';
 import { ToastContainer } from 'react-toastify';
+import PolicyPage from '../src/components/Policy';
 
 function AuthorizedRoute({ path, children }) {
   const auth = useAuth();
@@ -45,6 +46,12 @@ function App() {
           <AuthorizedRoute path="/survey">
             <Survey />
           </AuthorizedRoute>
+          {/* <UnauthorizedRoute path="/terms">
+            <TermPage />
+          </UnauthorizedRoute> */}
+          <UnauthorizedRoute path="/policies">
+            <PolicyPage />
+          </UnauthorizedRoute>
           <Route path="/">
             <Home />
           </Route>

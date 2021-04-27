@@ -39,9 +39,11 @@ export default function Terms({ isModalVisible, handleOk }) {
           trừ khi được bạn cho phép cụ thể.
         </Paragraph>
         <Paragraph>
-          Chính sách quyền riêng tư của chúng tôi sẽ giải thích cách chúng tôi
-          thu thập và sử dụng dữ liệu cá nhân của bạn để phục vụ cho mục đích
-          nghiên cứu khoa học.
+          <a target="_blank" href="./policies">
+            Chính sách quyền riêng tư
+          </a>{' '}
+          của chúng tôi sẽ giải thích cách chúng tôi thu thập và sử dụng dữ liệu
+          cá nhân của bạn để phục vụ cho mục đích nghiên cứu khoa học.
         </Paragraph>
         <Title level={5}>Dịch vụ chúng tôi cung cấp</Title>
         <Paragraph>
