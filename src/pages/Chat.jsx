@@ -58,15 +58,16 @@ const Chat = () => {
   const history = useHistory();
 
   socket.on('finding', () => {
-    console.log('hello');
     setAlert(
-      <Alert
-        className="absolute w-full"
-        message="Đang tìm người trò chuyện"
-        description="Nhanh thôi, bạn chờ tí nhé"
-        type="info"
-        showIcon
-      />
+      <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}>
+        <Alert
+          className="absolute w-full"
+          message="Đang tìm người trò chuyện"
+          description="Nhanh thôi, bạn chờ tí nhé"
+          type="info"
+          showIcon
+        />
+      </Spin>
     );
   });
 
