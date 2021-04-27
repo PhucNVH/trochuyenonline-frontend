@@ -14,6 +14,7 @@ import Typography from 'antd/lib/typography';
 import Lottie from 'react-lottie';
 import animationData from '../asset/lottie_conversation.json';
 import Terms from '../components/Terms';
+import { Checkbox } from 'antd';
 
 const { Title } = Typography;
 export const SignupComponent = () => {
@@ -118,6 +119,31 @@ export const SignupComponent = () => {
               />
             </Form.Item>
 
+            <Form.Item
+              name="agreement"
+              valuePropName="checked"
+              rules={[
+                {
+                  validator: (_, value) =>
+                    value
+                      ? Promise.resolve()
+                      : Promise.reject(
+                          new Error('Bạn chưa đồng ý với Điều khoản sử dụng!')
+                        ),
+                },
+              ]}
+            >
+              <Checkbox>
+                Tôi đã đọc và đồng ý với{' '}
+                <a
+                  onClick={() => {
+                    setIsModalVisible(true);
+                  }}
+                >
+                  Điều khoản sử dụng
+                </a>
+              </Checkbox>
+            </Form.Item>
             <Form.Item>
               <div className="flex justify-evenly">
                 <Button
