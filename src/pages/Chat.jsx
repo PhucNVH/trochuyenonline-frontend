@@ -58,7 +58,6 @@ const Chat = () => {
   const history = useHistory();
 
   socket.on('finding', () => {
-    console.log('hello');
     setAlert(
       <Alert
         className="absolute w-full"
