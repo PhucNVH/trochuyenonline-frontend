@@ -17,6 +17,7 @@ export default function Guide({ isModalVisible, handleOk }) {
       className="top-8"
       visible={isModalVisible}
       width={700}
+      onCancel={handleOk}
       footer={[
         <Button key="submit" type="primary" onClick={handleOk}>
           Tôi đã đọc
