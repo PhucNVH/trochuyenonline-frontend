@@ -88,6 +88,7 @@ const Chat = () => {
   socket.on('joined', (data) => {
     if (data.status === 'new') {
       handleFoundNotification();
+      getConversations();
       // handleNewConversation(data.avatarUrl);
     } else if (data.status === 'stored') {
       handleStoredNotification();
