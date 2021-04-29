@@ -5,14 +5,14 @@ orbs:
 jobs:
   build-source:
     docker:
-      - image: "cimg/base:stable"
+      - image: 'cimg/base:stable'
     steps:
       - checkout
       - node/install:
           lts: true
           install-yarn: true
       - node/install-packages:
-          pkg-manager: "yarn"
+          pkg-manager: 'yarn'
       - run:
           name: Build source
           command: yarn build
@@ -23,13 +23,16 @@ jobs:
             cp -r build.tar.gz /tmp
       - store_artifacts:
           path: /tmp/build.tar.gz
+  deploy:
+    docker:
+      - image: 'cimg/base:stable'
 
 workflows:
   build-app:
     jobs:
       - node/test:
-          pkg-manager: "yarn"
-          version: "14.16.0"
+          pkg-manager: 'yarn'
+          version: '14.16.0'
           filters:
             branches:
               only:
@@ -37,6 +40,11 @@ workflows:
                 - prod
 
       - build-source:
+          filters:
+            branches:
+              only:
+                - prod
+      - deploy:
           filters:
             branches:
               only:
