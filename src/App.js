@@ -30,7 +30,7 @@ function App() {
   return (
     <ProvideAuth>
       <div>
-        <ToastContainer />
+        <ToastContainer limit={1} />
       </div>
       <Router>
         <Switch>
@@ -46,9 +46,6 @@ function App() {
           <AuthorizedRoute path="/survey">
             <Survey />
           </AuthorizedRoute>
-          {/* <UnauthorizedRoute path="/terms">
-            <TermPage />
-          </UnauthorizedRoute> */}
           <UnauthorizedRoute path="/policies">
             <PolicyPage />
           </UnauthorizedRoute>

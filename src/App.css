@@ -87,3 +87,12 @@
 .button-avatar {
   overflow: hidden;
 }
+
+.fact-card:hover {
+  background-color: #5491a5 !important;
+  border: 2px solid #5491a5;
+}
+
+.fact-card {
+  background-color: #375e6b !important;
+}

@@ -4,9 +4,20 @@ import {
   CloseOutlined,
   UploadOutlined,
   QuestionCircleOutlined,
+  CloseCircleTwoTone,
 } from '@ant-design/icons';
 import { useAuth } from '../hooks/use-auth';
-import { Button, Form, List, message, Modal, Upload, Tooltip, Row } from 'antd';
+import {
+  Button,
+  Form,
+  List,
+  message,
+  Modal,
+  Upload,
+  Tooltip,
+  Row,
+  Card,
+} from 'antd';
 const { Title } = Typography;
 import ImgCrop from 'antd-img-crop';
 import FormButton from './commons/FormButton';
@@ -170,17 +181,32 @@ export default function Profile(props) {
             </Tooltip>
           </Row>
         </Title>
-        <List
-          bordered
-          dataSource={personalities}
-          className="text-white w-11/12"
-          renderItem={(item) => (
-            <List.Item style={{ color: 'white' }}>
-              {item.mention}
-              <CloseOutlined onClick={() => handleRemovePersonality(item)} />
-            </List.Item>
-          )}
-        />
+        {personalities.map((item, i) => {
+          return (
+            <Card
+              size="small"
+              className="w-11/12 max-h-12 mb-4 border-0 text-white fact-card px-0.5"
+              hoverable
+              key={i}
+            >
+              <div className="flex items-center">
+                <div className="w-1/12">
+                  <div className="w-5 h-5 rounded-full border border-solid flex justify-center items-center">
+                    {i}
+                  </div>
+                </div>
+                <div className="w-11/12 flex justify-between items-center">
+                  <p className="ml-0.5 mb-0 text-base">{item.mention}</p>
+                  <CloseCircleTwoTone
+                    twoToneColor="#FF0000"
+                    className="text-xl"
+                    onClick={() => handleRemovePersonality(item)}
+                  />
+                </div>
+              </div>
+            </Card>
+          );
+        })}
       </div>
     </div>
   );
