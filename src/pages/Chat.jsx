@@ -21,14 +21,15 @@ import {
   FrownOutlined,
   LoadingOutlined,
 } from '@ant-design/icons';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const { Sider, Content } = Layout;
 
 const Chat = () => {
   const { user } = useAuth();
   const Auth = useAuth();
-
+  const location = useLocation();
+  const isFirstLogin = false || (location.state && location.state.isFirstLogin);
   // const socket = io.connect('https://socket.trochuyenonline.com');
   const socket = io.connect(process.env.REACT_APP_SOCKET_URI);
 
@@ -65,6 +66,9 @@ const Chat = () => {
         description="Nhanh thôi, bạn chờ tí nhé"
         type="info"
         showIcon
+        icon={
+          <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
+        }
       />
     );
   });
@@ -86,6 +90,7 @@ const Chat = () => {
   socket.on('joined', (data) => {
     if (data.status === 'new') {
       handleFoundNotification();
+      getConversations();
       // handleNewConversation(data.avatarUrl);
     } else if (data.status === 'stored') {
       handleStoredNotification();
@@ -287,6 +292,7 @@ const Chat = () => {
         conversations={conversations}
         triggerSider={setIsCollapsed}
         handleDisconnected={handleDisconnected}
+        isFirstLogin={isFirstLogin}
       />
       <Col className="w-full">
         <Layout className="App">

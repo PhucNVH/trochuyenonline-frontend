@@ -32,6 +32,22 @@ export function Survey() {
       {
         questions: [
           {
+            type: 'radiogroup',
+            name: 'gender',
+            title: 'Bạn là:',
+            isRequired: true,
+            colCount: 4,
+            choices: ['Nam', 'Nữ', 'LGBTQ+', 'Khác'],
+          },
+          {
+            type: 'checkbox',
+            name: 'interest',
+            title: 'Bạn quan tâm đến đối tượng nào?',
+            isRequired: true,
+            colCount: 4,
+            choices: ['Nam', 'Nữ', 'LGBTQ+'],
+          },
+          {
             type: 'multipletext',
             name: 'hobby',
             title: ' Sở thích của bạn là',
@@ -50,6 +66,7 @@ export function Survey() {
                 title: 'Tôi thích',
               },
             ],
+            visibleIf: '{interest}!=null',
           },
           {
             type: 'multipletext',
@@ -70,6 +87,7 @@ export function Survey() {
                 title: 'Tôi thích gặp',
               },
             ],
+            visibleIf: '{interest}!=null',
           },
         ],
         visibleIf: "{optin}='Có'",
@@ -95,7 +113,7 @@ export function Survey() {
       hobby: hobby,
       prefer: prefer,
     });
-    history.push('chat');
+    history.push({ pathname: 'chat', state: { isFirstLogin: true } });
   });
 
   return (

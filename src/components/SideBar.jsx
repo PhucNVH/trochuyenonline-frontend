@@ -22,10 +22,11 @@ export default function SideBar(props) {
     triggerSider,
     conversations,
     handleDisconnected,
+    isFirstLogin,
   } = props;
 
   const [isVisible, setVisible] = useState(false);
-  const [isVisibleGuide, setVisibleGuide] = useState(false);
+  const [isVisibleGuide, setVisibleGuide] = useState(isFirstLogin);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const showModal = () => {
     setVisible(true);

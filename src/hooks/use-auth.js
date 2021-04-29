@@ -45,7 +45,7 @@ function useProvideAuth() {
   }, []);
 
   const login = (data) => {
-    Auth.login(data).then((response) => {
+    return Auth.login(data).then((response) => {
       if (response && response.success === true) {
         setUser(response.result);
         setToken(response.result.token);
@@ -58,15 +58,15 @@ function useProvideAuth() {
   };
 
   const signup = (data) => {
-    Auth.signup(data).then((response) => {
+    return Auth.signup(data).then((response) => {
+      setUser(false);
       if (response && response.success === true) {
-        setUser(response.result);
         toast('Account created', { position: 'top-center' });
       } else {
-        setUser(false);
         setToken('');
         toast('Error creating account', { position: 'top-center' });
       }
+      console.log(response);
       return response;
     });
   };
