@@ -20,7 +20,7 @@ export default function Guide({ isModalVisible, handleOk }) {
       onCancel={handleOk}
       footer={[
         <Button key="submit" type="primary" onClick={handleOk}>
-          Tôi đã đọc
+          Mình đã đọc
         </Button>,
       ]}
     >
