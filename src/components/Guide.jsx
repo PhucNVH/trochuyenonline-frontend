@@ -59,7 +59,7 @@ export default function Guide({ isModalVisible, handleOk }) {
         <br></br>
         <Paragraph>
           Liên hệ với chúng mình qua{' '}
-          <a href="https://www.facebook.com/trochuyenonline">
+          <a target="_blank" href="https://www.facebook.com/trochuyenonline">
             Trò chuyện online page
           </a>{' '}
           nếu có bất cứ góp ý hoặc chia sẻ nào nha
