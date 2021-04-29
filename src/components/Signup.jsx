@@ -134,7 +134,7 @@ export const SignupComponent = () => {
               ]}
             >
               <Checkbox>
-                Tôi đã đọc và đồng ý với{' '}
+                Mình đã đọc và đồng ý với{' '}
                 <a
                   onClick={() => {
                     setIsModalVisible(true);
