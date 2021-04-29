@@ -5,6 +5,7 @@ import {
   UserOutlined,
   CompassTwoTone,
   PauseCircleTwoTone,
+  EyeInvisibleOutlined,
 } from '@ant-design/icons';
 import Avatar from 'antd/lib/avatar';
 
@@ -35,9 +36,8 @@ export default function Guide({ isModalVisible, handleOk }) {
             </li>
             <br></br>
             <li>
-              <CompassTwoTone style={{ fontSize: '20px' }} />: Tìm kiếm một
-              người trò chuyện cùng với bạn, bạn có thể tìm kiếm nhiều người để
-              trò chuyện cùng
+              <CompassTwoTone style={{ fontSize: '20px' }} />: Bạn có thể tìm
+              kiếm một hoặc nhiều người trò chuyện cùng bằng cách nhấn nút này
             </li>
             <br></br>
             <li>
@@ -53,6 +53,14 @@ export default function Guide({ isModalVisible, handleOk }) {
               <Avatar src={'/default_profile.jpg'} />: Cuộc trò chuyện đang diễn
               ra, chúng mình lưu trữ lại cuộc trò chuyện để bạn có thể tiếp tục
               trò chuyện với nhiều người
+            </li>
+            <br></br>
+            <li>
+              <EyeInvisibleOutlined
+                style={{ fontSize: '20px', color: '#08c' }}
+              />
+              : Nhấn nút này nếu bạn không muốn hệ thống lưu tin nhắn mà bạn gửi
+              đi
             </li>
           </ul>
         </Paragraph>

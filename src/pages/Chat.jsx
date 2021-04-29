@@ -66,6 +66,7 @@ const Chat = () => {
         description="Nhanh thôi, bạn chờ tí nhé"
         type="info"
         showIcon
+        closeText="Tôi hiểu rồi"
       />
       // </Spin>
     );
@@ -78,6 +79,10 @@ const Chat = () => {
     }
   };
 
+  const handleSetConversationName = (conversationName) => {
+    setConversationName(conversationName);
+  };
+
   React.useEffect(() => {
     if (isDisconnected) {
       socket.emit('logout', user.token);
@@ -88,12 +93,12 @@ const Chat = () => {
   socket.on('joined', (data) => {
     if (data.status === 'new') {
       handleFoundNotification();
+      messageStore.clearMessage();
+      setSelectedConversation(-1);
       getConversations();
       // handleNewConversation(data.avatarUrl);
-    } else if (data.status === 'stored') {
-      handleStoredNotification();
     }
-    setConversationName(data.conversationName);
+    handleSetConversationName(data.conversationName);
     setPartnerId(data.partnerId);
     setAlert(null);
   });
@@ -102,8 +107,8 @@ const Chat = () => {
     socket.emit('find', {
       token: user.token,
     });
-    setMessage([]);
     getConversations();
+    setIsQueued(true);
   };
 
   const handleEndConversation = () => {
@@ -140,18 +145,9 @@ const Chat = () => {
     });
   };
 
-  const handleStoredNotification = () => {
-    notification.open({
-      message: 'Cuộc trò chuyện vẫn còn đấy',
-      description: 'Hãy tiếp tục cuộc trò chuyện nhé <3',
-      icon: <SmileOutlined style={{ color: '#108ee9' }} />,
-    });
-  };
-
   const handleGetConversation = (values) => {
     setSelectedConversation(values.id);
-    setConversationName(values.name);
-    handleStoredNotification();
+    handleSetConversationName(values.name);
     setAlert(null);
     getConversations();
   };
@@ -194,7 +190,8 @@ const Chat = () => {
       if (m === 'end') {
         getConversations();
         setIsQueued(false);
-        setMessage([]);
+        messageStore.clearMessage();
+        setSelectedConversation(-1);
         return;
       }
 
@@ -230,15 +227,15 @@ const Chat = () => {
 
   React.useEffect(() => {
     if (!isQueued) {
-      socket.emit('chat', {
-        token: user.token,
-      });
+      // socket.emit('chat', {
+      //   token: user.token,
+      // });
 
       setAlert(
         <Alert
           className="absolute w-full"
           message="Tìm người tâm sự ngay nhé!"
-          description="Bạn đang chưa có ai tâm sự cùng. Hãy chờ người khác tìm thấy bạn, hoặc chủ động tìm bằng cách nhấn nút la bàn ở thanh bên trái nha"
+          description="Nếu bạn đang chưa có ai tâm sự cùng, hãy tìm bằng cách nhấn nút la bàn ở thanh bên trái nha"
           type="info"
           showIcon
           onClose={() => {
@@ -247,8 +244,6 @@ const Chat = () => {
           closeText="Tôi hiểu rồi"
         />
       );
-
-      setIsQueued(true);
     }
   }, [isQueued]);
 
@@ -260,7 +255,7 @@ const Chat = () => {
     setMessage(storedMessage.reverse());
     if (messageStore.messages[0]) {
       const oneMessage = messageStore.messages[0];
-      setConversationName(oneMessage.conversationName);
+      handleSetConversationName(oneMessage.conversationName);
       setPartnerId(
         oneMessage.senderInfo.id === user.id
           ? oneMessage.partnerInfo.id
