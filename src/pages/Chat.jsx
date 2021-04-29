@@ -69,7 +69,7 @@ const Chat = () => {
         icon={
           <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
         }
-        closeText="Tôi hiểu rồi"
+        closeText="Mình hiểu rồi"
       />
     );
   });
@@ -190,7 +190,7 @@ const Chat = () => {
   }, []);
 
   React.useEffect(() => {
-    const listener = (m) => {
+    socket.on(conversationName, (m) => {
       if (m === 'end') {
         getConversations();
         setIsQueued(false);
@@ -229,11 +229,9 @@ const Chat = () => {
         ...prev,
         { message: m.message, isOwn: m.partnerId !== user.id },
       ]);
-    };
+    });
 
-    socket.on(conversationName, listener);
-
-    return () => socket.off(conversationName, listener);
+    return () => socket.off(conversationName);
   }, [conversationName]);
 
   React.useEffect(() => {
@@ -248,7 +246,7 @@ const Chat = () => {
           onClose={() => {
             setAlert(null);
           }}
-          closeText="Tôi hiểu rồi"
+          closeText="Mình hiểu rồi"
         />
       );
 

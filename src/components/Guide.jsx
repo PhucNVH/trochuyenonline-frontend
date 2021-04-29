@@ -36,8 +36,8 @@ export default function Guide({ isModalVisible, handleOk }) {
             <br></br>
             <li>
               <CompassTwoTone style={{ fontSize: '20px' }} />: Tìm kiếm một
-              người trò chuyện cùng với bạn, bạn có thể tìm kiếm nhiều người để
-              trò chuyện cùng
+              người trò chuyện cùng với bạn, thậm chí bạn có thể tìm kiếm nhiều
+              người để trò chuyện cùng một lúc đó
             </li>
             <br></br>
             <li>
@@ -55,6 +55,14 @@ export default function Guide({ isModalVisible, handleOk }) {
               trò chuyện với nhiều người
             </li>
           </ul>
+        </Paragraph>
+        <br></br>
+        <Paragraph>
+          Liên hệ với chúng mình qua{' '}
+          <a href="https://www.facebook.com/trochuyenonline">
+            Trò chuyện online page
+          </a>{' '}
+          nếu có bất cứ góp ý hoặc chia sẻ nào nha
         </Paragraph>
       </>
     </Modal>
