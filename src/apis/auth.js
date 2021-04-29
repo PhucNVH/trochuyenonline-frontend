@@ -32,7 +32,6 @@ export const Auth = {
         fullName: data.fullName ? data.fullName : 'name',
         password: data.password,
       });
-      console.log(res.data);
       return res.data;
     } catch (err) {
       return { status: 'error', error: err };

@@ -66,7 +66,6 @@ function useProvideAuth() {
         setToken('');
         toast('Error creating account', { position: 'top-center' });
       }
-      console.log(response);
       return response;
     });
   };
