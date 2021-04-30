@@ -25,7 +25,7 @@ export const SignupComponent = () => {
   const onFinish = async (values) => {
     const res = await signup(values);
     if (res.success) {
-      history.push('login');
+      history.push('dang-nhap');
     }
   };
 
@@ -153,7 +153,7 @@ export const SignupComponent = () => {
                 >
                   Đăng ký
                 </Button>
-                <Link to="login">
+                <Link to="dang-nhap">
                   <Button className="login-form-button">Đăng nhập!</Button>
                 </Link>
               </div>

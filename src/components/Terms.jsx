@@ -40,7 +40,7 @@ export default function Terms({ isModalVisible, handleOk }) {
           trừ khi được bạn cho phép cụ thể.
         </Paragraph>
         <Paragraph>
-          <a target="_blank" href="./policies">
+          <a target="_blank" href="./chinh-sach">
             Chính sách quyền riêng tư
           </a>{' '}
           của chúng tôi sẽ giải thích cách chúng tôi thu thập và sử dụng dữ liệu

@@ -77,7 +77,7 @@ const Chat = () => {
   const logout = async () => {
     const result = await Auth.logout();
     if (result.status === 'success') {
-      history.push('/login');
+      history.push('/dang-nhap');
     }
   };
 
@@ -222,7 +222,7 @@ const Chat = () => {
             'Tài khoản của bạn đã bị khóa vì sử dụng quá nhiều ngôn ngữ không phù hợp',
           icon: <AlertOutlined style={{ color: '#108ee9' }} />,
         });
-        history.push('/login');
+        history.push('/dang-nhap');
       }
 
       setMessage((prev) => [
