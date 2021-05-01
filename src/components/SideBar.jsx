@@ -114,20 +114,22 @@ export default function SideBar(props) {
         <p>Bạn có muốn đăng xuất ngay bây giờ?</p>
       </Modal>
       <Guide isModalVisible={isVisibleGuide} handleOk={handleOk} />
-      {conversations.map((c) => (
-        <span className="avatar-item bubble-avatar" key={c.className}>
-          <Button
-            className="sidebar-button"
-            onClick={() => handleGetConversation(c)}
-          >
-            {/* <Badge count={1}> */}
-            <Avatar
-              src={c.conversationUser.avatarUrl || '/default_profile.jpg'}
-            />
-            {/* </Badge> */}
-          </Button>
-        </span>
-      ))}
+      {conversations.map((c) => {
+        return (
+          <span className="avatar-item bubble-avatar" key={c.id}>
+            <Button
+              className="sidebar-button"
+              onClick={() => handleGetConversation(c)}
+            >
+              {/* <Badge count={1}> */}
+              <Avatar
+                src={c.conversationUser.avatarUrl || '/default_profile.jpg'}
+              />
+              {/* </Badge> */}
+            </Button>
+          </span>
+        );
+      })}
     </Sider>
   );
 }

@@ -5,12 +5,12 @@ import Col from 'antd/lib/col';
 import { Link } from 'react-router-dom';
 import Terms from '../components/Terms';
 import Typography from 'antd/lib/typography';
-
+import ReactGA from 'react-ga';
 const { Title } = Typography;
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 export function Home() {
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const handleOk = () => {
     setIsModalVisible(false);
   };

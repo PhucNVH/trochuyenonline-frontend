@@ -29,7 +29,8 @@ export const LoginComponent = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const onFinish = async (values) => {
     const res = await login(values);
-    if (res && res.result.isFirstLogin == true) {
+    console.log(res);
+    if (res && res.status === 'success' && res.result.isFirstLogin == true) {
       history.push('survey');
       return;
     }

@@ -7,8 +7,11 @@ import 'antd/dist/antd.less'; // or 'antd/dist/antd.less'
 import './style.less';
 import 'survey-react/modern.min.css';
 import 'react-toastify/dist/ReactToastify.min.css';
-
+import ReactGA from 'react-ga';
 import { hotjar } from 'react-hotjar';
+
+ReactGA.initialize('G-10200MK17G', { debug: true });
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 ReactDOM.render(
   <React.StrictMode>
