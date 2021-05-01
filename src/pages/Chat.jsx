@@ -69,6 +69,7 @@ const Chat = () => {
         icon={
           <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
         }
+        closeText="Mình hiểu rồi"
       />
     );
   });
@@ -76,7 +77,7 @@ const Chat = () => {
   const logout = async () => {
     const result = await Auth.logout();
     if (result.status === 'success') {
-      history.push('/login');
+      history.push('/dang-nhap');
     }
   };
 
@@ -90,22 +91,26 @@ const Chat = () => {
   socket.on('joined', (data) => {
     if (data.status === 'new') {
       handleFoundNotification();
+      setSelectedConversation(-1);
+      setMessage([]);
       getConversations();
       // handleNewConversation(data.avatarUrl);
-    } else if (data.status === 'stored') {
-      handleStoredNotification();
     }
-    setConversationName(data.conversationName);
+    handleSetConversationName(data.conversationName);
     setPartnerId(data.partnerId);
     setAlert(null);
   });
+
+  const handleSetConversationName = (conversationName) => {
+    setConversationName(conversationName);
+  };
 
   const handleFindPartner = () => {
     socket.emit('find', {
       token: user.token,
     });
-    setMessage([]);
     getConversations();
+    setSelectedConversation(-1);
   };
 
   const handleEndConversation = () => {
@@ -115,6 +120,8 @@ const Chat = () => {
       selectedConversation,
       partnerId,
     });
+
+    setSelectedConversation(-1);
   };
 
   const handleSendMessage = (message) => {
@@ -142,18 +149,9 @@ const Chat = () => {
     });
   };
 
-  const handleStoredNotification = () => {
-    notification.open({
-      message: 'Cuộc trò chuyện vẫn còn đấy',
-      description: 'Hãy tiếp tục cuộc trò chuyện nhé <3',
-      icon: <SmileOutlined style={{ color: '#108ee9' }} />,
-    });
-  };
-
   const handleGetConversation = (values) => {
     setSelectedConversation(values.id);
-    setConversationName(values.name);
-    handleStoredNotification();
+    handleSetConversationName(values.name);
     setAlert(null);
     getConversations();
   };
@@ -196,7 +194,11 @@ const Chat = () => {
       if (m === 'end') {
         getConversations();
         setIsQueued(false);
-        setMessage([]);
+        notification['info']({
+          message: 'Kết thúc cuộc trò chuyện',
+          description: 'Cuộc trò chuyện đã được kết thúc',
+          icon: <FrownOutlined style={{ color: '#108ee9' }} />,
+        });
         return;
       }
 
@@ -220,7 +222,7 @@ const Chat = () => {
             'Tài khoản của bạn đã bị khóa vì sử dụng quá nhiều ngôn ngữ không phù hợp',
           icon: <AlertOutlined style={{ color: '#108ee9' }} />,
         });
-        history.push('/login');
+        history.push('/dang-nhap');
       }
 
       setMessage((prev) => [
@@ -228,25 +230,23 @@ const Chat = () => {
         { message: m.message, isOwn: m.partnerId !== user.id },
       ]);
     });
+
+    return () => socket.off(conversationName);
   }, [conversationName]);
 
   React.useEffect(() => {
     if (!isQueued) {
-      socket.emit('chat', {
-        token: user.token,
-      });
-
       setAlert(
         <Alert
           className="absolute w-full"
           message="Tìm người tâm sự ngay nhé!"
-          description="Bạn đang chưa có ai tâm sự cùng. Hãy chờ người khác tìm thấy bạn, hoặc chủ động tìm bằng cách nhấn nút la bàn ở thanh bên trái nha"
+          description="Nếu bạn đang chưa có ai tâm sự cùng, hãy tìm bằng cách nhấn nút la bàn ở thanh bên trái nha"
           type="info"
           showIcon
           onClose={() => {
             setAlert(null);
           }}
-          closeText="Tôi hiểu rồi"
+          closeText="Mình hiểu rồi"
         />
       );
 
@@ -262,7 +262,7 @@ const Chat = () => {
     setMessage(storedMessage.reverse());
     if (messageStore.messages[0]) {
       const oneMessage = messageStore.messages[0];
-      setConversationName(oneMessage.conversationName);
+      handleSetConversationName(oneMessage.conversationName);
       setPartnerId(
         oneMessage.senderInfo.id === user.id
           ? oneMessage.partnerInfo.id

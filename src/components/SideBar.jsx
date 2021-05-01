@@ -13,6 +13,7 @@ import {
 } from '@ant-design/icons';
 import Sider from 'antd/lib/layout/Sider';
 import Guide from './Guide';
+import { Divider } from 'antd';
 
 export default function SideBar(props) {
   const {
@@ -114,22 +115,22 @@ export default function SideBar(props) {
         <p>Bạn có muốn đăng xuất ngay bây giờ?</p>
       </Modal>
       <Guide isModalVisible={isVisibleGuide} handleOk={handleOk} />
-      {conversations.map((c) => {
-        return (
-          <span className="avatar-item bubble-avatar" key={c.id}>
-            <Button
-              className="sidebar-button"
-              onClick={() => handleGetConversation(c)}
-            >
-              {/* <Badge count={1}> */}
-              <Avatar
-                src={c.conversationUser.avatarUrl || '/default_profile.jpg'}
-              />
-              {/* </Badge> */}
-            </Button>
-          </span>
-        );
-      })}
+      <Divider />
+      {conversations.map((c) => (
+        <span className="avatar-item bubble-avatar" key={c.id}>
+          <Button
+            className="sidebar-button"
+            onClick={() => handleGetConversation(c)}
+          >
+            {/* <Badge count={1}> */}
+            <Avatar
+              style={{ marginBottom: '32%' }}
+              src={c.conversationUser.avatarUrl || '/default_profile.jpg'}
+            />
+            {/* </Badge> */}
+          </Button>
+        </span>
+      ))}
     </Sider>
   );
 }
