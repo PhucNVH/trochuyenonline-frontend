@@ -13,7 +13,7 @@ const Wrapper: React.FC<WrapperProps> = (props) => {
   const { children, header = false } = props;
 
   return (
-    <Layout>
+    <Layout style={{ width: '100%', height: '100%' }}>
       <Col className="container">
         {header}
         {children}

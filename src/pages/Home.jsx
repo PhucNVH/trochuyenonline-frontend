@@ -5,12 +5,12 @@ import Col from 'antd/lib/col';
 import { Link } from 'react-router-dom';
 import Terms from '../components/Terms';
 import Typography from 'antd/lib/typography';
-
+import ReactGA from 'react-ga';
 const { Title } = Typography;
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 export function Home() {
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const handleOk = () => {
     setIsModalVisible(false);
   };
@@ -31,10 +31,10 @@ export function Home() {
         <div className="m-auto ">
           <Link
             className="relative flex flex-col justify-center items-center hover:text-gray-50"
-            to="chat"
+            to="tro-chuyen"
           >
             <Title className="hover:text-blue-600">Trò chuyện online</Title>
-            <button className="HomeButton" to="chat">
+            <button className="HomeButton" to="tro-chuyen">
               Trò chuyện ngay nhé
             </button>
           </Link>

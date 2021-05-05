@@ -29,12 +29,12 @@ export const LoginComponent = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const onFinish = async (values) => {
     const res = await login(values);
-    if (res && res.result.isFirstLogin == true) {
-      history.push('survey');
+    if (res && res.status === 'success' && res.result.isFirstLogin == true) {
+      history.push('khao-sat');
       return;
     }
     if (res && res.status === 'success') {
-      history.push('chat');
+      history.push('tro-chuyen');
     }
   };
 
@@ -105,7 +105,7 @@ export const LoginComponent = () => {
                   >
                     Đăng nhập
                   </Button>
-                  <Link to="signup">
+                  <Link to="dang-ky">
                     <Button className="login-form-button">Đăng kí ngay!</Button>
                   </Link>
                 </div>

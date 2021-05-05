@@ -9,7 +9,7 @@ export function Survey() {
 
   useEffect(() => {
     if (!user.isFirstLogin) {
-      history.push('chat');
+      history.push('tro-chuyen');
       return;
     }
   }, []);
@@ -113,7 +113,7 @@ export function Survey() {
       hobby: hobby,
       prefer: prefer,
     });
-    history.push({ pathname: 'chat', state: { isFirstLogin: true } });
+    history.push({ pathname: 'tro-chuyen', state: { isFirstLogin: true } });
   });
 
   return (

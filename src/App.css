@@ -43,7 +43,7 @@
 .sidebar-button {
   @apply w-full;
   padding: 4px 0px !important;
-  background-color: #18282e !important;
+  background-color: rgb(30, 50, 57) !important;
   /* border-color:  !important; */
   border: none !important;
   height: 2rem;
@@ -63,6 +63,13 @@
 
 .feedback-button:hover {
   font-size: 1.5rem;
+}
+
+.ant-layout-sider {
+  position: relative;
+  min-width: 0;
+  background: rgb(30, 50, 57) !important;
+  transition: all 0.2s;
 }
 
 .alert {

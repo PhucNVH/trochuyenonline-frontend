@@ -187,7 +187,7 @@ export default function Profile(props) {
               size="small"
               className="w-11/12 max-h-12 mb-4 border-0 text-white fact-card px-0.5"
               hoverable
-              key={i}
+              key={i.toString()}
             >
               <div className="flex items-center">
                 <div className="w-1/12">

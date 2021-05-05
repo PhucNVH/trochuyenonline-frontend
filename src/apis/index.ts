@@ -35,7 +35,7 @@ axiosInstance.interceptors.response.use(
 
     if (error.response.status === 403) {
       removeFromStorage('token');
-      if (!window.location.pathname.includes('login'))
+      if (!window.location.pathname.includes('dang-nhap'))
         window.location.replace('/');
     }
 

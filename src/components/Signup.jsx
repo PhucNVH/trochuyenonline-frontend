@@ -24,9 +24,8 @@ export const SignupComponent = () => {
 
   const onFinish = async (values) => {
     const res = await signup(values);
-    console.log(res);
     if (res.success) {
-      history.push('login');
+      history.push('dang-nhap');
     }
   };
 
@@ -135,7 +134,7 @@ export const SignupComponent = () => {
               ]}
             >
               <Checkbox>
-                Tôi đã đọc và đồng ý với{' '}
+                Mình đã đọc và đồng ý với{' '}
                 <a
                   onClick={() => {
                     setIsModalVisible(true);
@@ -154,7 +153,7 @@ export const SignupComponent = () => {
                 >
                   Đăng ký
                 </Button>
-                <Link to="login">
+                <Link to="dang-nhap">
                   <Button className="login-form-button">Đăng nhập!</Button>
                 </Link>
               </div>

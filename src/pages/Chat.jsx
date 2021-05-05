@@ -60,7 +60,6 @@ const Chat = () => {
 
   socket.on('finding', () => {
     setAlert(
-      // <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}>
       <Alert
         className="absolute w-full"
         message="Đang tìm người trò chuyện"
@@ -70,20 +69,16 @@ const Chat = () => {
         icon={
           <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
         }
+        closeText="Mình hiểu rồi"
       />
-      // </Spin>
     );
   });
 
   const logout = async () => {
     const result = await Auth.logout();
     if (result.status === 'success') {
-      history.push('/login');
+      history.push('/dang-nhap');
     }
-  };
-
-  const handleSetConversationName = (conversationName) => {
-    setConversationName(conversationName);
   };
 
   React.useEffect(() => {
@@ -96,25 +91,26 @@ const Chat = () => {
   socket.on('joined', (data) => {
     if (data.status === 'new') {
       handleFoundNotification();
-      messageStore.clearMessage();
       setSelectedConversation(-1);
+      setMessage([]);
       getConversations();
       // handleNewConversation(data.avatarUrl);
-    } else if (data.status === 'stored') {
-      handleStoredNotification();
     }
     handleSetConversationName(data.conversationName);
     setPartnerId(data.partnerId);
     setAlert(null);
   });
 
+  const handleSetConversationName = (conversationName) => {
+    setConversationName(conversationName);
+  };
+
   const handleFindPartner = () => {
     socket.emit('find', {
       token: user.token,
     });
-    setMessage([]);
     getConversations();
-    setIsQueued(true);
+    setSelectedConversation(-1);
   };
 
   const handleEndConversation = () => {
@@ -124,6 +120,8 @@ const Chat = () => {
       selectedConversation,
       partnerId,
     });
+
+    setSelectedConversation(-1);
   };
 
   const handleSendMessage = (message) => {
@@ -147,14 +145,6 @@ const Chat = () => {
       message: 'Đã tìm thấy',
       description:
         'Đã tìm được người tâm sự với bạn rồi đây. Chúc bạn có một cuộc nói chuyện vui vẻ <3',
-      icon: <SmileOutlined style={{ color: '#108ee9' }} />,
-    });
-  };
-
-  const handleStoredNotification = () => {
-    notification.open({
-      message: 'Cuộc trò chuyện vẫn còn đấy',
-      description: 'Hãy tiếp tục cuộc trò chuyện nhé <3',
       icon: <SmileOutlined style={{ color: '#108ee9' }} />,
     });
   };
@@ -204,8 +194,11 @@ const Chat = () => {
       if (m === 'end') {
         getConversations();
         setIsQueued(false);
-        messageStore.clearMessage();
-        setSelectedConversation(-1);
+        notification['info']({
+          message: 'Kết thúc cuộc trò chuyện',
+          description: 'Cuộc trò chuyện đã được kết thúc',
+          icon: <FrownOutlined style={{ color: '#108ee9' }} />,
+        });
         return;
       }
 
@@ -229,7 +222,7 @@ const Chat = () => {
             'Tài khoản của bạn đã bị khóa vì sử dụng quá nhiều ngôn ngữ không phù hợp',
           icon: <AlertOutlined style={{ color: '#108ee9' }} />,
         });
-        history.push('/login');
+        history.push('/dang-nhap');
       }
 
       setMessage((prev) => [
@@ -237,14 +230,12 @@ const Chat = () => {
         { message: m.message, isOwn: m.partnerId !== user.id },
       ]);
     });
+
+    return () => socket.off(conversationName);
   }, [conversationName]);
 
   React.useEffect(() => {
     if (!isQueued) {
-      // socket.emit('chat', {
-      //   token: user.token,
-      // });
-
       setAlert(
         <Alert
           className="absolute w-full"
@@ -255,9 +246,11 @@ const Chat = () => {
           onClose={() => {
             setAlert(null);
           }}
-          closeText="Tôi hiểu rồi"
+          closeText="Mình hiểu rồi"
         />
       );
+
+      setIsQueued(true);
     }
   }, [isQueued]);
 

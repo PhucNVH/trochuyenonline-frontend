@@ -1,5 +1,4 @@
 import './App.css';
-import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -11,18 +10,23 @@ import { ProvideAuth, useAuth } from './hooks/use-auth';
 import Chat from './pages/Chat';
 import { ToastContainer } from 'react-toastify';
 import PolicyPage from '../src/components/Policy';
+import TermPage from '../src/components/TermPage';
 
 function AuthorizedRoute({ path, children }) {
   const auth = useAuth();
   return (
-    <Route path={path}>{auth.user ? children : <Redirect to="/login" />}</Route>
+    <Route path={path}>
+      {auth.user ? children : <Redirect to="/dang-nhap" />}
+    </Route>
   );
 }
 
 function UnauthorizedRoute({ path, children }) {
   const auth = useAuth();
   return (
-    <Route path={path}>{auth.user ? <Redirect to="/chat" /> : children}</Route>
+    <Route path={path}>
+      {auth.user ? <Redirect to="/tro-chuyen" /> : children}
+    </Route>
   );
 }
 
@@ -34,21 +38,24 @@ function App() {
       </div>
       <Router>
         <Switch>
-          <UnauthorizedRoute path="/login">
+          <UnauthorizedRoute path="/dang-nhap">
             <Login />
           </UnauthorizedRoute>
-          <UnauthorizedRoute path="/signup">
+          <UnauthorizedRoute path="/dang-ky">
             <Signup />
           </UnauthorizedRoute>
-          <AuthorizedRoute path="/chat">
+          <AuthorizedRoute path="/tro-chuyen">
             <Chat />
           </AuthorizedRoute>
-          <AuthorizedRoute path="/survey">
+          <AuthorizedRoute path="/khao-sat">
             <Survey />
           </AuthorizedRoute>
-          <UnauthorizedRoute path="/policies">
+          <Route path="/chinh-sach">
             <PolicyPage />
-          </UnauthorizedRoute>
+          </Route>
+          <Route path="/dieu-khoan">
+            <TermPage />
+          </Route>
           <Route path="/">
             <Home />
           </Route>
