@@ -50,4 +50,14 @@ export const Auth = {
       return { status: 'error', error: err };
     }
   },
+  registerToken: async (token) => {
+    const result = await axios.post(
+      `${NOTIFICATION_API.PREFIX}/${NOTIFICATION_API.REGISTER}`,
+      {
+        token,
+        platform: 'web',
+      }
+    );
+    return result;
+  },
 };

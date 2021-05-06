@@ -49,6 +49,10 @@ function useProvideAuth() {
       if (response && response.success === true) {
         setUser(response.result);
         setToken(response.result.token);
+        const deviceId = retrieveFromStorage(LOCAL_STORAGE_KEY.DEVICE_TOKEN);
+        if (deviceId) {
+          authStore.registerToken(deviceId);
+        }
       } else if (response.status == 'error') {
         setUser(false);
         toast('Username or password is incorrect.', { position: 'top-center' });
