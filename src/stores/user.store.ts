@@ -19,6 +19,11 @@ export default class UserStore {
   async getUser(token: string) {
     return await userService.getUser(token);
   }
+
+  async registerToken(token: string) {
+    const result = await userService.registerToken(token);
+    return result;
+  }
 }
 
 export const UserStoreContext = React.createContext(new UserStore());

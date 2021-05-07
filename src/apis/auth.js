@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { NOTIFICATION_API } from '../dto/enums/router.enum';
 const { REACT_APP_SERVER_URI } = process.env;
 
 export const Auth = {
@@ -52,11 +53,12 @@ export const Auth = {
   },
   registerToken: async (token) => {
     const result = await axios.post(
-      `${NOTIFICATION_API.PREFIX}/${NOTIFICATION_API.REGISTER}`,
+      `${REACT_APP_SERVER_URI}/${NOTIFICATION_API.PREFIX}/${NOTIFICATION_API.REGISTER}`,
       {
         token,
         platform: 'web',
-      }
+      },
+      { withCredentials: true }
     );
     return result;
   },

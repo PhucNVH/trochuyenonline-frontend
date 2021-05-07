@@ -17,6 +17,7 @@ import NotificationStoreContext from './stores/notification.store';
 import FirebaseStoreContext from './stores/firebase.store';
 import { saveToStorage, retrieveFromStorage } from './utils/storage.util';
 import { LOCAL_STORAGE_KEY } from './dto/constants/local-storage.constants';
+import userService from './apis/user.service';
 
 function AuthorizedRoute({ path, children }) {
   const auth = useAuth();
@@ -43,6 +44,7 @@ function App() {
   if ('serviceWorker' in navigator) {
     // Supported!
     navigator.serviceWorker.addEventListener('message', (message) => {
+      console.log(' ======== ', notiStore);
       notiStore.getNotiList();
     });
   }
@@ -63,7 +65,8 @@ function App() {
   React.useEffect(() => {
     const deviceId = retrieveFromStorage(LOCAL_STORAGE_KEY.DEVICE_TOKEN);
     if (deviceId) {
-      Auth.registerToken(deviceId);
+      console.log({ deviceId });
+      userService.registerToken(deviceId);
     }
   }, []);
 
