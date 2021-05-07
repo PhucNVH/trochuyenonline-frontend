@@ -103,3 +103,7 @@
 .fact-card {
   background-color: #375e6b !important;
 }
+
+#chat-area {
+  height: 100% !important;
+}

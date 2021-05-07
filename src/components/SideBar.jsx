@@ -3,13 +3,16 @@ import LogoutOutlined from '@ant-design/icons/LogoutOutlined';
 import UserOutlined from '@ant-design/icons/UserOutlined';
 import CompassTwoTone from '@ant-design/icons/CompassTwoTone';
 import PauseCircleTwoTone from '@ant-design/icons/PauseCircleTwoTone';
+import FacebookOutlined from '@ant-design/icons/FacebookOutlined';
 import Button from 'antd/lib/button';
 import Modal from 'antd/lib/modal';
+import Badge from 'antd/lib/badge';
 import Avatar from 'antd/lib/avatar';
 import {
   BookTwoTone,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
+  CloseCircleOutlined,
 } from '@ant-design/icons';
 import Sider from 'antd/lib/layout/Sider';
 import Guide from './Guide';
@@ -24,6 +27,7 @@ export default function SideBar(props) {
     conversations,
     handleDisconnected,
     isFirstLogin,
+    isSiderCollapsed,
   } = props;
 
   const [isVisible, setVisible] = useState(false);
@@ -54,7 +58,7 @@ export default function SideBar(props) {
   return (
     <Sider
       breakpoint="sm"
-      className={['h-screen flex']}
+      className={['h-screen flex relative']}
       collapsedWidth="0"
       width="68px"
       collapsible
@@ -76,7 +80,11 @@ export default function SideBar(props) {
         }}
         title="Thông tin cá nhân"
       >
-        <UserOutlined className="sidebar-icon text-blue-700" />
+        {isSiderCollapsed ? (
+          <UserOutlined className="sidebar-icon text-blue-700" />
+        ) : (
+          <UserOutlined className="sidebar-icon text-blue-700" />
+        )}
       </Button>
 
       <Button
@@ -131,6 +139,17 @@ export default function SideBar(props) {
           </Button>
         </span>
       ))}
+
+      <div className="absolute w-full bottom-2 flex justify-center items-center ml-auto mr-2">
+        <a
+          href="https://facebook.com/trochuyenonline"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text"
+        >
+          <FacebookOutlined className="text-4xl text-gray-200 hover:text-primary" />
+        </a>
+      </div>
     </Sider>
   );
 }
