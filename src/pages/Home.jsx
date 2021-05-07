@@ -5,6 +5,7 @@ import Col from 'antd/lib/col';
 import { Link } from 'react-router-dom';
 import Terms from '../components/Terms';
 import Typography from 'antd/lib/typography';
+import FacebookOutlined from '@ant-design/icons/FacebookOutlined';
 import ReactGA from 'react-ga';
 const { Title } = Typography;
 ReactGA.pageview(window.location.pathname + window.location.search);
@@ -28,6 +29,16 @@ export function Home() {
         className="flex flex-col"
         style={{ backgroundColor: '#DEE5FF' }}
       >
+        <div className="flex items-center ml-auto mr-2">
+          <a
+            href="https://facebook.com/trochuyenonline"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text"
+          >
+            <FacebookOutlined className="text-2xl text-gray-700 hover:text-blue-500" />
+          </a>
+        </div>
         <div className="m-auto ">
           <Link
             className="relative flex flex-col justify-center items-center hover:text-gray-50"

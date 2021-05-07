@@ -73,7 +73,7 @@ function useProvideAuth() {
   const logout = () => {
     setUser(false);
     setToken('');
-    return { status: 'success' };
+    return { success: true };
   };
 
   return {

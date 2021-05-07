@@ -41,17 +41,18 @@ const Maximized = ({
           height: '100%',
         }}
       >
+        <div className="relative w-full">{alert}</div>
         <div
           style={{
             flexGrow: 1,
             minHeight: 0,
             height: '100%',
+            overflow: 'auto',
           }}
         >
-          <div className="relative w-full">{alert}</div>
           <MessageList active containScrollInSubtree id="chat-area">
             {messages.map((e, i) => (
-              <Message isOwn={e.isOwn} key={i.toString()}>
+              <Message className="text-sm" isOwn={e.isOwn} key={i.toString()}>
                 {!e.isOwn && (
                   <Bubble isOwn={e.isOwn} className="chat-bubble">
                     <MessageText>{e.message}</MessageText>

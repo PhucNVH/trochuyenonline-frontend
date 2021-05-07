@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import ChatArea from '../components/ChatArea';
 import SideBar from '../components/SideBar';
 import Row from 'antd/lib/row';
@@ -22,6 +22,7 @@ import {
   LoadingOutlined,
 } from '@ant-design/icons';
 import { useHistory, useLocation } from 'react-router-dom';
+import { Chatbot } from '../apis/chatbot';
 
 const { Sider, Content } = Layout;
 
@@ -38,6 +39,7 @@ const Chat = () => {
   const [message, setMessage] = useState([]);
   const [alert, setAlert] = useState(null);
   const [isQueued, setIsQueued] = useState(false);
+  const [isChatbotActive, setIsChatbotActive] = useState(false);
 
   const [skip, setSkip] = useState(0);
   const [take, setTake] = useState(+PER_PAGE_OPTIONS[1]);
@@ -61,9 +63,9 @@ const Chat = () => {
   socket.on('finding', () => {
     setAlert(
       <Alert
-        className="absolute w-full"
+        className="w-full"
         message="Đang tìm người trò chuyện"
-        description="Nhanh thôi, bạn chờ tí nhé"
+        description="Nhanh thôi, bạn chờ tí nhé. Trong lúc chờ đợi, hãy chat với chat bot của tụi mình nhé"
         type="info"
         showIcon
         icon={
@@ -73,20 +75,6 @@ const Chat = () => {
       />
     );
   });
-
-  const logout = async () => {
-    const result = await Auth.logout();
-    if (result.status === 'success') {
-      history.push('/dang-nhap');
-    }
-  };
-
-  React.useEffect(() => {
-    if (isDisconnected) {
-      socket.emit('logout', user.token);
-      logout();
-    }
-  }, [isDisconnected]);
 
   socket.on('joined', (data) => {
     if (data.status === 'new') {
@@ -101,11 +89,31 @@ const Chat = () => {
     setAlert(null);
   });
 
+  const logout = async () => {
+    const result = await Auth.logout();
+    if (result.success === true) {
+      history.push('/dang-nhap');
+    }
+  };
+
+  React.useEffect(() => {
+    Chatbot.init();
+  }, []);
+
+  React.useEffect(() => {
+    if (isDisconnected) {
+      socket.emit('logout', user.token);
+      logout();
+    }
+  }, [isDisconnected]);
+
   const handleSetConversationName = (conversationName) => {
     setConversationName(conversationName);
   };
 
   const handleFindPartner = () => {
+    setIsChatbotActive(true);
+    setMessage([]);
     socket.emit('find', {
       token: user.token,
     });
@@ -125,15 +133,25 @@ const Chat = () => {
   };
 
   const handleSendMessage = (message) => {
-    socket.emit('message', {
-      token: user.token,
-      conversationName,
-      partnerId,
-      message,
-      isSensitive,
-    });
+    if (isChatbotActive) {
+      setMessage((prev) => [...prev, { message: message, isOwn: true }]);
+      Chatbot.get_response({ text: message }).then((res) => {
+        setMessage((prev) => [
+          ...prev,
+          { message: res.response, isOwn: false },
+        ]);
+      });
+    } else {
+      socket.emit('message', {
+        token: user.token,
+        conversationName,
+        partnerId,
+        message,
+        isSensitive,
+      });
 
-    setIsSensitive(false);
+      setIsSensitive(false);
+    }
   };
 
   const handleSensitive = (value) => {
@@ -141,6 +159,7 @@ const Chat = () => {
   };
 
   const handleFoundNotification = () => {
+    setIsChatbotActive(false);
     notification.open({
       message: 'Đã tìm thấy',
       description:
@@ -191,6 +210,7 @@ const Chat = () => {
 
   React.useEffect(() => {
     socket.on(conversationName, (m) => {
+      console.log('dsak');
       if (m === 'end') {
         getConversations();
         setIsQueued(false);
@@ -238,7 +258,7 @@ const Chat = () => {
     if (!isQueued) {
       setAlert(
         <Alert
-          className="absolute w-full"
+          className="w-full"
           message="Tìm người tâm sự ngay nhé!"
           description="Nếu bạn đang chưa có ai tâm sự cùng, hãy tìm bằng cách nhấn nút la bàn ở thanh bên trái nha"
           type="info"
@@ -255,21 +275,23 @@ const Chat = () => {
   }, [isQueued]);
 
   React.useEffect(() => {
-    const storedMessage = messageStore.messages.map((m) => ({
-      message: m.message,
-      isOwn: m.senderInfo.id === user.id,
-    }));
-    setMessage(storedMessage.reverse());
-    if (messageStore.messages[0]) {
-      const oneMessage = messageStore.messages[0];
-      handleSetConversationName(oneMessage.conversationName);
-      setPartnerId(
-        oneMessage.senderInfo.id === user.id
-          ? oneMessage.partnerInfo.id
-          : oneMessage.senderInfo.id
-      );
+    if (!isChatbotActive) {
+      const storedMessage = messageStore.messages.map((m) => ({
+        message: m.message,
+        isOwn: m.senderInfo.id === user.id,
+      }));
+      setMessage(storedMessage.reverse());
+      if (messageStore.messages[0]) {
+        const oneMessage = messageStore.messages[0];
+        handleSetConversationName(oneMessage.conversationName);
+        setPartnerId(
+          oneMessage.senderInfo.id === user.id
+            ? oneMessage.partnerInfo.id
+            : oneMessage.senderInfo.id
+        );
+      }
     }
-  }, [messageStore.messages]);
+  }, [messageStore.messages, isChatbotActive]);
 
   React.useEffect(() => {
     setPersonalities(personalityStore.personalities);
@@ -291,6 +313,7 @@ const Chat = () => {
         handleGetConversation={handleGetConversation}
         conversations={conversations}
         triggerSider={setIsCollapsed}
+        isSiderCollapsed={isCollapsed}
         handleDisconnected={handleDisconnected}
         isFirstLogin={isFirstLogin}
       />
