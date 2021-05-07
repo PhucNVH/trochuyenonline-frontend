@@ -5,12 +5,18 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import { Home, Login, Signup, Survey, Test } from './pages';
+import { Home, Login, Signup, Survey } from './pages';
 import { ProvideAuth, useAuth } from './hooks/use-auth';
 import Chat from './pages/Chat';
 import { ToastContainer } from 'react-toastify';
 import PolicyPage from '../src/components/Policy';
 import TermPage from '../src/components/TermPage';
+import { messaging } from './utils/firebase.util';
+import React from 'react';
+import NotificationStoreContext from './stores/notification.store';
+import FirebaseStoreContext from './stores/firebase.store';
+import { retrieveFromStorage } from './utils/storage.util';
+import { LOCAL_STORAGE_KEY } from './dto/constants/local-storage.constants';
 
 function AuthorizedRoute({ path, children }) {
   const auth = useAuth();
@@ -31,6 +37,36 @@ function UnauthorizedRoute({ path, children }) {
 }
 
 function App() {
+  const firebaseStore = React.useContext(FirebaseStoreContext);
+  const notiStore = React.useContext(NotificationStoreContext);
+
+  if ('serviceWorker' in navigator) {
+    // Supported!
+    navigator.serviceWorker.addEventListener('message', (message) => {
+      notiStore.getNotiList();
+    });
+  }
+  React.useEffect(() => {
+    if (messaging) {
+      messaging
+        .getToken()
+        .then((token) => {
+          saveToStorage(LOCAL_STORAGE_KEY.DEVICE_TOKEN, token);
+        })
+        .catch((e) => {
+          console.error(e);
+          console.error('Permission notification - Granted');
+        });
+    }
+  }, [firebaseStore]);
+
+  React.useEffect(() => {
+    const deviceId = retrieveFromStorage(LOCAL_STORAGE_KEY.DEVICE_TOKEN);
+    if (deviceId) {
+      Auth.registerToken(deviceId);
+    }
+  }, []);
+
   return (
     <ProvideAuth>
       <div>

@@ -16,6 +16,7 @@ export default class MessageStore {
       totalCount: observable,
       setMessages: action,
       setTotalCount: action,
+      clearMessage: action,
     });
   }
 
@@ -34,6 +35,10 @@ export default class MessageStore {
     );
     this.setMessages(data);
     this.setTotalCount(count);
+  }
+
+  clearMessage() {
+    this.messages = [];
   }
 }
 

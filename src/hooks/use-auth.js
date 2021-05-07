@@ -4,6 +4,8 @@ import Loading from '../components/Loading';
 import { useLocalStorage } from './use-localstorage';
 import { message } from 'antd';
 import { toast } from 'react-toastify';
+import { retrieveFromStorage } from '../utils/storage.util';
+import { LOCAL_STORAGE_KEY } from '../dto/constants/local-storage.constants';
 
 const authContext = createContext();
 
@@ -49,6 +51,10 @@ function useProvideAuth() {
       if (response && response.success === true) {
         setUser(response.result);
         setToken(response.result.token);
+        const deviceId = retrieveFromStorage(LOCAL_STORAGE_KEY.DEVICE_TOKEN);
+        if (deviceId) {
+          Auth.registerToken(deviceId);
+        }
       } else if (response.status == 'error') {
         setUser(false);
         toast('Username or password is incorrect.', { position: 'top-center' });
