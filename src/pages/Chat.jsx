@@ -210,7 +210,6 @@ const Chat = () => {
 
   React.useEffect(() => {
     socket.on(conversationName, (m) => {
-      console.log('dsak');
       if (m === 'end') {
         getConversations();
         setIsQueued(false);
