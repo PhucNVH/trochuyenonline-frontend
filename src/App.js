@@ -15,7 +15,7 @@ import { messaging } from './utils/firebase.util';
 import React from 'react';
 import NotificationStoreContext from './stores/notification.store';
 import FirebaseStoreContext from './stores/firebase.store';
-import { retrieveFromStorage } from './utils/storage.util';
+import { saveToStorage, retrieveFromStorage } from './utils/storage.util';
 import { LOCAL_STORAGE_KEY } from './dto/constants/local-storage.constants';
 
 function AuthorizedRoute({ path, children }) {
