@@ -13,11 +13,12 @@ import PolicyPage from '../src/components/Policy';
 import TermPage from '../src/components/TermPage';
 import { messaging } from './utils/firebase.util';
 import React from 'react';
-import NotificationStoreContext from './stores/notification.store';
-import FirebaseStoreContext from './stores/firebase.store';
+import { NotificationStoreContext } from './stores/notification.store';
+import { FirebaseStoreContext } from './stores/firebase.store';
 import { saveToStorage, retrieveFromStorage } from './utils/storage.util';
 import { LOCAL_STORAGE_KEY } from './dto/constants/local-storage.constants';
 import userService from './apis/user.service';
+import { observer } from 'mobx-react';
 
 function AuthorizedRoute({ path, children }) {
   const auth = useAuth();
@@ -44,10 +45,10 @@ function App() {
   if ('serviceWorker' in navigator) {
     // Supported!
     navigator.serviceWorker.addEventListener('message', (message) => {
-      console.log(' ======== ', notiStore);
       notiStore.getNotiList();
     });
   }
+
   React.useEffect(() => {
     if (messaging) {
       messaging
@@ -104,4 +105,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(App);

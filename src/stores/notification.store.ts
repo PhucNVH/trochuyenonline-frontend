@@ -1,5 +1,5 @@
 import { action, makeObservable, observable } from 'mobx';
-import { createContext } from 'react';
+import React from 'react';
 import notificationService from '../apis/notification.service';
 import { newNotificationFormInit } from '../dto/commons/notification.constants';
 
@@ -119,4 +119,6 @@ export default class NotificationStore {
   }
 }
 
-export const NotificationStoreContext = createContext(new NotificationStore());
+export const NotificationStoreContext = React.createContext(
+  new NotificationStore()
+);

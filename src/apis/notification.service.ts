@@ -6,7 +6,7 @@ import {
 } from '../stores/notification.store';
 
 class NotificationService {
-  prefix = 'api/notifications';
+  prefix = 'notifications';
   public async getList(filter: Record<string, any>) {
     const result = await http.get(
       `${this.prefix}${prepareGetQuery({ ...filter })}`
