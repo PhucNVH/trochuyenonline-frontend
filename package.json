@@ -2,6 +2,44 @@
   "name": "trochuyenonline-frontend",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "analyze": "ANALYZE=true yarn build",
+    "start": "craco start",
+    "dev": "craco start",
+    "build": "CI=false craco build",
+    "build-prod": "env-cmd -f .env.prod --no-override craco build",
+    "test": "craco test",
+    "eject": "craco eject",
+    "prepare": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "{src,apps,libs,test}/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "dependencies": {
     "@agney/react-loading": "^0.1.2",
     "@ant-design/icons": "^4.6.2",
@@ -40,38 +78,6 @@
     "typescript": "^4.2.4",
     "web-vitals": "^1.0.1"
   },
-  "scripts": {
-    "analyze": "ANALYZE=true yarn build",
-    "start": "craco start",
-    "dev": "craco start",
-    "build": "CI=false craco build",
-    "build-prod": "env-cmd -f .env.prod --no-override craco build",
-    "test": "craco test",
-    "eject": "craco eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "lint-staged": {
-    "{src,apps,libs,test}/**/*.{js,jsx,ts,tsx}": [
-      "eslint"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.0.3",
     "@types/react": "^17.0.3",
@@ -84,6 +90,8 @@
     "eslint": "^7.12.1",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
     "postcss": "^7",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "typescript-eslint": "^0.0.1-alpha.0",
