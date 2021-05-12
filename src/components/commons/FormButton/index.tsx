@@ -1,9 +1,9 @@
 import { Button, Col, Row } from 'antd';
-import React from 'react';
+import { ReactNode } from 'react';
 
 interface ComponentProps {
   handleCloseModal: any;
-  submit?: React.ReactNode;
+  submit?: ReactNode;
 }
 
 const FormButton = (props: ComponentProps) => {

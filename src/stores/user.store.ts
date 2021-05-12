@@ -1,4 +1,4 @@
-import React from 'react';
+import { createContext } from 'react';
 import { makeObservable, observable } from 'mobx';
 import userService from '../apis/user.service';
 
@@ -26,4 +26,4 @@ export default class UserStore {
   }
 }
 
-export const UserStoreContext = React.createContext(new UserStore());
+export const UserStoreContext = createContext(new UserStore());

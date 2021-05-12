@@ -19,7 +19,7 @@
   },
   "lint-staged": {
     "{src,apps,libs,test}/**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix"
+      "prettier --write"
     ]
   },
   "eslintConfig": {

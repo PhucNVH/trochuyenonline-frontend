@@ -17,7 +17,7 @@ const { Title } = Typography;
 
 export const LoginComponent = () => {
   const defaultOptions = {
-    loop: true,
+    loop: false,
     autoplay: true,
     animationData: animationData,
     rendererSettings: {

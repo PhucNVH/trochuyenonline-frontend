@@ -1,23 +1,12 @@
-import React from 'react';
+import { useState, useContext } from 'react';
 import Typography from 'antd/lib/typography';
 import {
-  CloseOutlined,
   UploadOutlined,
   QuestionCircleOutlined,
   CloseCircleTwoTone,
 } from '@ant-design/icons';
 import { useAuth } from '../hooks/use-auth';
-import {
-  Button,
-  Form,
-  List,
-  message,
-  Modal,
-  Upload,
-  Tooltip,
-  Row,
-  Card,
-} from 'antd';
+import { Button, Form, message, Modal, Upload, Tooltip, Row, Card } from 'antd';
 const { Title } = Typography;
 import ImgCrop from 'antd-img-crop';
 import FormButton from './commons/FormButton';
@@ -26,7 +15,7 @@ import { UserStoreContext } from '../stores/user.store';
 const AvatarModal = (props) => {
   const { form, user, handleUpdateProfile, handleCloseModal } = props;
 
-  const [fileList, setFileList] = React.useState([]);
+  const [fileList, setFileList] = useState([]);
 
   const createFormBeforeCreate = (value) => {
     if (value.target < 1) {
@@ -97,10 +86,10 @@ export default function Profile(props) {
   const { personalities, handleRemovePersonality } = props;
   const { user } = useAuth();
 
-  const userStore = React.useContext(UserStoreContext);
+  const userStore = useContext(UserStoreContext);
 
-  const [updateModalVisible, setUpdateModalVisible] = React.useState(false);
-  const [avatarUrl, setAvatarUrl] = React.useState(user.avatarUrl);
+  const [updateModalVisible, setUpdateModalVisible] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl);
 
   const handleCloseModal = () => {
     setUpdateModalVisible(false);
@@ -192,11 +181,14 @@ export default function Profile(props) {
               <div className="flex items-center">
                 <div className="w-1/12">
                   <div className="w-5 h-5 rounded-full border border-solid flex justify-center items-center">
-                    {i}
+                    {i + 1}
                   </div>
                 </div>
                 <div className="w-11/12 flex justify-between items-center">
-                  <p className="ml-0.5 mb-0 text-base">{item.mention}</p>
+                  <input
+                    className="ml-0.5 mb-0 text-base card-input"
+                    defaultValue={item.mention}
+                  ></input>
                   <CloseCircleTwoTone
                     twoToneColor="#FF0000"
                     className="text-xl"

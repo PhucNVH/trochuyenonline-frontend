@@ -8,7 +8,7 @@ import './style.less';
 import 'survey-react/modern.min.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 import ReactGA from 'react-ga';
-import { hotjar } from 'react-hotjar';
+// import { hotjar } from 'react-hotjar';
 
 ReactGA.initialize('G-10200MK17G', { debug: true });
 ReactGA.pageview(window.location.pathname + window.location.search);
@@ -20,7 +20,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-hotjar.initialize(2353561, 6);
+// hotjar.initialize(2353561, 6);
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

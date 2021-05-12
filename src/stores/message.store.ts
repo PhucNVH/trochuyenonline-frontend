@@ -1,5 +1,5 @@
+import { createContext } from 'react';
 import { action, makeObservable, observable } from 'mobx';
-import React from 'react';
 import { Message } from '../dto/messages/Message.dto';
 import messageService from '../apis/message.service';
 import { PaginationRequest } from '../dto/commons/PaginationRequest.dto';
@@ -42,4 +42,4 @@ export default class MessageStore {
   }
 }
 
-export const MessageStoreContext = React.createContext(new MessageStore());
+export const MessageStoreContext = createContext(new MessageStore());

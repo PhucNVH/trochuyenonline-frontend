@@ -14,6 +14,7 @@ import {
   Bubble,
 } from '@livechat/ui-kit';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import SearchBar from './SearchBar';
 
 const Maximized = ({
   handleSendMessage,
@@ -50,6 +51,7 @@ const Maximized = ({
             overflow: 'auto',
           }}
         >
+          {/* <SearchBar className="absolute top-5 left-5" /> */}
           <MessageList active containScrollInSubtree id="chat-area">
             {messages.map((e, i) => (
               <Message className="text-sm" isOwn={e.isOwn} key={i.toString()}>

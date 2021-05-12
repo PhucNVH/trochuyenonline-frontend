@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useCallback } from 'react';
 import ChatArea from '../components/ChatArea';
 import SideBar from '../components/SideBar';
 import Row from 'antd/lib/row';
@@ -105,7 +105,11 @@ const Chat = () => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
+    Chatbot.init();
+  }, []);
+
+  useEffect(() => {
     if (isDisconnected) {
       socket.emit('logout', user.token);
       logout();
@@ -117,7 +121,7 @@ const Chat = () => {
   };
 
   const handleFindPartner = () => {
-    setIsChatbotActive(true);
+    setIsChatbotActive(false);
     setMessage([]);
     socket.emit('find', {
       token: user.token,
@@ -126,7 +130,13 @@ const Chat = () => {
     setSelectedConversation(-1);
   };
 
+  const handleChatBot = () => {
+    setMessage([]);
+    setIsChatbotActive(true);
+  };
+
   const handleEndConversation = () => {
+    setIsChatbotActive(false);
     socket.emit('end', {
       token: user.token,
       conversationName,
@@ -185,7 +195,7 @@ const Chat = () => {
     getPersonality();
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (selectedConversation !== -1) {
       messageStore.getConversation(selectedConversation, {
         skip,
@@ -194,11 +204,11 @@ const Chat = () => {
     }
   }, [selectedConversation, skip, take]);
 
-  const getConversations = React.useCallback(() => {
+  const getConversations = useCallback(() => {
     conversationStore.get();
   }, []);
 
-  const getPersonality = React.useCallback(() => {
+  const getPersonality = useCallback(() => {
     personalityStore.get({
       skipPersonality,
       takePersonality,
@@ -209,11 +219,11 @@ const Chat = () => {
     setIsDisconnected(true);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     getPersonality();
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     socket.on(conversationName, (m) => {
       if (m === 'end') {
         getConversations();
@@ -258,7 +268,7 @@ const Chat = () => {
     return () => socket.off(conversationName);
   }, [conversationName]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isQueued) {
       setAlert(
         <Alert
@@ -278,7 +288,7 @@ const Chat = () => {
     }
   }, [isQueued]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isChatbotActive) {
       const storedMessage = messageStore.messages.map((m) => ({
         message: m.message,
@@ -297,15 +307,15 @@ const Chat = () => {
     }
   }, [messageStore.messages, isChatbotActive]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setPersonalities(personalityStore.personalities);
   }, [personalityStore.personalities]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     getConversations();
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setConversation(conversationStore.conversations);
   }, [conversationStore.conversations]);
 
@@ -315,6 +325,7 @@ const Chat = () => {
         handleFindPartner={handleFindPartner}
         handleEndConversation={handleEndConversation}
         handleGetConversation={handleGetConversation}
+        handleChatBot={handleChatBot}
         conversations={conversations}
         triggerSider={setIsCollapsed}
         isSiderCollapsed={isCollapsed}

@@ -1,5 +1,5 @@
+import { createContext } from 'react';
 import { action, makeObservable, observable } from 'mobx';
-import React from 'react';
 import personalityService from '../apis/personality.service';
 import { PaginationRequest } from '../dto/commons/PaginationRequest.dto';
 
@@ -37,6 +37,4 @@ export default class PersonalityStore {
   }
 }
 
-export const PersonalityStoreContext = React.createContext(
-  new PersonalityStore()
-);
+export const PersonalityStoreContext = createContext(new PersonalityStore());
