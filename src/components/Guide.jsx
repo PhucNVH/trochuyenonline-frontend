@@ -5,6 +5,7 @@ import {
   UserOutlined,
   CompassTwoTone,
   PauseCircleTwoTone,
+  EyeInvisibleOutlined,
 } from '@ant-design/icons';
 import Avatar from 'antd/lib/avatar';
 
@@ -53,6 +54,14 @@ export default function Guide({ isModalVisible, handleOk }) {
               <Avatar src={'/default_profile.jpg'} />: Cuộc trò chuyện đang diễn
               ra, chúng mình lưu trữ lại cuộc trò chuyện để bạn có thể tiếp tục
               trò chuyện với nhiều người
+            </li>
+            <li>
+              <EyeInvisibleOutlined
+                style={{ fontSize: '20px' }}
+                twoToneColor="#f88585"
+              />
+              : Bật tính năng này nếu bạn không muốn chúng mình lưu trữ tin nhắn
+              của bạn
             </li>
           </ul>
         </Paragraph>
