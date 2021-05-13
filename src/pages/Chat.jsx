@@ -23,6 +23,7 @@ import {
 } from '@ant-design/icons';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Chatbot } from '../apis/chatbot';
+import { SocketStoreContext } from '../stores/socket.store';
 
 const { Sider, Content } = Layout;
 
@@ -32,7 +33,7 @@ const Chat = () => {
   const location = useLocation();
   const isFirstLogin = false || (location.state && location.state.isFirstLogin);
   // const socket = io.connect('https://socket.trochuyenonline.com');
-  const socket = io.connect(process.env.REACT_APP_SOCKET_URI);
+  // const socket = io.connect(process.env.REACT_APP_SOCKET_URI);
 
   const [conversationName, setConversationName] = useState(null);
   const [partnerId, setPartnerId] = useState(-1);
@@ -57,10 +58,22 @@ const Chat = () => {
   const messageStore = useContext(MessageStoreContext);
   const conversationStore = useContext(ConversationStoreContext);
   const personalityStore = useContext(PersonalityStoreContext);
+  const socketStore = useContext(SocketStoreContext);
+  // const [socket, setSocket] = useState(socketStore.socket);
 
-  const history = useHistory();
+  const socket = socketStore.socket;
+
+  React.useEffect(() => {
+    console.log({ conponent: socket });
+  }, [socket]);
+
+  socket.on('result', () => {
+    console.log('test====');
+  });
 
   socket.on('finding', () => {
+    console.log('2222');
+
     setAlert(
       <Alert
         className="w-full"
@@ -76,7 +89,8 @@ const Chat = () => {
     );
   });
 
-  socket.on('joined', (data) => {
+  socket?.on('joined', (data) => {
+    console.log('1111');
     if (data.status === 'new') {
       handleFoundNotification();
       setSelectedConversation(-1);
@@ -102,7 +116,7 @@ const Chat = () => {
 
   React.useEffect(() => {
     if (isDisconnected) {
-      socket.emit('logout', user.token);
+      socket?.emit('logout', user.token);
       logout();
     }
   }, [isDisconnected]);
@@ -114,15 +128,16 @@ const Chat = () => {
   const handleFindPartner = () => {
     setIsChatbotActive(true);
     setMessage([]);
-    socket.emit('find', {
-      token: user.token,
-    });
+    // socket?.emit('find', {
+    //   token: user.token,
+    // });
+    socket.emit('test', {});
     getConversations();
     setSelectedConversation(-1);
   };
 
   const handleEndConversation = () => {
-    socket.emit('end', {
+    socket?.emit('end', {
       token: user.token,
       conversationName,
       selectedConversation,
@@ -142,7 +157,7 @@ const Chat = () => {
         ]);
       });
     } else {
-      socket.emit('message', {
+      socket?.emit('message', {
         token: user.token,
         conversationName,
         partnerId,
@@ -209,7 +224,7 @@ const Chat = () => {
   }, []);
 
   React.useEffect(() => {
-    socket.on(conversationName, (m) => {
+    socket?.on(conversationName, (m) => {
       if (m === 'end') {
         getConversations();
         setIsQueued(false);
@@ -250,7 +265,7 @@ const Chat = () => {
       ]);
     });
 
-    return () => socket.off(conversationName);
+    return () => socket?.off(conversationName);
   }, [conversationName]);
 
   React.useEffect(() => {
