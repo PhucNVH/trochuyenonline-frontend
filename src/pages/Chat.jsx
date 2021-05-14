@@ -59,49 +59,44 @@ const Chat = () => {
   const conversationStore = useContext(ConversationStoreContext);
   const personalityStore = useContext(PersonalityStoreContext);
   const socketStore = useContext(SocketStoreContext);
-  // const [socket, setSocket] = useState(socketStore.socket);
-
-  const socket = socketStore.socket;
+  const [socket, setSocket] = useState(socketStore.socket);
 
   React.useEffect(() => {
-    console.log({ conponent: socket });
+    socket.on('finding', () => {
+      setAlert(
+        <Alert
+          className="w-full"
+          message="Đang tìm người trò chuyện"
+          description="Nhanh thôi, bạn chờ tí nhé. Trong lúc chờ đợi, hãy chat với chat bot của tụi mình nhé"
+          type="info"
+          showIcon
+          icon={
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+            />
+          }
+          closeText="Mình hiểu rồi"
+        />
+      );
+    });
+
+    socket.on('joined', (data) => {
+      if (data.status === 'new') {
+        handleFoundNotification();
+        setSelectedConversation(-1);
+        setMessage([]);
+        getConversations();
+        // handleNewConversation(data.avatarUrl);
+      }
+      handleSetConversationName(data.conversationName);
+      setPartnerId(data.partnerId);
+      setAlert(null);
+    });
   }, [socket]);
 
-  socket.on('result', () => {
-    console.log('test====');
-  });
-
-  socket.on('finding', () => {
-    console.log('2222');
-
-    setAlert(
-      <Alert
-        className="w-full"
-        message="Đang tìm người trò chuyện"
-        description="Nhanh thôi, bạn chờ tí nhé. Trong lúc chờ đợi, hãy chat với chat bot của tụi mình nhé"
-        type="info"
-        showIcon
-        icon={
-          <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
-        }
-        closeText="Mình hiểu rồi"
-      />
-    );
-  });
-
-  socket?.on('joined', (data) => {
-    console.log('1111');
-    if (data.status === 'new') {
-      handleFoundNotification();
-      setSelectedConversation(-1);
-      setMessage([]);
-      getConversations();
-      // handleNewConversation(data.avatarUrl);
-    }
-    handleSetConversationName(data.conversationName);
-    setPartnerId(data.partnerId);
-    setAlert(null);
-  });
+  React.useEffect(() => {
+    Chatbot.init();
+  }, []);
 
   const logout = async () => {
     const result = await Auth.logout();
@@ -111,12 +106,8 @@ const Chat = () => {
   };
 
   React.useEffect(() => {
-    Chatbot.init();
-  }, []);
-
-  React.useEffect(() => {
     if (isDisconnected) {
-      socket?.emit('logout', user.token);
+      socket.emit('logout', user.token);
       logout();
     }
   }, [isDisconnected]);
@@ -128,16 +119,15 @@ const Chat = () => {
   const handleFindPartner = () => {
     setIsChatbotActive(true);
     setMessage([]);
-    // socket?.emit('find', {
-    //   token: user.token,
-    // });
-    socket.emit('test', {});
+    socket.emit('find', {
+      token: user.token,
+    });
     getConversations();
     setSelectedConversation(-1);
   };
 
   const handleEndConversation = () => {
-    socket?.emit('end', {
+    socket.emit('end', {
       token: user.token,
       conversationName,
       selectedConversation,
@@ -157,7 +147,7 @@ const Chat = () => {
         ]);
       });
     } else {
-      socket?.emit('message', {
+      socket.emit('message', {
         token: user.token,
         conversationName,
         partnerId,
@@ -224,7 +214,7 @@ const Chat = () => {
   }, []);
 
   React.useEffect(() => {
-    socket?.on(conversationName, (m) => {
+    socket.on(conversationName, (m) => {
       if (m === 'end') {
         getConversations();
         setIsQueued(false);
@@ -265,7 +255,7 @@ const Chat = () => {
       ]);
     });
 
-    return () => socket?.off(conversationName);
+    return () => socket.off(conversationName);
   }, [conversationName]);
 
   React.useEffect(() => {
