@@ -23,6 +23,7 @@ import {
 } from '@ant-design/icons';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Chatbot } from '../apis/chatbot';
+import { SocketStoreContext } from '../stores/socket.store';
 
 const { Sider, Content } = Layout;
 
@@ -32,7 +33,7 @@ const Chat = () => {
   const location = useLocation();
   const isFirstLogin = false || (location.state && location.state.isFirstLogin);
   // const socket = io.connect('https://socket.trochuyenonline.com');
-  const socket = io.connect(process.env.REACT_APP_SOCKET_URI);
+  // const socket = io.connect(process.env.REACT_APP_SOCKET_URI);
 
   const [conversationName, setConversationName] = useState(null);
   const [partnerId, setPartnerId] = useState(-1);
@@ -57,37 +58,45 @@ const Chat = () => {
   const messageStore = useContext(MessageStoreContext);
   const conversationStore = useContext(ConversationStoreContext);
   const personalityStore = useContext(PersonalityStoreContext);
+  const socketStore = useContext(SocketStoreContext);
+  const [socket, setSocket] = useState(socketStore.socket);
 
-  const history = useHistory();
+  React.useEffect(() => {
+    socket.on('finding', () => {
+      setAlert(
+        <Alert
+          className="w-full"
+          message="Đang tìm người trò chuyện"
+          description="Nhanh thôi, bạn chờ tí nhé. Trong lúc chờ đợi, hãy chat với chat bot của tụi mình nhé"
+          type="info"
+          showIcon
+          icon={
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+            />
+          }
+          closeText="Mình hiểu rồi"
+        />
+      );
+    });
 
-  socket.on('finding', () => {
-    setAlert(
-      <Alert
-        className="w-full"
-        message="Đang tìm người trò chuyện"
-        description="Nhanh thôi, bạn chờ tí nhé. Trong lúc chờ đợi, hãy chat với chat bot của tụi mình nhé"
-        type="info"
-        showIcon
-        icon={
-          <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
-        }
-        closeText="Mình hiểu rồi"
-      />
-    );
-  });
+    socket.on('joined', (data) => {
+      if (data.status === 'new') {
+        handleFoundNotification();
+        setSelectedConversation(-1);
+        setMessage([]);
+        getConversations();
+        // handleNewConversation(data.avatarUrl);
+      }
+      handleSetConversationName(data.conversationName);
+      setPartnerId(data.partnerId);
+      setAlert(null);
+    });
+  }, [socket]);
 
-  socket.on('joined', (data) => {
-    if (data.status === 'new') {
-      handleFoundNotification();
-      setSelectedConversation(-1);
-      setMessage([]);
-      getConversations();
-      // handleNewConversation(data.avatarUrl);
-    }
-    handleSetConversationName(data.conversationName);
-    setPartnerId(data.partnerId);
-    setAlert(null);
-  });
+  React.useEffect(() => {
+    Chatbot.init();
+  }, []);
 
   const logout = async () => {
     const result = await Auth.logout();
@@ -95,10 +104,6 @@ const Chat = () => {
       history.push('/dang-nhap');
     }
   };
-
-  React.useEffect(() => {
-    Chatbot.init();
-  }, []);
 
   React.useEffect(() => {
     if (isDisconnected) {
