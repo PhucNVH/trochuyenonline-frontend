@@ -2,39 +2,32 @@ import React, { useState } from 'react';
 import LogoutOutlined from '@ant-design/icons/LogoutOutlined';
 import UserOutlined from '@ant-design/icons/UserOutlined';
 import CompassTwoTone from '@ant-design/icons/CompassTwoTone';
-import PauseCircleTwoTone from '@ant-design/icons/PauseCircleTwoTone';
 import FacebookOutlined from '@ant-design/icons/FacebookOutlined';
-import div from 'antd/lib/button';
 import Modal from 'antd/lib/modal';
-import Badge from 'antd/lib/badge';
-import Avatar from 'antd/lib/avatar';
 import Divider from 'antd/lib/divider';
-import {
-  BookTwoTone,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  CloseCircleOutlined,
-} from '@ant-design/icons';
+import { BookTwoTone } from '@ant-design/icons';
 import Sider from 'antd/lib/layout/Sider';
 import Guide from './Guide';
 import ChatBotImage from '../asset/chatbot.png';
+import UserCard from './UserCard';
 
-export default function SideBar(props) {
-  const {
-    handleFindPartner,
-    handleEndConversation,
-    handleGetConversation,
-    handleChatBot,
-    triggerSider,
-    conversations,
-    handleDisconnected,
-    isFirstLogin,
-    isSiderCollapsed,
-  } = props;
-
+export default function SideBar({
+  handleFindPartner,
+  handleEndConversation,
+  numUser,
+  handleGetConversation,
+  handleChatBot,
+  isChatbotActive,
+  triggerSider,
+  conversations,
+  handleDisconnected,
+  isFirstLogin,
+  isSiderCollapsed,
+  onlineUsers,
+}) {
   const [isVisible, setVisible] = useState(false);
   const [isVisibleGuide, setVisibleGuide] = useState(isFirstLogin);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  console.log('re render');
   const showModal = () => {
     setVisible(true);
   };
@@ -74,15 +67,25 @@ export default function SideBar(props) {
         >
           {isCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
         </Button> */}
-
-        <marquee
-          className="text-white w-16 sm:w-52"
-          behavior="scroll"
-          direction="left"
-          bgcolor="#72bbd3"
-        >
-          Có 321 user đang online. Chat ngay nào!
-        </marquee>
+        {numUser > 0 ? (
+          <marquee
+            className="text-white w-16 sm:w-52"
+            behavior="scroll"
+            direction="left"
+            bgcolor="#72bbd3"
+          >
+            Có {numUser} user đang online. Chat ngay nào!
+          </marquee>
+        ) : (
+          <marquee
+            className="text-white w-16 sm:w-52"
+            behavior="scroll"
+            direction="left"
+            bgcolor="#72bbd3"
+          >
+            Không có user nào đang online. Hãy thử chat với chatbot nhé!
+          </marquee>
+        )}
         <div
           className="sidebar-button"
           onClick={() => {
@@ -119,7 +122,7 @@ export default function SideBar(props) {
         </div>
         <div
           className="sidebar-button"
-          onClick={handleChatBot}
+          onClick={isChatbotActive ? null : handleChatBot}
           title="Chat với bot"
         >
           <div className="sidebar-icon px-2">
@@ -153,32 +156,18 @@ export default function SideBar(props) {
         className="text-white text-base sm:text-xs"
         style={{ borderColor: '#72bbd3' }}
       ></Divider>
-      {conversations.map((c) => (
-        <div
-          className="user-item flex justify-center sm:justify-between items-center cursor-pointer p-1.5 mb-2"
-          onClick={() => handleGetConversation(c)}
-          key={c.id}
-        >
-          <div className="mr-0 sm:mr-1 w-full sm:w-1/4 text-center">
-            <Badge dot={true} color="green" className="mt-1" size="small">
-              <Avatar
-                size="small"
-                src={c.conversationUser.avatarUrl || '/default_profile.jpg'}
-              />
-              <p className="mb-0 text-white text-xs leading-3">
-                {c.conversationUser.username}
-              </p>
-            </Badge>
-          </div>
-          <div className="hidden sm:flex w-3/4 justify-around items-center">
-            <p className="mb-0 text-sm text-white truncate">Xin chào</p>
-            <CloseCircleOutlined
-              onClick={handleEndConversation}
-              className="w-4 h-4 ml-1 text-red-500"
-            />
-          </div>
-        </div>
-      ))}
+      {conversations.map((c) => {
+        console.log(c.message.message);
+        return (
+          <UserCard
+            handleGetConversation={handleGetConversation}
+            handleEndConversation={handleEndConversation}
+            conv={c}
+            key={c.id}
+            isOnline={onlineUsers.includes(c.conversationUser.username)}
+          />
+        );
+      })}
 
       <div className="absolute w-full bottom-2 flex justify-center items-center ml-auto mr-2">
         <a
@@ -193,3 +182,4 @@ export default function SideBar(props) {
     </Sider>
   );
 }
+export const MemoizedSideBar = React.memo(SideBar);

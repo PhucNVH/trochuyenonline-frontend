@@ -1,22 +1,17 @@
 import { useState, useContext } from 'react';
 import Typography from 'antd/lib/typography';
-import {
-  UploadOutlined,
-  QuestionCircleOutlined,
-  CloseCircleTwoTone,
-} from '@ant-design/icons';
+import { UploadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { useAuth } from '../hooks/use-auth';
 import { Button, Form, message, Modal, Upload, Tooltip, Row, Card } from 'antd';
 const { Title } = Typography;
 import ImgCrop from 'antd-img-crop';
 import FormButton from './commons/FormButton';
 import { UserStoreContext } from '../stores/user.store';
+import PersonalityCard from './PersonalityCard';
 
 const AvatarModal = (props) => {
   const { form, user, handleUpdateProfile, handleCloseModal } = props;
-
   const [fileList, setFileList] = useState([]);
-
   const createFormBeforeCreate = (value) => {
     if (value.target < 1) {
       return message.error('Please set an valid amount target');
@@ -170,33 +165,14 @@ export default function Profile(props) {
             </Tooltip>
           </Row>
         </Title>
-        {personalities.map((item, i) => {
+        {personalities.map((item, index) => {
           return (
-            <Card
-              size="small"
-              className="w-11/12 max-h-12 mb-4 border-0 text-white fact-card px-0.5"
-              hoverable
-              key={i.toString()}
-            >
-              <div className="flex items-center">
-                <div className="w-1/12">
-                  <div className="w-5 h-5 rounded-full border border-solid flex justify-center items-center">
-                    {i + 1}
-                  </div>
-                </div>
-                <div className="w-11/12 flex justify-between items-center">
-                  <input
-                    className="ml-0.5 mb-0 text-base card-input"
-                    defaultValue={item.mention}
-                  ></input>
-                  <CloseCircleTwoTone
-                    twoToneColor="#FF0000"
-                    className="text-xl"
-                    onClick={() => handleRemovePersonality(item)}
-                  />
-                </div>
-              </div>
-            </Card>
+            <PersonalityCard
+              item={item}
+              index={index}
+              key={index.toString()}
+              onRemove={handleRemovePersonality}
+            />
           );
         })}
       </div>

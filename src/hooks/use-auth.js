@@ -2,10 +2,7 @@ import React, { useState, useContext, createContext, useEffect } from 'react';
 import { Auth } from '../apis/auth';
 import Loading from '../components/Loading';
 import { useLocalStorage } from './use-localstorage';
-import { message } from 'antd';
 import { toast } from 'react-toastify';
-import { retrieveFromStorage } from '../utils/storage.util';
-import { LOCAL_STORAGE_KEY } from '../dto/constants/local-storage.constants';
 
 const authContext = createContext();
 
