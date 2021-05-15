@@ -34,7 +34,7 @@ export const SignupComponent = () => {
   };
 
   const defaultOptions = {
-    loop: true,
+    loop: false,
     autoplay: true,
     animationData: animationData,
     rendererSettings: {

@@ -1,5 +1,5 @@
+import React, { createContext } from 'react';
 import { action, makeObservable, observable } from 'mobx';
-import React from 'react';
 import conversationService from '../apis/conversation.service';
 
 export default class ConversationStore {
@@ -32,6 +32,4 @@ export default class ConversationStore {
   }
 }
 
-export const ConversationStoreContext = React.createContext(
-  new ConversationStore()
-);
+export const ConversationStoreContext = createContext(new ConversationStore());

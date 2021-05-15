@@ -1,3 +1,4 @@
+import { useContext, useEffect } from 'react';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -39,8 +40,8 @@ function UnauthorizedRoute({ path, children }) {
 }
 
 function App() {
-  const firebaseStore = React.useContext(FirebaseStoreContext);
-  const notiStore = React.useContext(NotificationStoreContext);
+  const firebaseStore = useContext(FirebaseStoreContext);
+  const notiStore = useContext(NotificationStoreContext);
 
   if ('serviceWorker' in navigator) {
     // Supported!
@@ -49,7 +50,7 @@ function App() {
     });
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (messaging) {
       messaging
         .getToken()
@@ -63,7 +64,7 @@ function App() {
     }
   }, [firebaseStore]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const deviceId = retrieveFromStorage(LOCAL_STORAGE_KEY.DEVICE_TOKEN);
     if (deviceId) {
       console.log({ deviceId });
