@@ -10,24 +10,21 @@ import Sider from 'antd/lib/layout/Sider';
 import Guide from './Guide';
 import ChatBotImage from '../asset/chatbot.png';
 import UserCard from './UserCard';
+import { useConversation } from '../hooks/use-conversation.js';
 
 export default function SideBar({
-  handleFindPartner,
-  handleEndConversation,
   numUser,
-  handleGetConversation,
-  handleChatBot,
-  isChatbotActive,
   triggerSider,
-  conversations,
+  isSiderCollapsed,
   handleDisconnected,
   isFirstLogin,
-  isSiderCollapsed,
   onlineUsers,
 }) {
+  const { conversations, handleFindPartner } = useConversation();
+  console.log(conversations);
   const [isVisible, setVisible] = useState(false);
   const [isVisibleGuide, setVisibleGuide] = useState(isFirstLogin);
-  console.log('re render');
+
   const showModal = () => {
     setVisible(true);
   };
@@ -120,11 +117,7 @@ export default function SideBar({
           <CompassTwoTone className="sidebar-icon " />
           <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Tìm kiếm</p>
         </div>
-        <div
-          className="sidebar-button"
-          onClick={isChatbotActive ? null : handleChatBot}
-          title="Chat với bot"
-        >
+        <div className="sidebar-button" title="Chat với bot">
           <div className="sidebar-icon px-2">
             <img
               src={ChatBotImage}
@@ -157,11 +150,8 @@ export default function SideBar({
         style={{ borderColor: '#72bbd3' }}
       ></Divider>
       {conversations.map((c) => {
-        console.log(c.message.message);
         return (
           <UserCard
-            handleGetConversation={handleGetConversation}
-            handleEndConversation={handleEndConversation}
             conv={c}
             key={c.id}
             isOnline={onlineUsers.includes(c.conversationUser.username)}

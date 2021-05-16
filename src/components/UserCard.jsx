@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import { Badge, Avatar } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import CloseConversation from './modals/CloseConversation';
+import { useConversation } from '../hooks/use-conversation.js';
 
-export default function UserCard({
-  handleGetConversation,
-  handleEndConversation,
-  conv,
-  isOnline,
-}) {
+export default function UserCard({ conv, isOnline }) {
+  const { handleEndConversation, handleSelectConversation } = useConversation();
   const [isVisibleClose, setIsVisibleClose] = useState(false);
+
   const handleOkClose = () => {
-    handleEndConversation();
+    handleEndConversation(conv);
     setIsVisibleClose(false);
   };
   const handleCancelClose = () => {
@@ -21,7 +19,7 @@ export default function UserCard({
   return (
     <div
       className="user-item flex justify-center sm:justify-between items-center cursor-pointer p-1.5 mb-2"
-      onClick={() => handleGetConversation(conv)}
+      onClick={() => handleSelectConversation(conv)}
     >
       <div className="mr-0 sm:mr-1 w-full sm:w-1/4 text-center">
         <Badge

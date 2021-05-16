@@ -1,86 +1,18 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect, useCallback } from 'react';
 import Typography from 'antd/lib/typography';
 import { UploadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { useAuth } from '../hooks/use-auth';
-import { Button, Form, message, Modal, Upload, Tooltip, Row, Card } from 'antd';
+import { Button, Form, message, Modal, Upload, Tooltip, Row } from 'antd';
 const { Title } = Typography;
 import ImgCrop from 'antd-img-crop';
 import FormButton from './commons/FormButton';
-import { UserStoreContext } from '../stores/user.store';
 import PersonalityCard from './PersonalityCard';
+import { UserStoreContext } from '../stores/user.store';
+import { PersonalityStoreContext } from '../stores/personality.store';
+import { PER_PAGE_OPTIONS } from '../dto/commons/PaginationRequest.dto';
 
-const AvatarModal = (props) => {
-  const { form, user, handleUpdateProfile, handleCloseModal } = props;
-  const [fileList, setFileList] = useState([]);
-  const createFormBeforeCreate = (value) => {
-    if (value.target < 1) {
-      return message.error('Please set an valid amount target');
-    }
-    handleUpdateProfile({
-      ...value,
-      images: fileList,
-    });
-    setFileList([]);
-  };
-
-  return (
-    <Form
-      labelCol={{ span: 7 }}
-      wrapperCol={{ span: 19 }}
-      layout="horizontal"
-      onFinish={(value) => {
-        createFormBeforeCreate(value);
-      }}
-      scrollToFirstError
-      form={form}
-    >
-      <Form.Item label="Tên đăng nhập">{user.username}</Form.Item>
-
-      <Form.Item label="Ảnh đại diện">
-        <ImgCrop rotate>
-          <Upload
-            multiple={true}
-            name="file"
-            listType="text"
-            fileList={fileList}
-            showUploadList={{ showRemoveIcon: true }}
-            beforeUpload={(file) => {
-              setFileList([...fileList, file]);
-              return false;
-            }}
-            onRemove={(file) => {
-              const list = fileList.filter((f) => {
-                if (f.uid !== file.uid) {
-                  return true;
-                }
-                return false;
-              });
-              setFileList(list);
-            }}
-          >
-            <Button>
-              <UploadOutlined /> Chọn tệp
-            </Button>
-          </Upload>
-        </ImgCrop>
-      </Form.Item>
-
-      <FormButton
-        handleCloseModal={handleCloseModal}
-        submit={
-          <Button className="ml-2" type="primary" htmlType="submit">
-            Cập nhật
-          </Button>
-        }
-      />
-    </Form>
-  );
-};
-
-export default function Profile(props) {
-  const { personalities, handleRemovePersonality } = props;
+export default function Profile() {
   const { user } = useAuth();
-
   const userStore = useContext(UserStoreContext);
 
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
@@ -94,7 +26,6 @@ export default function Profile(props) {
 
   const handleUpdateProfile = async (values) => {
     const result = await userStore.uploadAvatar(values);
-
     if (result) {
       message.success('Success!');
       const data = await userStore.getUser(user.token);
@@ -102,6 +33,31 @@ export default function Profile(props) {
       handleCloseModal();
     }
   };
+
+  const personalityStore = useContext(PersonalityStoreContext);
+  const [skipPersonality, setSkipPersonality] = useState(0);
+  const [takePersonality, setTakePersonality] = useState(+PER_PAGE_OPTIONS[0]);
+  const [personalities, setPersonalities] = useState([]);
+
+  useEffect(() => {
+    getPersonality();
+  }, []);
+
+  useEffect(() => {
+    setPersonalities(personalityStore.personalities);
+  }, [personalityStore.personalities]);
+
+  const handleRemovePersonality = async (values) => {
+    await personalityStore.remove(values.id);
+    getPersonality();
+  };
+
+  const getPersonality = useCallback(() => {
+    personalityStore.get({
+      skipPersonality,
+      takePersonality,
+    });
+  }, [skipPersonality, takePersonality]);
 
   return (
     <div
@@ -179,3 +135,72 @@ export default function Profile(props) {
     </div>
   );
 }
+
+const AvatarModal = (props) => {
+  const { form, user, handleUpdateProfile, handleCloseModal } = props;
+  const [fileList, setFileList] = useState([]);
+
+  const createFormBeforeCreate = (value) => {
+    if (value.target < 1) {
+      return message.error('Please set an valid amount target');
+    }
+    handleUpdateProfile({
+      ...value,
+      images: fileList,
+    });
+    setFileList([]);
+  };
+
+  return (
+    <Form
+      labelCol={{ span: 7 }}
+      wrapperCol={{ span: 19 }}
+      layout="horizontal"
+      onFinish={(value) => {
+        createFormBeforeCreate(value);
+      }}
+      scrollToFirstError
+      form={form}
+    >
+      <Form.Item label="Tên đăng nhập">{user.username}</Form.Item>
+
+      <Form.Item label="Ảnh đại diện">
+        <ImgCrop rotate>
+          <Upload
+            multiple={true}
+            name="file"
+            listType="text"
+            fileList={fileList}
+            showUploadList={{ showRemoveIcon: true }}
+            beforeUpload={(file) => {
+              setFileList([...fileList, file]);
+              return false;
+            }}
+            onRemove={(file) => {
+              const list = fileList.filter((f) => {
+                if (f.uid !== file.uid) {
+                  return true;
+                }
+                return false;
+              });
+              setFileList(list);
+            }}
+          >
+            <Button>
+              <UploadOutlined /> Chọn tệp
+            </Button>
+          </Upload>
+        </ImgCrop>
+      </Form.Item>
+
+      <FormButton
+        handleCloseModal={handleCloseModal}
+        submit={
+          <Button className="ml-2" type="primary" htmlType="submit">
+            Cập nhật
+          </Button>
+        }
+      />
+    </Form>
+  );
+};
