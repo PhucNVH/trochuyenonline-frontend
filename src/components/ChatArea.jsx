@@ -23,16 +23,16 @@ import {
 import UserInfoBar from './UserInfoBar';
 import EmojiPicker from './EmojiPicker';
 
-const Maximized = ({
-  avatarUrl,
-  handleSendMessage,
-  messages,
-  alert,
-  setTake,
-  isSensitive,
-  handleSensitive,
-  isFetching,
-}) => {
+import { useConversation } from '../hooks/use-conversation.js';
+
+const Maximized = ({ avatarUrl, alert, isFetching }) => {
+  const {
+    handleSendMessage,
+    isSensitive,
+    setIsSensitive,
+    messages,
+    setTake,
+  } = useConversation();
   const [inputValue, setInputValue] = useState('');
   const textInputRef = useRef(null);
   useEffect(() => {
@@ -117,13 +117,7 @@ const Maximized = ({
             })}
           </MessageList>
         </div>
-        <TextComposer
-          ref={textInputRef}
-          value={inputValue}
-          onChange={(e) => {
-            console.log(e, textInputRef);
-          }}
-        >
+        <TextComposer>
           <Row align="center">
             <Fill>
               <Input.Group className="flex" compact>
@@ -131,7 +125,7 @@ const Maximized = ({
                   <div
                     className="mx-1"
                     style={{ fontSize: '18px', color: '#08c' }}
-                    onClick={() => handleSensitive(!isSensitive)}
+                    onClick={() => setIsSensitive(!isSensitive)}
                   >
                     {isSensitive ? <EyeInvisibleOutlined /> : <EyeOutlined />}
                   </div>

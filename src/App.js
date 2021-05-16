@@ -67,7 +67,6 @@ function App() {
   useEffect(() => {
     const deviceId = retrieveFromStorage(LOCAL_STORAGE_KEY.DEVICE_TOKEN);
     if (deviceId) {
-      console.log({ deviceId });
       userService.registerToken(deviceId);
     }
   }, []);

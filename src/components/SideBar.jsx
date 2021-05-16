@@ -13,15 +13,19 @@ import UserCard from './UserCard';
 import { useConversation } from '../hooks/use-conversation.js';
 
 export default function SideBar({
-  numUser,
   triggerSider,
   isSiderCollapsed,
-  handleDisconnected,
+
   isFirstLogin,
-  onlineUsers,
 }) {
-  const { conversations, handleFindPartner } = useConversation();
-  console.log(conversations);
+  const {
+    conversations,
+    handleFindPartner,
+    handleDisconnected,
+    handleChatbot,
+    numUser,
+    onlineUsers,
+  } = useConversation();
   const [isVisible, setVisible] = useState(false);
   const [isVisibleGuide, setVisibleGuide] = useState(isFirstLogin);
 
@@ -117,7 +121,14 @@ export default function SideBar({
           <CompassTwoTone className="sidebar-icon " />
           <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Tìm kiếm</p>
         </div>
-        <div className="sidebar-button" title="Chat với bot">
+        <div
+          className="sidebar-button"
+          title="Chat với bot"
+          onClick={() => {
+            console.log('aggsa', handleChatbot);
+            handleChatbot();
+          }}
+        >
           <div className="sidebar-icon px-2">
             <img
               src={ChatBotImage}

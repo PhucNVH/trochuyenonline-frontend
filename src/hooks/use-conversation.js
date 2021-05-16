@@ -1,11 +1,4 @@
-import React, {
-  useState,
-  useContext,
-  createContext,
-  useEffect,
-  useCallback,
-} from 'react';
-import { useObserver, useLocalStore } from 'mobx-react';
+import React, { useState, useContext, createContext, useEffect } from 'react';
 import {
   FrownOutlined,
   AlertOutlined,
@@ -13,7 +6,6 @@ import {
   SmileOutlined,
 } from '@ant-design/icons';
 import notification from 'antd/lib/notification';
-import Alert from 'antd/lib/alert';
 import Spin from 'antd/lib/spin';
 import conversationService from '../apis/conversation.service.ts';
 import { MessageStoreContext } from '../stores/message.store';
@@ -21,6 +13,8 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/use-auth';
 import { SocketStoreContext } from '../stores/socket.store';
 import { PER_PAGE_OPTIONS } from '../dto/commons/PaginationRequest.dto';
+import messageService from '../apis/message.service';
+import { Chatbot } from '../apis/chatbot';
 
 const conversationContext = createContext();
 
@@ -40,21 +34,22 @@ export const useConversation = () => {
 function useProvideConversation() {
   const { user } = useAuth();
   const history = useHistory();
+  const Auth = useAuth();
   const [currentConversation, setCurrentConversation] = useState(-1);
   const [isChatbotActive, setIsChatbotActive] = useState(false);
   const [conversationName, setConversationName] = useState('');
+  const [isDisconnected, setIsDisconnected] = useState(false);
   const [conversations, setConversations] = useState([]);
-  const [message, setMessage] = useState([]);
+  const [messages, setMessage] = useState([]);
   const socketStore = useContext(SocketStoreContext);
   const socket = socketStore.socket;
-  const [alert, setAlert] = useState(null);
   const [isQueued, setIsQueued] = useState(false);
   const [numUser, setNumUser] = useState(0);
   const [listUser, setListUser] = useState([]);
   const [skip, setSkip] = useState(0);
   const [take, setTake] = useState(+PER_PAGE_OPTIONS[1]);
   const [partnerId, setPartnerId] = useState(-1);
-  const messageStore = useContext(MessageStoreContext);
+  const [isSensitive, setIsSensitive] = useState(false);
 
   useEffect(() => {
     getAll();
@@ -86,9 +81,7 @@ function useProvideConversation() {
     });
 
     socket.on('joined', (data) => {
-      console.log(data);
       if (data.status === 'new') {
-        console.log('abcdef');
         handleFoundNotification();
         setCurrentConversation(-1);
         setMessage([]);
@@ -96,7 +89,6 @@ function useProvideConversation() {
       }
       setConversationName(data.conversationName);
       setPartnerId(data.partnerId);
-      setAlert(null);
     });
 
     socket.on('online', (data) => {
@@ -105,7 +97,6 @@ function useProvideConversation() {
   }, [socket]);
 
   useEffect(() => {
-    console.log(conversationName);
     socket.on(conversationName, (m) => {
       if (m === 'end') {
         setIsQueued(false);
@@ -140,7 +131,6 @@ function useProvideConversation() {
         });
         history.push('/dang-nhap');
       }
-
       setMessage((prev) => [
         ...prev,
         {
@@ -154,10 +144,23 @@ function useProvideConversation() {
     return () => socket.off(conversationName);
   }, [conversationName]);
 
+  useEffect(() => {
+    if (isDisconnected) {
+      socket.emit('logout', user.token);
+      logout();
+    }
+  }, [isDisconnected]);
+
+  const logout = async () => {
+    const result = await Auth.logout();
+    if (result.success === true) {
+      history.push('/dang-nhap');
+    }
+  };
+
   const handleFindPartner = () => {
     setIsChatbotActive(false);
     setMessage([]);
-    console.log('test');
     socket.emit('find', {
       token: user.token,
     });
@@ -165,21 +168,25 @@ function useProvideConversation() {
     setCurrentConversation(-1);
   };
 
-  const handleChatBot = () => {
+  const handleChatbot = () => {
+    console.log('d');
     setMessage([]);
     setIsChatbotActive(true);
+    notification.open({
+      message: 'Chatbot',
+      description: 'Bạn có thể chat với bot ngay bây giờ!',
+      icon: <SmileOutlined style={{ color: '#108ee9' }} />,
+    });
   };
 
   const handleEndConversation = (conv) => {
     setIsChatbotActive(false);
-    console.log(conv);
     socket.emit('end', {
       token: user.token,
       conversationName: conv.name,
       selectedConversation: conv.id,
       partnerId: conv.conversationUser.id,
     });
-    console.log('end');
 
     setCurrentConversation(-1);
   };
@@ -213,10 +220,6 @@ function useProvideConversation() {
     }
   };
 
-  const handleSensitive = (value) => {
-    setIsSensitive(value);
-  };
-
   const handleFoundNotification = () => {
     setIsChatbotActive(false);
     notification.open({
@@ -230,9 +233,9 @@ function useProvideConversation() {
   const handleSelectConversation = (values) => {
     setIsChatbotActive(false);
     setCurrentConversation(values.id);
+    setPartnerId(values.conversationUser.id);
     setConversationName(values.name);
-    setAlert(null);
-    getAll();
+    getMessage(values.id);
   };
 
   // useEffect(() => {
@@ -250,13 +253,21 @@ function useProvideConversation() {
 
   const getAll = async () => {
     const { data, count } = await conversationService.get();
-    console.log(data);
     setConversations(data);
   };
 
-  const get = async (conversation) => {
-    await conversationService.get(conversation);
-    setCurrentConversation(conversation);
+  const getMessage = async (conversation) => {
+    const { data, count } = await messageService.getConversation(conversation, {
+      skip,
+      take,
+    });
+
+    const storedMessage = data.map((m) => ({
+      message: m.message,
+      isOwn: m.senderInfo.id === user.id,
+      updatedAt: m.updatedAt,
+    }));
+    setMessage(storedMessage.reverse());
   };
 
   const send = (message) => {
@@ -270,12 +281,20 @@ function useProvideConversation() {
   // const find = () => {};
   return {
     currentConversation,
+    handleChatbot,
     handleFindPartner,
     handleSelectConversation,
     handleEndConversation,
+    handleSendMessage,
     conversations,
-    message,
+    messages,
     send,
     clear,
+    isSensitive,
+    setIsSensitive,
+    setTake,
+    handleDisconnected,
+    numUser,
+    onlineUsers: listUser,
   };
 }

@@ -29,7 +29,6 @@ export const LoginComponent = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const onFinish = async (values) => {
     const res = await login(values);
-    console.log(res);
     if (res && res.success === true && res.result.isFirstLogin == true) {
       history.push('khao-sat');
       return;
