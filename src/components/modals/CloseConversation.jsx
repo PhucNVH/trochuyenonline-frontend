@@ -16,7 +16,7 @@ export default function CloseConversation({
 
   return (
     <Modal
-      title={'Xóa cuộc trò chuyện'}
+      title={'Kết thúc cuộc trò chuyện'}
       className="top-8"
       visible={isModalVisible}
       width={700}

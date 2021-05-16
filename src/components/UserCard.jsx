@@ -42,7 +42,7 @@ export default function UserCard({
         </p>
         <div className="ml-1">
           <CloseCircleOutlined
-            title="Xóa cuộc trò chuyện"
+            title="Kết thúc cuộc trò chuyện"
             onClick={() => {
               setIsVisibleClose(true);
             }}

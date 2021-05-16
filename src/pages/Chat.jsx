@@ -15,7 +15,7 @@ import { PER_PAGE_OPTIONS } from '../dto/commons/PaginationRequest.dto';
 import { observer } from 'mobx-react';
 import { ConversationStoreContext } from '../stores/conversation.store';
 import { PersonalityStoreContext } from '../stores/personality.store';
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined, FrownOutlined } from '@ant-design/icons';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Chatbot } from '../apis/chatbot';
 import { SocketStoreContext } from '../stores/socket.store';
@@ -57,13 +57,15 @@ const Chat = () => {
   const [socket, setSocket] = useState(socketStore.socket);
   const [numUser, setNumUser] = useState(0);
   const [listUser, setListUser] = useState([]);
-  const [isFetching, setIsFetching] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
   React.useEffect(() => {
     socket.emit('online', { username: user.username });
     socket.on('connected', (data) => {
       setNumUser(data.numUser);
       setListUser(data.onlineUsers);
+
+      console.log({ onlineUser: data.onlineUsers, numUser: data.numUser });
     });
     socket.on('online', (data) => {
       setNumUser(data.numUser);
@@ -277,7 +279,7 @@ const Chat = () => {
   }, [selectedConversation, skip, take]);
 
   const getConversations = useCallback(() => {
-    conversationStore.get();
+    return conversationStore.get();
   }, []);
 
   const getPersonality = useCallback(() => {
@@ -371,15 +373,17 @@ const Chat = () => {
         <Layout className="App">
           <Layout>
             <Content>
-              <ChatArea
-                handleSendMessage={handleSendMessage}
-                messages={message}
-                alert={alert}
-                setTake={setTake}
-                isSensitive={isSensitive}
-                handleSensitive={handleSensitive}
-                isFetching={isFetching}
-              />
+              <React.Suspense fallback={<Spin />}>
+                <ChatArea
+                  handleSendMessage={handleSendMessage}
+                  messages={message}
+                  alert={alert}
+                  setTake={setTake}
+                  isSensitive={isSensitive}
+                  handleSensitive={handleSensitive}
+                  isFetching={isFetching}
+                />
+              </React.Suspense>
             </Content>
           </Layout>
           <Sider

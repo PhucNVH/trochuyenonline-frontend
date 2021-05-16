@@ -29,6 +29,7 @@ export default class ConversationStore {
     const { data, count } = await conversationService.get();
     this.setConversations(data);
     this.setTotalCount(count);
+    return true;
   }
 }
 

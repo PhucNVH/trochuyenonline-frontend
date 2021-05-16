@@ -157,14 +157,13 @@ export default function SideBar({
         style={{ borderColor: '#72bbd3' }}
       ></Divider>
       {conversations.map((c) => {
-        console.log(c.message.message);
         return (
           <UserCard
             handleGetConversation={handleGetConversation}
             handleEndConversation={handleEndConversation}
             conv={c}
             key={c.id}
-            isOnline={onlineUsers.includes(c.conversationUser.username)}
+            isOnline={onlineUsers?.includes(c.conversationUser.username)}
           />
         );
       })}

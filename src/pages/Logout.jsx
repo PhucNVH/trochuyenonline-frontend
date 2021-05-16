@@ -5,7 +5,7 @@ export const Logout = () => {
   const auth = useAuth();
   useEffect(() => {
     auth.logout().then((res) => {
-      console.log(res);
+      // console.log(res);
     });
   });
   return <div></div>;

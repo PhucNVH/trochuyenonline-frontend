@@ -50,6 +50,7 @@ const Maximized = ({
     handleSendMessage(inputValue);
     setInputValue('');
   };
+
   return (
     <ThemeProvider theme={theme}>
       <div
@@ -72,7 +73,6 @@ const Maximized = ({
           }}
         >
           <MessageList active containScrollInSubtree id="chat-area">
-            {isFetching ? <Spin size="large" /> : <></>}
             {formatMessage(messages).map((v, idx) => {
               return (
                 <MessageGroup
@@ -94,10 +94,10 @@ const Maximized = ({
                         className="text-sm"
                         isOwn={e.isOwn}
                         key={i.toString()}
-                        date={new Date(v[0].updatedAt).toLocaleTimeString([], {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
+                        // date={new Date(v[0].updatedAt).toLocaleTimeString([], {
+                        //   hour: '2-digit',
+                        //   minute: '2-digit',
+                        // })}
                       >
                         {!e.isOwn && (
                           <Bubble isOwn={e.isOwn} className="chat-bubble">
@@ -127,6 +127,13 @@ const Maximized = ({
           <Row align="center">
             <Fill>
               <Input.Group className="flex" compact>
+                <div
+                  className="mx-1"
+                  style={{ fontSize: '18px', color: '#08c' }}
+                  onClick={() => handleSensitive(!isSensitive)}
+                >
+                  {isSensitive ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+                </div>
                 <Input
                   className="w-full rounded-lg"
                   ref={textInputRef}
@@ -135,14 +142,6 @@ const Maximized = ({
                   onPressEnter={onSend}
                 ></Input>
                 <div className="flex w-auto">
-                  <div
-                    className="mx-1"
-                    style={{ fontSize: '18px', color: '#08c' }}
-                    onClick={() => handleSensitive(!isSensitive)}
-                  >
-                    {isSensitive ? <EyeInvisibleOutlined /> : <EyeOutlined />}
-                  </div>
-
                   <EmojiPicker className="mx-1" onSelect={handleSelectEmoji} />
                   <SendOutlined
                     className="text-xl mx-1 hover:text-blue-500"

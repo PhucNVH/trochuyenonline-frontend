@@ -17,7 +17,7 @@ export default function UserInfoBar(props) {
           <div className="ml-1 flex items-center justify-end w-1/2">
             <SearchBar className="w-3/4" />
             <CloseCircleOutlined
-              title="Xóa cuộc trò chuyện"
+              title="Kết thúc cuộc trò chuyện"
               onClick={() => {
                 setIsVisibleClose(true);
               }}
