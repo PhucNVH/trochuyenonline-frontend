@@ -174,6 +174,7 @@ function useProvideConversation() {
     setMessage([]);
     setIsChatbotActive(true);
     setCurrentConversation(-1);
+    setConv(null);
     notification.open({
       message: 'Chatbot',
       description: 'Bạn có thể chat với bot ngay bây giờ!',

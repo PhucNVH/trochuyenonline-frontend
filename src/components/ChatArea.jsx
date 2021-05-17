@@ -53,15 +53,16 @@ const Maximized = ({ alert }) => {
         <div className="relative w-full">{alert}</div>
         <UserInfoBar
           className="absolute h-12 w-full"
-          isVisible={conv !== null && isChatbotActive === false}
+          isChatbotActive={isChatbotActive}
+          isVisible={conv !== null || isChatbotActive}
           isOnline={onlineUsers.includes(conv?.conversationUser.username)}
-          username={conv?.conversationUser.username || 'Chatbot'}
+          username={conv?.conversationUser.username}
           handleEndConversation={handleEndConversation}
           conv={conv}
           avatarUrl={avatarUrl}
         />
         <div
-          className="mt-12"
+          className={`${conv !== null || isChatbotActive ? 'mt-12' : ''}`}
           style={{
             flexGrow: 1,
             minHeight: 0,

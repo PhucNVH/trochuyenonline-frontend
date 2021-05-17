@@ -14,6 +14,7 @@ export default function UserInfoBar(props) {
     username,
     handleEndConversation,
     avatarUrl,
+    isChatbotActive,
     conv,
   } = props;
   const [isVisibleClose, setIsVisibleClose] = useState(false);
@@ -35,24 +36,31 @@ export default function UserInfoBar(props) {
               count={1}
               className="leading-8"
               dot
-              color={isOnline ? 'green' : 'red'}
+              color={isOnline || isChatbotActive ? 'green' : 'red'}
             >
-              <Avatar className="h-8 w-8" src={avatarUrl} />
+              <Avatar
+                className="h-8 w-8"
+                src={isChatbotActive ? '/default_profile.jpg' : avatarUrl}
+              />
             </Badge>
             <Title className="mb-0 mx-2 text-white" level={3}>
-              {username}
+              {isChatbotActive ? 'Chatbot' : username}
             </Title>
           </div>
           <div className="ml-1 flex items-center justify-end w-1/2">
             {/* <SearchBar /> */}
-            <CloseCircleOutlined
-              title="Xóa cuộc trò chuyện"
-              onClick={() => {
-                setIsVisibleClose(true);
-              }}
-              size={32}
-              className="w-8 h-8 text-xl ml-1 text-red-500"
-            />
+            {isChatbotActive ? (
+              <></>
+            ) : (
+              <CloseCircleOutlined
+                title="Xóa cuộc trò chuyện"
+                onClick={() => {
+                  setIsVisibleClose(true);
+                }}
+                size={32}
+                className="w-8 h-8 text-xl ml-1 text-red-500"
+              />
+            )}
           </div>
         </div>
       </Header>

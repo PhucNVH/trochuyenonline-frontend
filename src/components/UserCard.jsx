@@ -11,7 +11,6 @@ export default function UserCard({ conv, isOnline }) {
     currentConversation,
   } = useConversation();
   const [isVisibleClose, setIsVisibleClose] = useState(false);
-  console.log(conv, currentConversation);
   const handleOkClose = () => {
     handleEndConversation(conv);
     setIsVisibleClose(false);
