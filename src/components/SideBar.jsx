@@ -126,7 +126,7 @@ export default function SideBar({
           <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Tìm kiếm</p>
         </div>
         <div
-          className={`sidebar-button ${isChatbotActive ? 'active' : ''}`}
+          className={`sidebar-button ${isChatbotActive ? 'tab-active' : ''}`}
           title="Chat với bot"
           onClick={() => {
             handleChatbot();

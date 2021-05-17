@@ -22,7 +22,7 @@ export default function UserCard({ conv, isOnline }) {
   return (
     <div
       className={`user-item flex justify-center sm:justify-between items-center cursor-pointer p-1.5 mb-2 ${
-        currentConversation === conv.id ? 'active' : ''
+        currentConversation === conv.id ? 'tab-active' : ''
       }`}
       onClick={() => handleSelectConversation(conv)}
     >
