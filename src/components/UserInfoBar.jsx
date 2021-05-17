@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { Layout, Badge, Avatar, Typography } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
-import SearchBar from './SearchBar';
+import { Avatar, Badge, Layout, Typography } from 'antd';
+import React, { useState } from 'react';
 import CloseConversation from './modals/CloseConversation';
 
 const { Header } = Layout;
@@ -26,6 +25,8 @@ export default function UserInfoBar(props) {
   const handleCancelClose = () => {
     setIsVisibleClose(false);
   };
+
+  console.log('23123123', avatarUrl);
 
   return isVisible ? (
     <div {...props}>

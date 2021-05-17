@@ -31,7 +31,10 @@ const Maximized = ({ alert }) => {
   } = useConversation();
 
   const avatarUrl =
-    conv?.conversationUser.avatarUrl !== '' || '/default_profile.jpg';
+    conv?.conversationUser.avatarUrl !== ''
+      ? conv?.conversationUser.avatarUrl
+      : '/default_profile.jpg';
+
   useEffect(() => {
     document.getElementById('chat-area').onscroll = (e) => {
       e.preventDefault();
