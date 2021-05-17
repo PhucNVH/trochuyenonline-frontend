@@ -141,7 +141,7 @@ export default function SideBar({
           <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Chat với bot</p>
         </div>
 
-        <div
+        {/* <div
           className="sidebar-button"
           onClick={handleMap}
           title="Chat với bot"
@@ -150,7 +150,7 @@ export default function SideBar({
             <HeatMapOutlined />
           </div>
           <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Map</p>
-        </div>
+        </div> */}
         <div className="sidebar-button" onClick={askLogout} title="Đăng xuất">
           <LogoutOutlined className="sidebar-icon text-red-600 " />
           <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Đăng xuất</p>
