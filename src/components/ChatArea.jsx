@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import theme from './theme';
-import { Input, Spin } from 'antd';
+import { Input } from 'antd';
 import {
-  TextInput,
   MessageList,
   Message,
   MessageGroup,
@@ -10,8 +9,6 @@ import {
   TextComposer,
   Row,
   Fill,
-  Fit,
-  SendButton,
   ThemeProvider,
   Bubble,
 } from '@livechat/ui-kit';
@@ -25,7 +22,7 @@ import EmojiPicker from './EmojiPicker';
 
 import { useConversation } from '../hooks/use-conversation.js';
 
-const Maximized = ({ avatarUrl, alert, isFetching }) => {
+const Maximized = ({ avatarUrl, alert }) => {
   const {
     handleSendMessage,
     isSensitive,
@@ -72,7 +69,7 @@ const Maximized = ({ avatarUrl, alert, isFetching }) => {
           }}
         >
           <MessageList active containScrollInSubtree id="chat-area">
-            {isFetching ? <Spin size="large" /> : <></>}
+            {/* {isFetching ? <Spin size="large" /> : <></>} */}
             {formatMessage(messages).map((v, idx) => {
               return (
                 <MessageGroup

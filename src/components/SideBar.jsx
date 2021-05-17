@@ -15,7 +15,6 @@ import { useConversation } from '../hooks/use-conversation.js';
 export default function SideBar({
   triggerSider,
   isSiderCollapsed,
-
   isFirstLogin,
 }) {
   const {

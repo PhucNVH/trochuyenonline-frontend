@@ -10,7 +10,6 @@ import { observer } from 'mobx-react';
 import { PersonalityStoreContext } from '../stores/personality.store';
 import { useLocation } from 'react-router-dom';
 import { Chatbot } from '../apis/chatbot';
-import { SocketStoreContext } from '../stores/socket.store';
 import { ProvideConversation } from '../hooks/use-conversation';
 
 const { Sider, Content } = Layout;
@@ -26,7 +25,6 @@ const Chat = () => {
   const [personalities, setPersonalities] = useState([]);
 
   const personalityStore = useContext(PersonalityStoreContext);
-  const [isFetching, setIsFetching] = useState(false);
 
   React.useEffect(() => {
     Chatbot.init();
@@ -68,7 +66,7 @@ const Chat = () => {
           <Layout className="App">
             <Layout>
               <Content>
-                <ChatArea isFetching={isFetching} />
+                <ChatArea />
               </Content>
             </Layout>
             <Sider

@@ -23,9 +23,6 @@ jobs:
             cp -r build.tar.gz /tmp
       - store_artifacts:
           path: /tmp/build.tar.gz
-  deploy:
-    docker:
-      - image: 'cimg/base:stable'
 
 workflows:
   build-app:
@@ -40,11 +37,6 @@ workflows:
                 - prod
 
       - build-source:
-          filters:
-            branches:
-              only:
-                - prod
-      - deploy:
           filters:
             branches:
               only:
