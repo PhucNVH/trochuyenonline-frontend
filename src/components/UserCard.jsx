@@ -5,9 +5,13 @@ import CloseConversation from './modals/CloseConversation';
 import { useConversation } from '../hooks/use-conversation.js';
 
 export default function UserCard({ conv, isOnline }) {
-  const { handleEndConversation, handleSelectConversation } = useConversation();
+  const {
+    handleEndConversation,
+    handleSelectConversation,
+    currentConversation,
+  } = useConversation();
   const [isVisibleClose, setIsVisibleClose] = useState(false);
-
+  console.log(conv, currentConversation);
   const handleOkClose = () => {
     handleEndConversation(conv);
     setIsVisibleClose(false);
@@ -18,7 +22,9 @@ export default function UserCard({ conv, isOnline }) {
 
   return (
     <div
-      className="user-item flex justify-center sm:justify-between items-center cursor-pointer p-1.5 mb-2"
+      className={`user-item flex justify-center sm:justify-between items-center cursor-pointer p-1.5 mb-2 ${
+        currentConversation === conv.id ? 'active' : ''
+      }`}
       onClick={() => handleSelectConversation(conv)}
     >
       <div className="mr-0 sm:mr-1 w-full sm:w-1/4 text-center">

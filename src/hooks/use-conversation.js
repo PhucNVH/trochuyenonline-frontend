@@ -173,6 +173,7 @@ function useProvideConversation() {
   const handleChatbot = () => {
     setMessage([]);
     setIsChatbotActive(true);
+    setCurrentConversation(-1);
     notification.open({
       message: 'Chatbot',
       description: 'Bạn có thể chat với bot ngay bây giờ!',
@@ -241,6 +242,11 @@ function useProvideConversation() {
     setPartnerId(values.conversationUser.id);
     setConversationName(values.name);
     getMessage(values.id);
+    notification.open({
+      message: 'Chat ngay nhé',
+      description: `Tiếp tục chat với ${values.conversationUser.username}. Chúc bạn có một cuộc nói chuyện vui vẻ <3`,
+      icon: <SmileOutlined style={{ color: '#108ee9' }} />,
+    });
   };
 
   // useEffect(() => {

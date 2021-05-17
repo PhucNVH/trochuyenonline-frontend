@@ -141,3 +141,7 @@
 .userinfo {
   background-color: #1e3239;
 }
+
+.active {
+  background: #5491a5 !important;
+}
