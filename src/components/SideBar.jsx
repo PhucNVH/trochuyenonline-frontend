@@ -156,7 +156,7 @@ export default function SideBar({
       </div>
 
       <Divider
-        className="text-white text-base sm:text-xs"
+        className="user-item text-white text-base sm:text-xs"
         style={{ borderColor: '#72bbd3' }}
       ></Divider>
       {conversations.map((c) => {
