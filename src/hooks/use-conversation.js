@@ -174,6 +174,8 @@ function useProvideConversation() {
     setMessage([]);
     setIsChatbotActive(true);
     setCurrentConversation(-1);
+    setPartnerId(-1);
+    setConversationName('');
     setConv(null);
     notification.open({
       message: 'Chatbot',
