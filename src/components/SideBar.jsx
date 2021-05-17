@@ -128,7 +128,6 @@ export default function SideBar({
           className="sidebar-button"
           title="Chat với bot"
           onClick={() => {
-            console.log('aggsa', handleChatbot);
             handleChatbot();
           }}
         >

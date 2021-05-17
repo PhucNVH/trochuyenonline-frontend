@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect } from 'react';
 import theme from './theme';
-import { Input } from 'antd';
 import {
   MessageList,
   Message,
@@ -18,16 +17,21 @@ import ChatInput from './ChatInput';
 
 import { useConversation } from '../hooks/use-conversation.js';
 
-const Maximized = ({ avatarUrl, alert }) => {
+const Maximized = ({ alert }) => {
   const {
     handleSendMessage,
     isSensitive,
     setIsSensitive,
     messages,
     setTake,
+    onlineUsers,
+    handleEndConversation,
+    isChatbotActive,
+    conv,
   } = useConversation();
-  const [inputValue, setInputValue] = useState('');
-  const textInputRef = useRef(null);
+
+  const avatarUrl =
+    conv?.conversationUser.avatarUrl !== '' || '/default_profile.jpg';
   useEffect(() => {
     document.getElementById('chat-area').onscroll = (e) => {
       e.preventDefault();
@@ -47,9 +51,17 @@ const Maximized = ({ avatarUrl, alert }) => {
         className="relative"
       >
         <div className="relative w-full">{alert}</div>
-        <UserInfoBar className="absolute h-12 w-full" isVisible={false} />
+        <UserInfoBar
+          className="absolute h-12 w-full"
+          isVisible={conv !== null && isChatbotActive === false}
+          isOnline={onlineUsers.includes(conv?.conversationUser.username)}
+          username={conv?.conversationUser.username || 'Chatbot'}
+          handleEndConversation={handleEndConversation}
+          conv={conv}
+          avatarUrl={avatarUrl}
+        />
         <div
-          className=""
+          className="mt-12"
           style={{
             flexGrow: 1,
             minHeight: 0,
@@ -108,7 +120,7 @@ const Maximized = ({ avatarUrl, alert }) => {
             <Fill>
               <ChatInput
                 handleSendMessage={handleSendMessage}
-                handleSensitive={handleSensitive}
+                handleSensitive={setIsSensitive}
                 isSensitive={isSensitive}
               />
             </Fill>

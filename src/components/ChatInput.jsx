@@ -25,6 +25,13 @@ export default function ChatInput({
 
   return (
     <Input.Group className="flex" compact>
+      <div
+        className="mx-1"
+        style={{ fontSize: '18px', color: '#08c' }}
+        onClick={() => handleSensitive(!isSensitive)}
+      >
+        {isSensitive ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+      </div>
       <Input
         className="w-full rounded-lg"
         ref={textInputRef}
@@ -32,15 +39,7 @@ export default function ChatInput({
         onChange={(v) => setInputValue(v.target.value)}
         onPressEnter={onSend}
       ></Input>
-      <div className="flex w-auto">
-        <div
-          className="mx-1"
-          style={{ fontSize: '18px', color: '#08c' }}
-          onClick={() => handleSensitive(!isSensitive)}
-        >
-          {isSensitive ? <EyeInvisibleOutlined /> : <EyeOutlined />}
-        </div>
-
+      <div className="flex w-auto mx-1">
         <EmojiPicker className="mx-1" onSelect={handleSelectEmoji} />
         <SendOutlined
           className="text-xl mx-1 hover:text-blue-500"

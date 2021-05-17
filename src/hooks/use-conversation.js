@@ -36,6 +36,7 @@ function useProvideConversation() {
   const history = useHistory();
   const Auth = useAuth();
   const [currentConversation, setCurrentConversation] = useState(-1);
+  const [conv, setConv] = useState(null);
   const [isChatbotActive, setIsChatbotActive] = useState(false);
   const [conversationName, setConversationName] = useState('');
   const [isDisconnected, setIsDisconnected] = useState(false);
@@ -166,10 +167,10 @@ function useProvideConversation() {
     });
     getAll();
     setCurrentConversation(-1);
+    setConv(null);
   };
 
   const handleChatbot = () => {
-    console.log('d');
     setMessage([]);
     setIsChatbotActive(true);
     notification.open({
@@ -187,8 +188,11 @@ function useProvideConversation() {
       selectedConversation: conv.id,
       partnerId: conv.conversationUser.id,
     });
+    setMessage([]);
 
+    setPartnerId(-1);
     setCurrentConversation(-1);
+    setConv(null);
   };
 
   const handleSendMessage = (message) => {
@@ -233,6 +237,7 @@ function useProvideConversation() {
   const handleSelectConversation = (values) => {
     setIsChatbotActive(false);
     setCurrentConversation(values.id);
+    setConv(values);
     setPartnerId(values.conversationUser.id);
     setConversationName(values.name);
     getMessage(values.id);
@@ -294,7 +299,9 @@ function useProvideConversation() {
     setIsSensitive,
     setTake,
     handleDisconnected,
+    isChatbotActive,
     numUser,
+    conv,
     onlineUsers: listUser,
   };
 }
