@@ -5,12 +5,13 @@ import CompassTwoTone from '@ant-design/icons/CompassTwoTone';
 import FacebookOutlined from '@ant-design/icons/FacebookOutlined';
 import Modal from 'antd/lib/modal';
 import Divider from 'antd/lib/divider';
-import { BookTwoTone } from '@ant-design/icons';
+import { BookTwoTone, HeatMapOutlined } from '@ant-design/icons';
 import Sider from 'antd/lib/layout/Sider';
 import Guide from './Guide';
 import ChatBotImage from '../asset/chatbot.png';
 import UserCard from './UserCard';
 import { useConversation } from '../hooks/use-conversation.js';
+import Map from './Map';
 
 export default function SideBar({
   triggerSider,
@@ -26,6 +27,7 @@ export default function SideBar({
     onlineUsers,
   } = useConversation();
   const [isVisible, setVisible] = useState(false);
+  const [isMapVisible, setIsMapVisible] = useState(false);
   const [isVisibleGuide, setVisibleGuide] = useState(isFirstLogin);
 
   const showModal = () => {
@@ -49,7 +51,9 @@ export default function SideBar({
   const logout = async () => {
     handleDisconnected(false);
   };
-
+  const handleMap = () => {
+    setIsMapVisible((prev) => !prev);
+  };
   return (
     <Sider
       breakpoint="sm"
@@ -137,6 +141,17 @@ export default function SideBar({
           </div>
           <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Chat với bot</p>
         </div>
+
+        <div
+          className="sidebar-button"
+          onClick={handleMap}
+          title="Chat với bot"
+        >
+          <div className="sidebar-icon px-2">
+            <HeatMapOutlined />
+          </div>
+          <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Map</p>
+        </div>
         <div className="sidebar-button" onClick={askLogout} title="Đăng xuất">
           <LogoutOutlined className="sidebar-icon text-red-600 " />
           <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Đăng xuất</p>
@@ -153,6 +168,17 @@ export default function SideBar({
           <p>Bạn có muốn đăng xuất ngay bây giờ?</p>
         </Modal>
         <Guide isModalVisible={isVisibleGuide} handleOk={handleOk} />
+        <Modal
+          visible={isMapVisible}
+          onOk={() => {
+            setIsMapVisible(false);
+          }}
+          onCancel={() => {
+            setIsMapVisible(false);
+          }}
+        >
+          <Map />
+        </Modal>
       </div>
 
       <Divider
