@@ -26,8 +26,6 @@ export default function UserInfoBar(props) {
     setIsVisibleClose(false);
   };
 
-  console.log('23123123', avatarUrl);
-
   return isVisible ? (
     <div {...props}>
       <Header className="px-2 sm:px-4 h-full">
