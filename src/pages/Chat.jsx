@@ -1,20 +1,24 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
-import ChatArea from '../components/ChatArea';
-import SideBar from '../components/SideBar';
-import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
 import Layout from 'antd/lib/layout';
-import Profile from '../components/Profile';
-import { PER_PAGE_OPTIONS } from '../dto/commons/PaginationRequest.dto';
+import Row from 'antd/lib/row';
 import { observer } from 'mobx-react';
-import { PersonalityStoreContext } from '../stores/personality.store';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Chatbot } from '../apis/chatbot';
+import ChatArea from '../components/ChatArea';
+import Profile from '../components/Profile';
+import SideBar from '../components/SideBar';
+import { PER_PAGE_OPTIONS } from '../dto/commons/PaginationRequest.dto';
 import { ProvideConversation } from '../hooks/use-conversation';
+import { PersonalityStoreContext } from '../stores/personality.store';
+import { useAuth } from '../hooks/use-auth';
+import ExpertInfo from '../components/ExpertInfo';
 
 const { Sider, Content } = Layout;
 
 const Chat = () => {
+  const auth = useAuth();
+
   const location = useLocation();
   const isFirstLogin = false || (location.state && location.state.isFirstLogin);
   const [skipPersonality, setSkipPersonality] = useState(0);
@@ -83,6 +87,7 @@ const Chat = () => {
                 handleRemovePersonality={handleRemovePersonality}
               />
             </Sider>
+            {auth.user?.isBecomingExpert && <ExpertInfo />}
           </Layout>
         </Col>
       </Row>

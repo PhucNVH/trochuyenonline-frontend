@@ -17,7 +17,10 @@ export default class UserStore {
   }
 
   async getUser(token: string) {
-    return await userService.getUser(token);
+    const result = await userService.getUser(token);
+    console.log({ result });
+
+    return result;
   }
 
   async registerToken(token: string) {
