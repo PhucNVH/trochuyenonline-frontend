@@ -250,7 +250,8 @@ function useProvideConversation() {
     getMessage(values.id);
     notification.open({
       message: 'Chat ngay nhé',
-      description: `Tiếp tục chat với ${values.conversationUser.username}. Chúc bạn có một cuộc nói chuyện vui vẻ <3`,
+      // description: `Tiếp tục chat với ${values.conversationUser.username}. Chúc bạn có một cuộc nói chuyện vui vẻ <3`,
+      description: `Cuộc trò chuyện của bạn vẫn còn, hãy tiếp tục tâm sự nhé.  Chúc bạn có một cuộc nói chuyện vui vẻ <3`,
       icon: <SmileOutlined style={{ color: '#108ee9' }} />,
     });
   };
