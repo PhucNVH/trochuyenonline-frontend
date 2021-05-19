@@ -1,7 +1,8 @@
-import { CloseCircleOutlined } from '@ant-design/icons';
-import { Avatar, Badge, Layout, Typography } from 'antd';
+import { CloseCircleOutlined, HeartFilled } from '@ant-design/icons';
+import { message, Avatar, Badge, Layout, Typography, Rate } from 'antd';
 import React, { useState } from 'react';
 import CloseConversation from './modals/CloseConversation';
+import { RatingStoreContext } from '../stores/rating.store';
 
 const { Header } = Layout;
 const { Title } = Typography;
@@ -17,6 +18,9 @@ export default function UserInfoBar(props) {
     conv,
   } = props;
   const [isVisibleClose, setIsVisibleClose] = useState(false);
+  const ratingStore = React.useContext(RatingStoreContext);
+
+  const [score, setScore] = React.useState(null);
 
   const handleOkClose = () => {
     handleEndConversation(conv);
@@ -26,11 +30,67 @@ export default function UserInfoBar(props) {
     setIsVisibleClose(false);
   };
 
+  const handleRating = (value) => {
+    setScore(value);
+
+    if (isChatbotActive) {
+      const result = ratingStore.putChatbot({
+        score: value,
+      });
+
+      if (result) {
+        message.success('Cảm ơn bạn đã đánh giá cuộc trò chuyện này');
+      }
+
+      return;
+    }
+
+    const result = ratingStore.post({
+      userId: isChatbotActive ? null : conv?.conversationUser.id,
+      score: value,
+      isChatbot: isChatbotActive,
+      conversationName: conv?.name,
+    });
+
+    if (result) {
+      message.success('Cảm ơn bạn đã đánh giá cuộc trò chuyện này');
+    }
+
+    return;
+  };
+
+  React.useEffect(() => {
+    if (conv && !isChatbotActive) {
+      ratingStore.get({
+        userId: isChatbotActive ? null : conv.conversationUser.id,
+        isChatbot: isChatbotActive,
+        conversationName: conv?.name,
+      });
+      setScore(ratingStore.score);
+    }
+  }, [ratingStore.score, conv]);
+
+  React.useEffect(() => {
+    if (isChatbotActive) {
+      ratingStore.getChatbot();
+      setScore(ratingStore.scoreChatbot);
+    }
+  }, [ratingStore.scoreChatbot, isChatbotActive]);
+
   return isVisible ? (
     <div {...props}>
       <Header className="px-2 sm:px-4 h-full">
         <div className="flex justify-between items-center h-full">
-          <div className="flex justify-start">
+          <Rate
+            character={<HeartFilled />}
+            className="flex justify-start"
+            allowHalf
+            value={score}
+            onChange={(value) => {
+              handleRating(value);
+            }}
+          />
+          <div className="flex justify-start" style={{ marginRight: '50px' }}>
             <Badge
               count={1}
               className="leading-8"
@@ -43,16 +103,17 @@ export default function UserInfoBar(props) {
               />
             </Badge>
             <Title className="mb-0 mx-2 text-white" level={3}>
-              {isChatbotActive ? 'Chatbot' : username}
+              {isChatbotActive ? 'Chatbot' : ''}
             </Title>
           </div>
+
           <div className="ml-1 flex items-center justify-end w-1/2">
             {/* <SearchBar /> */}
             {isChatbotActive ? (
               <></>
             ) : (
               <CloseCircleOutlined
-                title="Xóa cuộc trò chuyện"
+                title="Kết thúc cuộc trò chuyện"
                 onClick={() => {
                   setIsVisibleClose(true);
                 }}

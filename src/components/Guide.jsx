@@ -4,8 +4,10 @@ import { Button } from 'antd';
 import {
   UserOutlined,
   CompassTwoTone,
-  PauseCircleTwoTone,
+  CheckCircleTwoTone,
   EyeInvisibleTwoTone,
+  HeartTwoTone,
+  CloseCircleOutlined,
 } from '@ant-design/icons';
 import Avatar from 'antd/lib/avatar';
 
@@ -29,36 +31,63 @@ export default function Guide({ isModalVisible, handleOk }) {
         <Paragraph>
           <ul>
             <li>
-              <UserOutlined style={{ fontSize: '20px' }} />: Quản lý thông tin
-              cá nhân bằng cách đóng mở thanh bên phải. Ở đó bạn có thể đổi ảnh
-              đại diện và cập nhật danh sách thông tin về bạn trong quá trình
-              trò chuyện
+              <UserOutlined style={{ fontSize: '20px', marginRight: '10px' }} />{' '}
+              Quản lý thông tin cá nhân bằng cách đóng mở thanh bên phải. Ở đó
+              bạn có thể đổi ảnh đại diện và cập nhật danh sách thông tin về bạn
+              trong quá trình trò chuyện
             </li>
             <br></br>
             <li>
-              <CompassTwoTone style={{ fontSize: '20px' }} />: Tìm kiếm một
-              người trò chuyện cùng với bạn, thậm chí bạn có thể tìm kiếm nhiều
-              người để trò chuyện cùng một lúc đó
+              <CompassTwoTone
+                style={{ fontSize: '20px', marginRight: '10px' }}
+              />{' '}
+              Tìm kiếm một người trò chuyện cùng với bạn, bạn có thể tìm kiếm
+              tiếp ngay khi đang trò chuyện
             </li>
             <br></br>
             <li>
-              <PauseCircleTwoTone
-                style={{ fontSize: '20px' }}
-                twoToneColor="#f88585"
+              <CloseCircleOutlined
+                style={{
+                  fontSize: '20px',
+                  color: 'rgba(239, 68, 68',
+                  marginRight: '10px',
+                }}
               />
-              : Kết thúc cuộc trò chuyện, bằng cách chọn vào cuộc trò chuyện bạn
-              muốn kết thúc ở những hình tròn phía dưới và ấn nút này
+              Kết thúc cuộc trò chuyện, cuộc trò chuyện sẽ bị xóa, tuy nhiên bạn
+              có thể liên hệ admin để xem lại tin nhắn cuộc trò chuyện này
             </li>
             <br></br>
             <li>
-              <Avatar src={'/default_profile.jpg'} />: Cuộc trò chuyện đang diễn
-              ra, chúng mình lưu trữ lại cuộc trò chuyện để bạn có thể tiếp tục
-              trò chuyện với nhiều người
+              <Avatar src={'/default_profile.jpg'} /> Chúng mình có lưu trữ lại
+              các cuộc trò chuyện để bạn có thể tiếp tục trò chuyện với nhiều
+              người
             </li>
             <br></br>
             <li>
-              <EyeInvisibleTwoTone style={{ fontSize: '20px' }} />: Bật tính
-              năng này nếu bạn không muốn chúng mình lưu trữ tin nhắn của bạn
+              <EyeInvisibleTwoTone
+                style={{ fontSize: '20px', marginRight: '10px' }}
+              />{' '}
+              Bật tính năng này nếu bạn không muốn chúng mình lưu trữ tin nhắn
+              của bạn
+            </li>
+            <br></br>
+            <li>
+              <HeartTwoTone
+                style={{ fontSize: '20px', marginRight: '10px' }}
+                twoToneColor="#eb2f96"
+              />
+              Nhận xét người trò chuyện cùng với bạn, họ cũng có thể nhận xét về
+              bạn
+            </li>
+            <br></br>
+            <li>
+              <CheckCircleTwoTone
+                twoToneColor="#52c41a"
+                style={{ fontSize: '20px', marginRight: '10px' }}
+              />
+              Nếu bạn được nhiều nhận xét tốt, chúng mình gửi bạn một đề nghị để
+              bạn trở thành chuyên gia tư vấn, lúc này mọi người có thể tìm đến
+              bạn để tâm sự thay vì phải tìm kiếm
             </li>
           </ul>
         </Paragraph>

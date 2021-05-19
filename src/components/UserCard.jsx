@@ -40,12 +40,10 @@ export default function UserCard({ conv, isOnline }) {
         </Badge>
       </div>
       <div className="hidden sm:flex w-3/4 justify-around items-center">
-        <p className="mb-0 text-sm text-white truncate">
-          {conv.conversationUser.username}
-        </p>
+        <p className="mb-0 text-sm text-white truncate">{'một ai đó'}</p>
         <div className="ml-1">
           <CloseCircleOutlined
-            title="Xóa cuộc trò chuyện"
+            title="Kết thúc cuộc trò chuyện"
             onClick={() => {
               setIsVisibleClose(true);
             }}
