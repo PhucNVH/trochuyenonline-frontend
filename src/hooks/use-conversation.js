@@ -78,6 +78,8 @@ function useProvideConversation() {
         icon: (
           <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
         ),
+        duration: 0,
+        onClose: partnerId ? true : false,
       });
     });
 
@@ -230,6 +232,7 @@ function useProvideConversation() {
 
   const handleFoundNotification = () => {
     setIsChatbotActive(false);
+    notification.destroy();
     notification.open({
       message: 'Đã tìm thấy',
       description:
