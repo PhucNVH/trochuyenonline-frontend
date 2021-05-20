@@ -13,6 +13,19 @@
   display: inline-block;
   font-size: 1rem;
 }
+
+.HomeButton:hover {
+  @apply text-blue-600;
+  background-color: #1e3239;
+  border: none;
+  padding: 0.3rem 1.4rem;
+  border-radius: 0.7rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+}
+
 .HomeButton:hover {
   color: #dee5ff !important;
 }
@@ -22,20 +35,22 @@
 }
 
 .sidebar-icon {
-  @apply text-lg sm:text-2xl flex items-center justify-center !important;
+  @apply text-xl sm:text-2xl flex items-center justify-center !important;
   padding: 0px 0.5rem;
   color: white;
 }
 
 .sidebar-button {
-  @apply w-full;
-  padding: 4px 0px !important;
-  background-color: #18282e !important;
+  @apply w-16 sm:w-52 flex justify-center sm:justify-start items-center h-auto mb-1 py-2 sm:py-1 px-2;
+  background-color: rgb(30, 50, 57) !important;
+  color: white;
+
   /* border-color:  !important; */
   border: none !important;
-  height: 2rem;
 }
 .sidebar-button:hover {
+  cursor: pointer;
+  color: black;
   background-color: #dee5ff !important;
 }
 .active {
@@ -50,6 +65,13 @@
 
 .feedback-button:hover {
   font-size: 1.5rem;
+}
+
+.ant-layout-sider {
+  position: relative;
+  min-width: 0;
+  background: rgb(30, 50, 57) !important;
+  transition: all 0.2s;
 }
 
 .alert {
@@ -73,4 +95,53 @@
 }
 .button-avatar {
   overflow: hidden;
+}
+
+.fact-card:hover {
+  background-color: #5491a5 !important;
+  border: 2px solid #5491a5;
+}
+
+.fact-card {
+  background-color: #375e6b !important;
+}
+#chat-area {
+  height: 100% !important;
+}
+
+.ant-layout-sider-children {
+  @apply w-full;
+}
+
+.user-item:hover {
+  background-color: #5491a5 !important;
+}
+.user-item {
+  background-color: #1e3239 !important;
+}
+.animation-scroll {
+  animation: scroll 7s linear 0s infinite;
+}
+
+.card-input {
+  background-color: #375e6b;
+  color: white;
+}
+
+.fact-card:hover .card-input {
+  background-color: #5491a5;
+  color: white;
+}
+
+.card-input:focus {
+  border: 1px solid white;
+  color: white;
+}
+
+.userinfo {
+  background-color: #1e3239;
+}
+
+.tab-active {
+  background: #5491a5 !important;
 }

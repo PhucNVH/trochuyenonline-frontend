@@ -1,4 +1,4 @@
-import React from 'react';
+import { createContext } from 'react';
 import { makeObservable, observable } from 'mobx';
 import userService from '../apis/user.service';
 
@@ -19,6 +19,11 @@ export default class UserStore {
   async getUser(token: string) {
     return await userService.getUser(token);
   }
+
+  async registerToken(token: string) {
+    const result = await userService.registerToken(token);
+    return result;
+  }
 }
 
-export const UserStoreContext = React.createContext(new UserStore());
+export const UserStoreContext = createContext(new UserStore());

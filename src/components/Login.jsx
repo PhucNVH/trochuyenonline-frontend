@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
 import Button from 'antd/lib/button';
-import Row from 'antd/lib/row';
+import div from 'antd/lib/row';
 import Col from 'antd/lib/col';
 import Card from 'antd/lib/card';
 import LockOutlined from '@ant-design/icons/LockOutlined';
@@ -11,13 +11,13 @@ import { useHistory, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/use-auth';
 import { Typography } from 'antd';
 import Lottie from 'react-lottie';
-import animationData from '../asset/conversation.json';
-
+import animationData from '../asset/lottie_conversation.json';
+import Terms from '../components/Terms';
 const { Title } = Typography;
 
 export const LoginComponent = () => {
   const defaultOptions = {
-    loop: true,
+    loop: false,
     autoplay: true,
     animationData: animationData,
     rendererSettings: {
@@ -26,30 +26,38 @@ export const LoginComponent = () => {
   };
   const { login } = useAuth();
   const history = useHistory();
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const onFinish = async (values) => {
     const res = await login(values);
-    if (res && res.result.isFirstLogin == true) {
-      history.push('survey');
+    if (res && res.success === true && res.result.isFirstLogin == true) {
+      history.push('khao-sat');
       return;
     }
-    if (res && res.status === 'success') {
-      history.push('chat');
+    if (res && res.success === true) {
+      history.push('tro-chuyen');
+      return;
     }
   };
 
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
   return (
-    <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
-      <div className="absolute top-18 md:top-24">
-        <Link to="/">
-          <Title className="text-primary">Trò chuyện online</Title>
-        </Link>
-      </div>
-      <Col className="flex flex-col items-center">
+    <div className="min-h-screen flex flex-col justify-center items-center">
+      <div className="text-center">
+        <div className="">
+          <Link to="/">
+            <Title className="text-primary">Trò chuyện online</Title>
+          </Link>
+        </div>
         <div className="w-96 md:w-full">
           <Lottie options={defaultOptions} />
         </div>
-        <div className="flex flex-col md:flex-row center">
-          <Card className="w-72 sm:w-80 px-2 sm:px-0 border-2">
+      </div>
+      <Col className="flex flex-col items-center">
+        <div className="flex flex-col center">
+          <Card className="w-72 sm:w-80 px-2 sm:px-0 border-2 mb-4">
             <Form
               name="normal_login"
               className="login-form  -mx-4 sm:-mx-2"
@@ -64,13 +72,13 @@ export const LoginComponent = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Username!',
+                    message: 'Bạn chưa nhập tên đăng nhập!',
                   },
                 ]}
               >
                 <Input
                   prefix={<UserOutlined className="site-form-item-icon" />}
-                  placeholder="Username"
+                  placeholder="Tên đăng nhập"
                 />
               </Form.Item>
               <Form.Item
@@ -78,41 +86,46 @@ export const LoginComponent = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Password!',
+                    message: 'Bạn chưa nhập mật khẩu!',
                   },
                 ]}
               >
                 <Input
                   prefix={<LockOutlined className="site-form-item-icon" />}
                   type="password"
-                  placeholder="Password"
+                  placeholder="Mật khẩu"
                 />
               </Form.Item>
 
               <Form.Item>
-                <Row style={{ marginLeft: '16%' }}>
-                  <Col span={8}>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      className="login-form-button"
-                    >
-                      Login
-                    </Button>
-                  </Col>
-                  <Col>
-                    <Link to="signup">
-                      <Button className="login-form-button">
-                        Register now!
-                      </Button>
-                    </Link>
-                  </Col>
-                </Row>
+                <div className="flex justify-evenly">
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    className="login-form-button"
+                  >
+                    Đăng nhập
+                  </Button>
+                  <Link to="dang-ky">
+                    <Button className="login-form-button">Đăng kí ngay!</Button>
+                  </Link>
+                </div>
               </Form.Item>
             </Form>
           </Card>
+          <div className="flex justify-center mb-4 text-lg">
+            <a
+              className="mr-2"
+              onClick={() => {
+                setIsModalVisible(true);
+              }}
+            >
+              Điều khoản sử dụng
+            </a>
+            <Terms isModalVisible={isModalVisible} handleOk={handleOk} />
+          </div>
         </div>
       </Col>
-    </Row>
+    </div>
   );
 };

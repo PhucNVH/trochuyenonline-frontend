@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
@@ -12,22 +12,29 @@ import { useHistory, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/use-auth';
 import Typography from 'antd/lib/typography';
 import Lottie from 'react-lottie';
-import animationData from '../asset/conversation.json';
+import animationData from '../asset/lottie_conversation.json';
+import Terms from '../components/Terms';
+import { Checkbox } from 'antd';
 
 const { Title } = Typography;
 export const SignupComponent = () => {
   const { signup } = useAuth();
   const history = useHistory();
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const onFinish = async (values) => {
     const res = await signup(values);
     if (res.success) {
-      history.push('login');
+      history.push('dang-nhap');
     }
   };
 
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
   const defaultOptions = {
-    loop: true,
+    loop: false,
     autoplay: true,
     animationData: animationData,
     rendererSettings: {
@@ -36,17 +43,17 @@ export const SignupComponent = () => {
   };
 
   return (
-    <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
-      <div className="absolute top-16 md:top-18 lg:top24">
+    <Row className="min-h-screen flex flex-col justify-center items-center">
+      <div className="text-center pt-0 mb-0 md:pt-10 md:-mb-10">
         <Link to="/">
           <Title className="text-primary">Trò chuyện online</Title>
         </Link>
-      </div>
-      <Col className="flex flex-col items-center">
         <div className="w-96 md:w-full">
           <Lottie options={defaultOptions} />
         </div>
-        <Card className="w-72 sm:w-80 px-2 sm:px-0">
+      </div>
+      <Col className="flex flex-col items-center">
+        <Card className="w-72 sm:w-80 px-2 sm:px-0 mb-4">
           <Form
             name="normal_login"
             className="login-form -mx-4 sm:-mx-2"
@@ -60,13 +67,13 @@ export const SignupComponent = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Please input your Username!',
+                  message: 'Bạn chưa nhập tên đăng nhập!',
                 },
               ]}
             >
               <Input
                 prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Username"
+                placeholder="Tên đăng nhập"
               />
             </Form.Item>
             <Form.Item
@@ -74,14 +81,14 @@ export const SignupComponent = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Please input your Password!',
+                  message: 'Bạn chưa nhập mật khẩu!',
                 },
               ]}
             >
               <Input
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
-                placeholder="Password"
+                placeholder="Mật khẩu"
               />
             </Form.Item>
             <Form.Item
@@ -91,7 +98,7 @@ export const SignupComponent = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Please confirm your password!',
+                  message: 'Xác nhận lại mật khẩu của bạn nhé!',
                 },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
@@ -99,9 +106,7 @@ export const SignupComponent = () => {
                       return Promise.resolve();
                     }
                     return Promise.reject(
-                      new Error(
-                        'The two passwords that you entered do not match!'
-                      )
+                      new Error('Hai mật khẩu của bạn không trùng khớp!')
                     );
                   },
                 }),
@@ -110,30 +115,62 @@ export const SignupComponent = () => {
               <Input
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
-                placeholder="Confirm password"
+                placeholder="Xác nhận lại mật khẩu"
               />
             </Form.Item>
 
+            <Form.Item
+              name="agreement"
+              valuePropName="checked"
+              rules={[
+                {
+                  validator: (_, value) =>
+                    value
+                      ? Promise.resolve()
+                      : Promise.reject(
+                          new Error('Bạn chưa đồng ý với Điều khoản sử dụng!')
+                        ),
+                },
+              ]}
+            >
+              <Checkbox>
+                Mình đã đọc và đồng ý với{' '}
+                <a
+                  onClick={() => {
+                    setIsModalVisible(true);
+                  }}
+                >
+                  Điều khoản sử dụng
+                </a>
+              </Checkbox>
+            </Form.Item>
             <Form.Item>
-              <Row style={{ marginLeft: '16%' }}>
-                <Col span={10}>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    className="login-form-button"
-                  >
-                    Sign up
-                  </Button>
-                </Col>
-                <Col>
-                  <Link to="login">
-                    <Button className="login-form-button">Login!</Button>
-                  </Link>
-                </Col>
-              </Row>
+              <div className="flex justify-evenly">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className="login-form-button"
+                >
+                  Đăng ký
+                </Button>
+                <Link to="dang-nhap">
+                  <Button className="login-form-button">Đăng nhập!</Button>
+                </Link>
+              </div>
             </Form.Item>
           </Form>
         </Card>
+        <div className="flex justify-center mb-4 text-lg">
+          <a
+            className="mr-2"
+            onClick={() => {
+              setIsModalVisible(true);
+            }}
+          >
+            Điều khoản sử dụng
+          </a>
+          <Terms isModalVisible={isModalVisible} handleOk={handleOk} />
+        </div>
       </Col>
     </Row>
   );

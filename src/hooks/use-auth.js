@@ -2,7 +2,6 @@ import React, { useState, useContext, createContext, useEffect } from 'react';
 import { Auth } from '../apis/auth';
 import Loading from '../components/Loading';
 import { useLocalStorage } from './use-localstorage';
-import { message } from 'antd';
 import { toast } from 'react-toastify';
 
 const authContext = createContext();
@@ -45,11 +44,14 @@ function useProvideAuth() {
   }, []);
 
   const login = (data) => {
-    Auth.login(data).then((response) => {
+    return Auth.login(data).then((response) => {
       if (response && response.success === true) {
-        console.log('dsa');
         setUser(response.result);
         setToken(response.result.token);
+        // const deviceId = retrieveFromStorage(LOCAL_STORAGE_KEY.DEVICE_TOKEN);
+        // if (deviceId) {
+        //   Auth.registerToken(deviceId);
+        // }
       } else if (response.status == 'error') {
         setUser(false);
         toast('Username or password is incorrect.', { position: 'top-center' });
@@ -59,12 +61,11 @@ function useProvideAuth() {
   };
 
   const signup = (data) => {
-    Auth.signup(data).then((response) => {
+    return Auth.signup(data).then((response) => {
+      setUser(false);
       if (response && response.success === true) {
-        setUser(response.result);
         toast('Account created', { position: 'top-center' });
       } else {
-        setUser(false);
         setToken('');
         toast('Error creating account', { position: 'top-center' });
       }
@@ -75,7 +76,7 @@ function useProvideAuth() {
   const logout = () => {
     setUser(false);
     setToken('');
-    return { status: 'success' };
+    return { success: true };
   };
 
   return {

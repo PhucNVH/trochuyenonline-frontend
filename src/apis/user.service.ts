@@ -1,6 +1,7 @@
 import http from '../apis';
 import { RcFile } from 'antd/lib/upload';
 import { prepareGetQuery } from '../utils/apis.util';
+import { NOTIFICATION_API } from '../dto/enums/router.enum';
 
 const config = {
   headers: {
@@ -30,6 +31,17 @@ class UserService {
   public async getUser(token: string) {
     const result = await http.post(`${this.prefix}/check-token`, { token });
     return result.data.result;
+  }
+
+  public async registerToken(token: string) {
+    const result = await http.post(
+      `${NOTIFICATION_API.PREFIX}/${NOTIFICATION_API.REGISTER}`,
+      {
+        token,
+        platform: 'web',
+      }
+    );
+    return result.data?.result;
   }
 }
 

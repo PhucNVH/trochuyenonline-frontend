@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { NOTIFICATION_API } from '../dto/enums/router.enum';
 const { REACT_APP_SERVER_URI } = process.env;
 
 export const Auth = {
@@ -49,5 +50,16 @@ export const Auth = {
     } catch (err) {
       return { status: 'error', error: err };
     }
+  },
+  registerToken: async (token) => {
+    const result = await axios.post(
+      `${REACT_APP_SERVER_URI}/${NOTIFICATION_API.PREFIX}/${NOTIFICATION_API.REGISTER}`,
+      {
+        token,
+        platform: 'web',
+      },
+      { withCredentials: true }
+    );
+    return result;
   },
 };

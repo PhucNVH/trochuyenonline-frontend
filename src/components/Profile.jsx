@@ -1,91 +1,22 @@
-import React from 'react';
+import { useState, useContext, useEffect, useCallback } from 'react';
 import Typography from 'antd/lib/typography';
-import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { useAuth } from '../hooks/use-auth';
-import { Button, Form, List, message, Modal, Upload } from 'antd';
+import { Button, Form, message, Modal, Upload, Tooltip, Row } from 'antd';
 const { Title } = Typography;
 import ImgCrop from 'antd-img-crop';
 import FormButton from './commons/FormButton';
+import PersonalityCard from './PersonalityCard';
 import { UserStoreContext } from '../stores/user.store';
+import { PersonalityStoreContext } from '../stores/personality.store';
+import { PER_PAGE_OPTIONS } from '../dto/commons/PaginationRequest.dto';
 
-const AvatarModal = (props) => {
-  const { form, user, handleUpdateProfile, handleCloseModal } = props;
-
-  const [fileList, setFileList] = React.useState([]);
-
-  const createFormBeforeCreate = (value) => {
-    if (value.target < 1) {
-      return message.error('Please set an valid amount target');
-    }
-    handleUpdateProfile({
-      ...value,
-      images: fileList,
-    });
-    setFileList([]);
-  };
-
-  return (
-    <Form
-      labelCol={{ span: 7 }}
-      wrapperCol={{ span: 19 }}
-      layout="horizontal"
-      onFinish={(value) => {
-        createFormBeforeCreate(value);
-      }}
-      scrollToFirstError
-      form={form}
-    >
-      <Form.Item label="Username">{user.username}</Form.Item>
-
-      <Form.Item label="Avatar">
-        <ImgCrop rotate>
-          <Upload
-            multiple={true}
-            name="file"
-            listType="text"
-            fileList={fileList}
-            showUploadList={{ showRemoveIcon: true }}
-            beforeUpload={(file) => {
-              setFileList([...fileList, file]);
-              return false;
-            }}
-            onRemove={(file) => {
-              const list = fileList.filter((f) => {
-                if (f.uid !== file.uid) {
-                  return true;
-                }
-                return false;
-              });
-              setFileList(list);
-            }}
-          >
-            <Button>
-              <UploadOutlined /> Select File
-            </Button>
-          </Upload>
-        </ImgCrop>
-      </Form.Item>
-
-      <FormButton
-        handleCloseModal={handleCloseModal}
-        submit={
-          <Button className="ml-2" type="primary" htmlType="submit">
-            Update
-          </Button>
-        }
-      />
-    </Form>
-  );
-};
-
-export default function Profile(props) {
-  const { personalities, handleRemovePersonality } = props;
+export default function Profile() {
   const { user } = useAuth();
+  const userStore = useContext(UserStoreContext);
 
-  const userStore = React.useContext(UserStoreContext);
-
-  const [updateModalVisible, setUpdateModalVisible] = React.useState(false);
-  const [avatarUrl, setAvatarUrl] = React.useState(user.avatarUrl);
+  const [updateModalVisible, setUpdateModalVisible] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl);
 
   const handleCloseModal = () => {
     setUpdateModalVisible(false);
@@ -95,7 +26,6 @@ export default function Profile(props) {
 
   const handleUpdateProfile = async (values) => {
     const result = await userStore.uploadAvatar(values);
-
     if (result) {
       message.success('Success!');
       const data = await userStore.getUser(user.token);
@@ -103,6 +33,31 @@ export default function Profile(props) {
       handleCloseModal();
     }
   };
+
+  const personalityStore = useContext(PersonalityStoreContext);
+  const [skipPersonality, setSkipPersonality] = useState(0);
+  const [takePersonality, setTakePersonality] = useState(+PER_PAGE_OPTIONS[0]);
+  const [personalities, setPersonalities] = useState([]);
+
+  useEffect(() => {
+    getPersonality();
+  }, []);
+
+  useEffect(() => {
+    setPersonalities(personalityStore.personalities);
+  }, [personalityStore.personalities]);
+
+  const handleRemovePersonality = async (values) => {
+    await personalityStore.remove(values.id);
+    getPersonality();
+  };
+
+  const getPersonality = useCallback(() => {
+    personalityStore.get({
+      skipPersonality,
+      takePersonality,
+    });
+  }, [skipPersonality, takePersonality]);
 
   return (
     <div
@@ -139,7 +94,7 @@ export default function Profile(props) {
       </div>
 
       <Modal
-        title="Profile"
+        title="Thông tin cá nhân"
         visible={updateModalVisible}
         onCancel={handleCloseModal}
         footer={null}
@@ -154,20 +109,98 @@ export default function Profile(props) {
       </Modal>
       <div className="mt-8 w-full flex flex-col items-center">
         <Title level={4} className="text-white">
-          Facts about you
+          <Row>
+            Thông tin về bạn
+            <Tooltip
+              title="Để huấn luyện chatbot có tính cách, chúng mình rất mong bạn liên tục cập nhật danh sách này đúng với cá nhân bạn. Chúng mình cam kết không sử dụng thông tin này với mục đích nào khác việc training nếu chưa có sự cho phép cụ thể từ bạn"
+              color="blue"
+            >
+              <QuestionCircleOutlined
+                style={{ fontSize: '14px', marginLeft: '8px' }}
+              />
+            </Tooltip>
+          </Row>
         </Title>
-        <List
-          bordered
-          dataSource={personalities}
-          className="text-white w-11/12"
-          renderItem={(item) => (
-            <List.Item style={{ color: 'white' }}>
-              {item.mention}
-              <CloseOutlined onClick={() => handleRemovePersonality(item)} />
-            </List.Item>
-          )}
-        />
+        {personalities.map((item, index) => {
+          return (
+            <PersonalityCard
+              item={item}
+              index={index}
+              key={index.toString()}
+              onRemove={handleRemovePersonality}
+            />
+          );
+        })}
       </div>
     </div>
   );
 }
+
+const AvatarModal = (props) => {
+  const { form, user, handleUpdateProfile, handleCloseModal } = props;
+  const [fileList, setFileList] = useState([]);
+
+  const createFormBeforeCreate = (value) => {
+    if (value.target < 1) {
+      return message.error('Please set an valid amount target');
+    }
+    handleUpdateProfile({
+      ...value,
+      images: fileList,
+    });
+    setFileList([]);
+  };
+
+  return (
+    <Form
+      labelCol={{ span: 7 }}
+      wrapperCol={{ span: 19 }}
+      layout="horizontal"
+      onFinish={(value) => {
+        createFormBeforeCreate(value);
+      }}
+      scrollToFirstError
+      form={form}
+    >
+      <Form.Item label="Tên đăng nhập">{user.username}</Form.Item>
+
+      <Form.Item label="Ảnh đại diện">
+        <ImgCrop rotate>
+          <Upload
+            multiple={true}
+            name="file"
+            listType="text"
+            fileList={fileList}
+            showUploadList={{ showRemoveIcon: true }}
+            beforeUpload={(file) => {
+              setFileList([...fileList, file]);
+              return false;
+            }}
+            onRemove={(file) => {
+              const list = fileList.filter((f) => {
+                if (f.uid !== file.uid) {
+                  return true;
+                }
+                return false;
+              });
+              setFileList(list);
+            }}
+          >
+            <Button>
+              <UploadOutlined /> Chọn tệp
+            </Button>
+          </Upload>
+        </ImgCrop>
+      </Form.Item>
+
+      <FormButton
+        handleCloseModal={handleCloseModal}
+        submit={
+          <Button className="ml-2" type="primary" htmlType="submit">
+            Cập nhật
+          </Button>
+        }
+      />
+    </Form>
+  );
+};

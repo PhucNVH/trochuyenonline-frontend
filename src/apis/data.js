@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 const { REACT_APP_SERVER_URI } = process.env;
 
 export const Auth = {

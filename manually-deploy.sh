@@ -5,5 +5,5 @@ yarn
 yarn build-prod
 (cd build; zip -r ../build.zip *)
 zip -r -9 build.zip build
-scp -r ./build.zip tco@13.67.34.69:/home/trochuyenonline/builds/web
-ssh tco@13.67.34.69 "sh /home/trochuyenonline/builds/web/trochuyenonline.sh"
+scp -r ./build.zip tco@52.221.183.205:/home/tco/builds/tco/web
+ssh tco@52.221.183.205 "sh /home/tco/builds/tco/web/tco.sh"
