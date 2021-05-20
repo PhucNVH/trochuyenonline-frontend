@@ -76,8 +76,8 @@ workflows:
           filters:
             branches:
               only:
+                - dev
                 - prod
-                - feat/cd
 
       - deploy:
           requires:
@@ -85,4 +85,4 @@ workflows:
           filters:
             branches:
               only:
-                - feat/cd
+                - prod
