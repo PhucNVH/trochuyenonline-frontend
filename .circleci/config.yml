@@ -19,10 +19,46 @@ jobs:
       - run:
           name: Upload artifact
           command: |
-            tar czf build.tar.gz build
-            cp -r build.tar.gz /tmp
+            zip -r build.zip build/
+            cp -r build.zip /tmp
       - store_artifacts:
-          path: /tmp/build.tar.gz
+          path: /tmp/build.zip
+      - run:
+          name: Get artifacts
+          command: |
+            artifacts=$(curl -X GET "https://circleci.com/api/v2/project/github/PhucNVH/trochuyenonline-frontend/latest/artifacts" \
+            -H "Accept: application/json" \
+            -u "$CIRCLE_API_TOKEN:")
+            echo "export ARTIFACT_RESPONSE=$artifacts" >> $BASH_ENV
+
+  deploy:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - '73:31:fc:07:45:b3:1f:60:45:0e:0f:17:48:1c:66:8f'
+      - run:
+          name: Download artifact
+          command: |
+            curl -H "Circle-Token: a93d4d8eafd4f6c2a5818bd8e1ea74b06f777ce9" https://circleci.com/api/v1.1/project/github/PhucNVH/trochuyenonline-frontend/$(($CIRCLE_BUILD_NUM-1))/artifacts \
+            | grep -o 'https://[^"]*'  \
+            | wget --verbose --header "Circle-Token: a93d4d8eafd4f6c2a5818bd8e1ea74b06f777ce9" --input-file -
+      - run:
+          name: Checking files
+          command: ls
+      - run:
+          name: Rename files
+          command: mv build.zip test.zip
+      - run:
+          name: Adding host to known_hosts
+          command: ssh-keyscan -H 52.221.183.205 >> ~/.ssh/known_hosts
+      - run:
+          name: Uploading to server
+          command: scp -r ./test.zip tco@52.221.183.205:/home/tco/builds/tco/web
+      - run:
+          name: Setting up new site
+          command: ssh tco@52.221.183.205 "sh /home/tco/builds/tco/web/tco.sh"
 
 workflows:
   build-app:
@@ -35,9 +71,21 @@ workflows:
               only:
                 - dev
                 - prod
+                - main
 
       - build-source:
           filters:
             branches:
               only:
+                - dev
                 - prod
+                - main
+
+      - deploy:
+          requires:
+            - build-source
+          filters:
+            branches:
+              only:
+                - prod
+                - main
