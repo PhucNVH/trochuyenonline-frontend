@@ -102,10 +102,11 @@ export default function UserInfoBar(props) {
               />
             </Badge>
             <Title className="mb-0 mr-4 mx-2 text-white" level={3}>
-              {isChatbotActive ? 'Chatbot' : username}
+              {isChatbotActive ? 'Chatbot' : ''}
             </Title>
             <Rate
-              className="flex justify-start text-primary text-base"
+              className="flex justify-start text-base"
+              style={{ colo: '#72bbd3' }}
               allowHalf
               value={score}
               onChange={(value) => {
