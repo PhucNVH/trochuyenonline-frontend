@@ -79,7 +79,6 @@ workflows:
             branches:
               only:
                 - prod
-                - main
 
       - deploy:
           requires:
