@@ -71,6 +71,7 @@ workflows:
               only:
                 - dev
                 - prod
+                - main
 
       - build-source:
           filters:
@@ -78,6 +79,7 @@ workflows:
               only:
                 - dev
                 - prod
+                - main
 
       - deploy:
           requires:
@@ -86,3 +88,4 @@ workflows:
             branches:
               only:
                 - prod
+                - main
