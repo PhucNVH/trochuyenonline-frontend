@@ -48,14 +48,11 @@ jobs:
           name: Checking files
           command: ls
       - run:
-          name: Rename files
-          command: mv build.zip test.zip
-      - run:
           name: Adding host to known_hosts
           command: ssh-keyscan -H 52.221.183.205 >> ~/.ssh/known_hosts
       - run:
           name: Uploading to server
-          command: scp -r ./test.zip tco@52.221.183.205:/home/tco/builds/tco/web
+          command: scp -r ./build.zip tco@52.221.183.205:/home/tco/builds/tco/web
       - run:
           name: Setting up new site
           command: ssh tco@52.221.183.205 "sh /home/tco/builds/tco/web/tco.sh"
