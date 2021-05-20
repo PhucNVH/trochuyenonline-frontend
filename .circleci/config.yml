@@ -69,7 +69,6 @@ workflows:
           filters:
             branches:
               only:
-                - dev
                 - prod
                 - main
 
@@ -77,7 +76,6 @@ workflows:
           filters:
             branches:
               only:
-                - dev
                 - prod
                 - main
 
