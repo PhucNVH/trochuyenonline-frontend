@@ -1,5 +1,13 @@
-import { CloseCircleOutlined, HeartFilled } from '@ant-design/icons';
-import { message, Avatar, Badge, Layout, Typography, Rate } from 'antd';
+import { CloseCircleOutlined, StarOutlined } from '@ant-design/icons';
+import {
+  message,
+  Avatar,
+  Badge,
+  Layout,
+  Typography,
+  Rate,
+  Divider,
+} from 'antd';
 import React, { useState } from 'react';
 import CloseConversation from './modals/CloseConversation';
 import { RatingStoreContext } from '../stores/rating.store';
@@ -81,16 +89,7 @@ export default function UserInfoBar(props) {
     <div {...props}>
       <Header className="px-2 sm:px-4 h-full">
         <div className="flex justify-between items-center h-full">
-          <Rate
-            character={<HeartFilled />}
-            className="flex justify-start"
-            allowHalf
-            value={score}
-            onChange={(value) => {
-              handleRating(value);
-            }}
-          />
-          <div className="flex justify-start" style={{ marginRight: '50px' }}>
+          <div className="flex justify-start items-center">
             <Badge
               count={1}
               className="leading-8"
@@ -102,11 +101,19 @@ export default function UserInfoBar(props) {
                 src={isChatbotActive ? '/default_profile.jpg' : avatarUrl}
               />
             </Badge>
-            <Title className="mb-0 mx-2 text-white" level={3}>
+            <Title className="mb-0 mr-4 mx-2 text-white" level={3}>
               {isChatbotActive ? 'Chatbot' : ''}
             </Title>
+            <Rate
+              className="flex justify-start text-base"
+              style={{ colo: '#72bbd3' }}
+              allowHalf
+              value={score}
+              onChange={(value) => {
+                handleRating(value);
+              }}
+            />
           </div>
-
           <div className="ml-1 flex items-center justify-end w-1/2">
             {/* <SearchBar /> */}
             {isChatbotActive ? (
