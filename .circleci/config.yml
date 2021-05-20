@@ -15,7 +15,7 @@ jobs:
           pkg-manager: 'yarn'
       - run:
           name: Build source
-          command: yarn build
+          command: yarn build-prod
       - run:
           name: Upload artifact
           command: |
