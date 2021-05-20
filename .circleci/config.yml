@@ -70,15 +70,13 @@ workflows:
             branches:
               only:
                 - prod
-                - main
 
       - build-source:
-          requires:
-            - node/test
           filters:
             branches:
               only:
                 - prod
+                - main
 
       - deploy:
           requires:
