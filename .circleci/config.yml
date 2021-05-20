@@ -19,7 +19,8 @@ jobs:
       - run:
           name: Upload artifact
           command: |
-            (cd build; zip -r ../build.zip *)
+            cd build
+            zip -r ../build.zip *
             cd ..
             cp -r build.zip /tmp
       - store_artifacts:
