@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 import { makeObservable, observable } from 'mobx';
 import userService from '../apis/user.service';
+import { BecomeExpert } from '../dto/expert/BecomeExpert.dto';
 
 export default class UserStore {
   users: any[];
@@ -18,13 +19,16 @@ export default class UserStore {
 
   async getUser(token: string) {
     const result = await userService.getUser(token);
-    console.log({ result });
-
     return result;
   }
 
   async registerToken(token: string) {
     const result = await userService.registerToken(token);
+    return result;
+  }
+
+  async becomeExpert(model: BecomeExpert) {
+    const result = await userService.becomeExpert(model);
     return result;
   }
 }

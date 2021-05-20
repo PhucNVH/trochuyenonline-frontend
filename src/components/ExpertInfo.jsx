@@ -1,29 +1,91 @@
-import { Form, Modal, Row, Input, Button } from 'antd';
+import { Form, Modal, Row, Input, Button, Popconfirm, message } from 'antd';
+import { STEP } from '../dto/enums/step.enum';
 import React from 'react';
+import { UserStoreContext } from '../stores/user.store';
 
 export default function ExpertInfo() {
+  const userStore = React.useContext(UserStoreContext);
   const [isShow, setIsShow] = React.useState(true);
-  const [step, setStep] = React.useState('first');
+  const [step, setStep] = React.useState(STEP.ONE);
 
   const handleCancel = () => {
     setIsShow(false);
   };
 
-  const handleStep = () => {
-    if (step === 'first') {
-      setStep('second');
+  const handleNextStep = () => {
+    if (step === STEP.ONE) {
+      setStep(STEP.TWO);
     }
   };
+
+  const handlePreviousStep = () => {
+    if (step === STEP.TWO) {
+      setStep(STEP.ONE);
+    }
+  };
+
+  const handleReject = () => {
+    console.log('rejected');
+  };
+
+  const handleAgree = async (values) => {
+    if (step === STEP.TWO) {
+      const result = await userStore.becomeExpert(values);
+      if (result) {
+        message.success('Bạn đã trở thành chuyên gia!');
+        handleCancel();
+      }
+    }
+  };
+
+  const layout = {
+    labelCol: { span: 8 },
+    wrapperCol: { span: 16 },
+  };
+
   return (
     <Modal
       title="Đề nghị trở thành chuyên gia"
       visible={isShow}
-      onOk={handleStep}
-      onCancel={handleCancel}
-      okText={step === 'first' ? 'Tiếp theo' : 'Đồng ý'}
-      cancelText={step === 'first' ? 'Tạm đóng' : 'Trở về'}
+      footer={[
+        <Button
+          key="back"
+          onClick={step === STEP.ONE ? handleCancel : handlePreviousStep}
+        >
+          {step === STEP.ONE ? 'Tạm đóng' : 'Trở về'}
+        </Button>,
+        <Popconfirm
+          title="Nếu từ chối, bạn chỉ có thể liên hệ admin để nhận lại đề xuất này?"
+          onConfirm={handleReject}
+          // onCancel={cancel}
+          okText="Đồng ý"
+          cancelText="Đóng"
+        >
+          <Button danger onClick={handleReject}>
+            Từ chối
+          </Button>
+        </Popconfirm>,
+
+        <Button
+          key="next"
+          type="primary"
+          onClick={
+            step === STEP.ONE
+              ? handleNextStep
+              : () => {
+                  //
+                }
+          }
+          key={step === STEP.TWO ? 'submit' : ''}
+          htmlType={step === STEP.TWO ? 'submit' : ''}
+          form="expert-info"
+        >
+          {step === STEP.ONE ? 'Tiếp theo' : 'Đồng ý'}
+        </Button>,
+      ]}
+      width={600}
     >
-      {step === 'first' && (
+      {step === STEP.ONE && (
         <>
           <Row justify="center">
             <img
@@ -49,43 +111,34 @@ export default function ExpertInfo() {
           </p>
         </>
       )}
-      {step === 'second' && (
+      {step === STEP.TWO && (
         <>
           <Form
-            // {...layout}
+            {...layout}
             name="basic"
             initialValues={{ remember: true }}
-            onFinish={() => {
-              console.log('finish');
+            onFinish={(values) => {
+              handleAgree(values);
             }}
-            onFinishFailed={() => {
-              console.log('failed');
-            }}
+            id="expert-info"
           >
             <Form.Item
-              label="Username"
-              name="username"
-              rules={[
-                { required: true, message: 'Please input your username!' },
-              ]}
+              label="Tên hiển thị"
+              name="expertName"
+              tooltip="Bất cứ tên gì"
             >
               <Input />
             </Form.Item>
-
             <Form.Item
-              label="Password"
-              name="password"
-              rules={[
-                { required: true, message: 'Please input your password!' },
-              ]}
+              label="Giới thiệu về bạn"
+              name="description"
+              tooltip="Không nhất thiết phải là thông tin về bản thân bạn"
             >
-              <Input.Password />
+              <Input.TextArea rows={4} />
             </Form.Item>
 
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
+            <Form.Item label="Thời gian bạn thường online" name="schedule">
+              <Input />
             </Form.Item>
           </Form>
         </>

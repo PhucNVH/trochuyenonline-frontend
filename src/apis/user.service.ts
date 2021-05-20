@@ -2,6 +2,7 @@ import http from '../apis';
 import { RcFile } from 'antd/lib/upload';
 import { prepareGetQuery } from '../utils/apis.util';
 import { NOTIFICATION_API } from '../dto/enums/router.enum';
+import { BecomeExpert } from '../dto/expert/BecomeExpert.dto';
 
 const config = {
   headers: {
@@ -42,6 +43,11 @@ class UserService {
       }
     );
     return result.data?.result;
+  }
+
+  public async becomeExpert(model: BecomeExpert) {
+    const result = await http.put(`${this.prefix}/become-expert`, model);
+    return result.data.result;
   }
 }
 
