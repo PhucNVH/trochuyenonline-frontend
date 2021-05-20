@@ -73,6 +73,8 @@ workflows:
                 - main
 
       - build-source:
+          requires:
+            - node/test
           filters:
             branches:
               only:
