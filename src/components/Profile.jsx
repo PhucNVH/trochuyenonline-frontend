@@ -82,7 +82,10 @@ export default function Profile() {
         }}
       >
         <img
-          src={avatarUrl || '/default_profile.jpg'}
+          src={
+            avatarUrl ||
+            `https://avatars.dicebear.com/api/avataaars/${user.username}.svg`
+          }
           alt="Profile Picture"
           style={{ height: 128, width: 128, borderRadius: '50%' }}
         />

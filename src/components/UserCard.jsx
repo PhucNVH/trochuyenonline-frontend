@@ -34,13 +34,16 @@ export default function UserCard({ conv, isOnline }) {
           size="small"
         >
           <Avatar
-            size="small"
-            src={conv.conversationUser.avatarUrl || '/default_profile.jpg'}
+            src={
+              conv.conversationUser.avatarUrl ||
+              `https://avatars.dicebear.com/api/avataaars/${conv.conversationUser.username}.svg`
+            }
+            className="border border-solid border-white bg-white"
           />
         </Badge>
       </div>
       <div className="hidden sm:flex w-3/4 justify-around items-center">
-        <p className="mb-0 text-sm text-white truncate">{'một ai đó'}</p>
+        <p className="mb-0 text-sm text-white truncate">{'Một Ai Đó'}</p>
         <div className="ml-1">
           <CloseCircleOutlined
             title="Kết thúc cuộc trò chuyện"

@@ -97,8 +97,12 @@ export default function UserInfoBar(props) {
               color={isOnline || isChatbotActive ? 'green' : 'red'}
             >
               <Avatar
-                className="h-8 w-8"
-                src={isChatbotActive ? '/default_profile.jpg' : avatarUrl}
+                className="h-8 w-8 border border-solid border-white bg-white"
+                src={
+                  isChatbotActive
+                    ? `https://avatars.dicebear.com/api/bottts/.svg`
+                    : avatarUrl
+                }
               />
             </Badge>
             <Title className="mb-0 mr-4 mx-2 text-white" level={3}>

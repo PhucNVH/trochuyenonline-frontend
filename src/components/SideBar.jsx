@@ -5,10 +5,11 @@ import CompassTwoTone from '@ant-design/icons/CompassTwoTone';
 import FacebookOutlined from '@ant-design/icons/FacebookOutlined';
 import Modal from 'antd/lib/modal';
 import Divider from 'antd/lib/divider';
-import { BookTwoTone, HeatMapOutlined } from '@ant-design/icons';
+import { BookTwoTone } from '@ant-design/icons';
 import Sider from 'antd/lib/layout/Sider';
 import Guide from './Guide';
 import ChatBotImage from '../asset/chatbot.png';
+import ExpertImage from '../asset/expert.png';
 import UserCard from './UserCard';
 import { useConversation } from '../hooks/use-conversation.js';
 import Map from './Map';
@@ -55,6 +56,7 @@ export default function SideBar({
   const handleMap = () => {
     setIsMapVisible((prev) => !prev);
   };
+
   return (
     <Sider
       breakpoint="sm"
@@ -134,24 +136,30 @@ export default function SideBar({
         >
           <div className="sidebar-icon px-2">
             <img
-              src={ChatBotImage}
+              src={`https://avatars.dicebear.com/api/bottts/.svg`}
               alt="chatbot"
-              className="sidebar-icon w-6 h-6 px-0"
+              className="sidebar-icon w-6 h-6 px-0 border border-solid border-white rounded-full"
             />
           </div>
           <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Chat với bot</p>
         </div>
 
-        {/* <div
+        <div
           className="sidebar-button"
-          onClick={handleMap}
-          title="Chat với bot"
+          // onClick={handleMap}
+          title="Chat với chuyên gia"
         >
           <div className="sidebar-icon px-2">
-            <HeatMapOutlined />
+            <img
+              src={ExpertImage}
+              alt="expert"
+              className="sidebar-icon w-6 h-6 border border-solid border-white rounded-full px-0 "
+            />
           </div>
-          <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Map</p>
-        </div> */}
+          <p className="hidden sm:block sm:w-3/5 mb-0 py-2">
+            Chat với chuyên gia
+          </p>
+        </div>
         <div className="sidebar-button" onClick={askLogout} title="Đăng xuất">
           <LogoutOutlined className="sidebar-icon text-red-600 " />
           <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Đăng xuất</p>
