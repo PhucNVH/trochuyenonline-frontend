@@ -49,11 +49,15 @@ export default function UserCard({ conv, isOnline }) {
       <div className="hidden sm:flex w-3/4 justify-around items-center">
         <p className="mb-0 text-sm text-white truncate">
           {conv.conversationUser.isExpert ? 'chuyên gia' : 'bạn tâm sự'}
-          <CheckCircleTwoTone
-            className="mb-0 text-sm text-white truncate"
-            twoToneColor="#52c41a"
-            style={{ marginLeft: '10px' }}
-          />
+          {conv.conversationUser.isExpert ? (
+            <CheckCircleTwoTone
+              className="mb-0 text-sm text-white truncate"
+              twoToneColor="#52c41a"
+              style={{ marginLeft: '10px' }}
+            />
+          ) : (
+            <></>
+          )}
         </p>
         <div className="ml-1">
           <CloseCircleOutlined
