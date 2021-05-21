@@ -1,4 +1,10 @@
-import React, { useState, useContext, createContext, useEffect } from 'react';
+import React, {
+  useState,
+  useContext,
+  createContext,
+  useEffect,
+  useCallback,
+} from 'react';
 import {
   FrownOutlined,
   AlertOutlined,
@@ -15,6 +21,7 @@ import { SocketStoreContext } from '../stores/socket.store';
 import { PER_PAGE_OPTIONS } from '../dto/commons/PaginationRequest.dto';
 import messageService from '../apis/message.service';
 import { Chatbot } from '../apis/chatbot';
+import Personality from '../apis/personality.service';
 
 const conversationContext = createContext();
 
@@ -51,6 +58,9 @@ function useProvideConversation() {
   const [take, setTake] = useState(+PER_PAGE_OPTIONS[1]);
   const [partnerId, setPartnerId] = useState(-1);
   const [isSensitive, setIsSensitive] = useState(false);
+  const [personalities, setPersonalities] = useState([]);
+  const [skipPersonality, setSkipPersonality] = useState(0);
+  const [takePersonality, setTakePersonality] = useState(+PER_PAGE_OPTIONS[0]);
 
   useEffect(() => {
     getAll();
@@ -153,6 +163,25 @@ function useProvideConversation() {
       logout();
     }
   }, [isDisconnected]);
+
+  const handleRemovePersonality = async (values) => {
+    console.log(values);
+    await Personality.remove(values.id);
+    getPersonality();
+  };
+
+  const getPersonality = useCallback(async () => {
+    const result = await Personality.get({
+      skipPersonality,
+      takePersonality,
+    });
+    console.log(result);
+    setPersonalities(result.data.reverse());
+  }, [skipPersonality, takePersonality]);
+
+  useEffect(() => {
+    getPersonality();
+  }, []);
 
   const logout = async () => {
     const result = await Auth.logout();
@@ -316,5 +345,7 @@ function useProvideConversation() {
     numUser,
     conv,
     onlineUsers: listUser,
+    personalities,
+    handleRemovePersonality,
   };
 }
