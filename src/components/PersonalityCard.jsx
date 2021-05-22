@@ -11,7 +11,7 @@ export default function PersonalityCard({ item, index, onRemove }) {
       size="small"
       className="w-11/12 max-h-12 mb-4 border-0 text-white fact-card px-0.5"
       hoverable
-      key={index.toString()}
+      key={item.id}
     >
       <div className="flex items-center">
         <div className="w-1/12">

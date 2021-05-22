@@ -1,16 +1,24 @@
 import { createContext } from 'react';
-import { makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import userService from '../apis/user.service';
 import { BecomeExpert } from '../dto/expert/BecomeExpert.dto';
 
 export default class UserStore {
   users: any[];
+  expertList: any[];
 
   constructor() {
     this.users = [];
+    this.expertList = [];
     makeObservable(this, {
       users: observable,
+      expertList: observable,
+      setExpertList: action,
     });
+  }
+
+  setExpertList(result: any[]) {
+    this.expertList = result;
   }
 
   async uploadAvatar(model: Record<string, any>) {
@@ -30,6 +38,11 @@ export default class UserStore {
   async becomeExpert(model: BecomeExpert) {
     const result = await userService.becomeExpert(model);
     return result;
+  }
+
+  async getListExpert() {
+    const result = await userService.getListExpert();
+    this.setExpertList(result);
   }
 }
 

@@ -45,7 +45,7 @@ export default function ExpertInfo() {
 
   return (
     <Modal
-      title="Đề nghị trở thành chuyên gia"
+      title="Đề nghị trở thành tâm sự viên"
       visible={isShow}
       footer={[
         <Button
@@ -100,10 +100,10 @@ export default function ExpertInfo() {
             người cũng trân trọng những cuộc trò chuyện với bạn
           </p>
           <p>
-            Vì thế, chúng mình muốn đề xuất bạn trở thành một chuyên gia tư vấn.
-            Nếu bạn đồng ý, xin hãy cập nhật thông tin ở trang sau. Những thông
-            tin này sẽ được công khai đến mọi người, họ sẽ có thể nhắn tin tâm
-            sự trực tiếp cho bạn mà không cần phải tìm kiếm.
+            Vì thế, chúng mình muốn đề xuất bạn trở thành một tâm sự viên của
+            trochuyenonline. Nếu bạn đồng ý, xin hãy cập nhật thông tin ở trang
+            sau. Những thông tin này sẽ được công khai đến mọi người, họ sẽ có
+            thể nhắn tin tâm sự trực tiếp cho bạn mà không cần phải tìm kiếm.
           </p>
           <p>
             Mong bạn tiếp tục đồng hành cùng trochuyenonline, hi vọng sẽ có thêm
@@ -134,7 +134,7 @@ export default function ExpertInfo() {
               name="description"
               tooltip="Không nhất thiết phải là thông tin về bản thân bạn"
             >
-              <Input.TextArea rows={4} />
+              <Input />
             </Form.Item>
 
             <Form.Item label="Thời gian bạn thường online" name="schedule">

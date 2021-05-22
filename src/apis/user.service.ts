@@ -49,6 +49,11 @@ class UserService {
     const result = await http.put(`${this.prefix}/become-expert`, model);
     return result.data.result;
   }
+
+  public async getListExpert() {
+    const result = await http.get(`${this.prefix}/experts`);
+    return result.data.result;
+  }
 }
 
 export default new UserService();

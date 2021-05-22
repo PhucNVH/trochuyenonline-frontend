@@ -8,9 +8,7 @@ import ImgCrop from 'antd-img-crop';
 import FormButton from './commons/FormButton';
 import PersonalityCard from './PersonalityCard';
 import { UserStoreContext } from '../stores/user.store';
-import { PersonalityStoreContext } from '../stores/personality.store';
-import { PER_PAGE_OPTIONS } from '../dto/commons/PaginationRequest.dto';
-
+import { useConversation } from '../hooks/use-conversation';
 export default function Profile() {
   const { user } = useAuth();
   const userStore = useContext(UserStoreContext);
@@ -18,6 +16,7 @@ export default function Profile() {
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl);
 
+  const { personalities, handleRemovePersonality } = useConversation();
   const handleCloseModal = () => {
     setUpdateModalVisible(false);
   };
@@ -33,31 +32,6 @@ export default function Profile() {
       handleCloseModal();
     }
   };
-
-  const personalityStore = useContext(PersonalityStoreContext);
-  const [skipPersonality, setSkipPersonality] = useState(0);
-  const [takePersonality, setTakePersonality] = useState(+PER_PAGE_OPTIONS[0]);
-  const [personalities, setPersonalities] = useState([]);
-
-  useEffect(() => {
-    getPersonality();
-  }, []);
-
-  useEffect(() => {
-    setPersonalities(personalityStore.personalities);
-  }, [personalityStore.personalities]);
-
-  const handleRemovePersonality = async (values) => {
-    await personalityStore.remove(values.id);
-    getPersonality();
-  };
-
-  const getPersonality = useCallback(() => {
-    personalityStore.get({
-      skipPersonality,
-      takePersonality,
-    });
-  }, [skipPersonality, takePersonality]);
 
   return (
     <div
@@ -82,7 +56,10 @@ export default function Profile() {
         }}
       >
         <img
-          src={avatarUrl || '/default_profile.jpg'}
+          src={
+            avatarUrl ||
+            `https://avatars.dicebear.com/api/avataaars/${user.username}.svg`
+          }
           alt="Profile Picture"
           style={{ height: 128, width: 128, borderRadius: '50%' }}
         />
@@ -126,7 +103,7 @@ export default function Profile() {
             <PersonalityCard
               item={item}
               index={index}
-              key={index.toString()}
+              key={item.id}
               onRemove={handleRemovePersonality}
             />
           );

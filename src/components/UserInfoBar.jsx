@@ -1,16 +1,8 @@
-import { CloseCircleOutlined, StarOutlined } from '@ant-design/icons';
-import {
-  message,
-  Avatar,
-  Badge,
-  Layout,
-  Typography,
-  Rate,
-  Divider,
-} from 'antd';
+import { CloseCircleOutlined } from '@ant-design/icons';
+import { Avatar, Badge, Layout, message, Rate, Typography } from 'antd';
 import React, { useState } from 'react';
-import CloseConversation from './modals/CloseConversation';
 import { RatingStoreContext } from '../stores/rating.store';
+import CloseConversation from './modals/CloseConversation';
 
 const { Header } = Layout;
 const { Title } = Typography;
@@ -97,16 +89,19 @@ export default function UserInfoBar(props) {
               color={isOnline || isChatbotActive ? 'green' : 'red'}
             >
               <Avatar
-                className="h-8 w-8"
-                src={isChatbotActive ? '/default_profile.jpg' : avatarUrl}
+                className={isChatbotActive ? '' : 'h-8 w-8'}
+                src={
+                  isChatbotActive
+                    ? `https://image.flaticon.com/icons/png/512/2040/2040946.png`
+                    : avatarUrl
+                }
               />
             </Badge>
             <Title className="mb-0 mr-4 mx-2 text-white" level={3}>
               {isChatbotActive ? 'Chatbot' : ''}
             </Title>
             <Rate
-              className="flex justify-start text-base"
-              style={{ colo: '#72bbd3' }}
+              // className="flex justify-start text-base"
               allowHalf
               value={score}
               onChange={(value) => {

@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import LogoutOutlined from '@ant-design/icons/LogoutOutlined';
-import UserOutlined from '@ant-design/icons/UserOutlined';
+import { BookTwoTone } from '@ant-design/icons';
 import CompassTwoTone from '@ant-design/icons/CompassTwoTone';
 import FacebookOutlined from '@ant-design/icons/FacebookOutlined';
-import Modal from 'antd/lib/modal';
+import LogoutOutlined from '@ant-design/icons/LogoutOutlined';
+import UserOutlined from '@ant-design/icons/UserOutlined';
 import Divider from 'antd/lib/divider';
-import { BookTwoTone, HeatMapOutlined } from '@ant-design/icons';
 import Sider from 'antd/lib/layout/Sider';
-import Guide from './Guide';
-import ChatBotImage from '../asset/chatbot.png';
-import UserCard from './UserCard';
+import Modal from 'antd/lib/modal';
+import React, { useState } from 'react';
 import { useConversation } from '../hooks/use-conversation.js';
+import Guide from './Guide';
 import Map from './Map';
+import UserCard from './UserCard';
 
 export default function SideBar({
   triggerSider,
   isSiderCollapsed,
   isFirstLogin,
+  handleShowExpertList,
 }) {
   const {
     conversations,
@@ -55,6 +55,7 @@ export default function SideBar({
   const handleMap = () => {
     setIsMapVisible((prev) => !prev);
   };
+
   return (
     <Sider
       breakpoint="sm"
@@ -99,9 +100,15 @@ export default function SideBar({
           title="Thông tin cá nhân"
         >
           {isSiderCollapsed ? (
-            <UserOutlined className="sidebar-icon text-blue-700" />
+            <UserOutlined
+              className="sidebar-icon text-blue-700"
+              style={{ marginRight: 12 }}
+            />
           ) : (
-            <UserOutlined className="sidebar-icon text-blue-700" />
+            <UserOutlined
+              className="sidebar-icon text-blue-700"
+              style={{ marginRight: 12 }}
+            />
           )}
           <p className="hidden sm:block sm:w-4/5 mb-0 py-2">
             Thông tin cá nhân
@@ -112,7 +119,7 @@ export default function SideBar({
           onClick={handleSetVisibleGuide}
           title="Hướng dẫn sử dụng"
         >
-          <BookTwoTone className="sidebar-icon " />
+          <BookTwoTone className="sidebar-icon " style={{ marginRight: 12 }} />
           <p className="hidden sm:block sm:w-4/5 mb-0 py-2">
             Hướng dẫn sử dụng
           </p>
@@ -122,7 +129,10 @@ export default function SideBar({
           onClick={handleFindPartner}
           title="Tìm kiếm"
         >
-          <CompassTwoTone className="sidebar-icon " />
+          <CompassTwoTone
+            className="sidebar-icon "
+            style={{ marginRight: 12 }}
+          />
           <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Tìm kiếm</p>
         </div>
         <div
@@ -134,26 +144,41 @@ export default function SideBar({
         >
           <div className="sidebar-icon px-2">
             <img
-              src={ChatBotImage}
+              src={`https://image.flaticon.com/icons/png/512/2040/2040946.png`}
               alt="chatbot"
-              className="sidebar-icon w-6 h-6 px-0"
+              style={{ width: 36, height: 36 }}
+              // className="sidebar-icon w-6 h-6 px-0 border border-solid border-white rounded-full"
             />
           </div>
-          <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Chat với bot</p>
+          <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Tâm sự với bot</p>
         </div>
 
-        {/* <div
+        <div
           className="sidebar-button"
-          onClick={handleMap}
-          title="Chat với bot"
+          onClick={() => {
+            handleShowExpertList(true);
+          }}
+          title="Danh sách tâm sự viên"
         >
           <div className="sidebar-icon px-2">
-            <HeatMapOutlined />
+            <img
+              src={
+                'https://cdn.iconscout.com/icon/free/png-256/star-bookmark-favorite-shape-rank-16-28621.png'
+              }
+              alt="expert"
+              style={{ width: 28, height: 28, marginRight: 8 }}
+              // className="sidebar-icon w-6 h-6 border border-solid border-white rounded-full px-0 "
+            />
           </div>
-          <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Map</p>
-        </div> */}
+          <p className="hidden sm:block sm:w-3/5 mb-0 py-2">
+            Danh sách tâm sự viên
+          </p>
+        </div>
         <div className="sidebar-button" onClick={askLogout} title="Đăng xuất">
-          <LogoutOutlined className="sidebar-icon text-red-600 " />
+          <LogoutOutlined
+            className="sidebar-icon text-red-600 "
+            style={{ marginRight: 12 }}
+          />
           <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Đăng xuất</p>
         </div>
         <Modal

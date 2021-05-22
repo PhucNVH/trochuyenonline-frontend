@@ -1,8 +1,8 @@
+import { CloseCircleOutlined } from '@ant-design/icons';
+import { Avatar, Badge } from 'antd';
 import React, { useState } from 'react';
-import { Badge, Avatar } from 'antd';
-import { CloseCircleOutlined, CheckCircleTwoTone } from '@ant-design/icons';
-import CloseConversation from './modals/CloseConversation';
 import { useConversation } from '../hooks/use-conversation.js';
+import CloseConversation from './modals/CloseConversation';
 
 export default function UserCard({ conv, isOnline }) {
   const {
@@ -33,32 +33,17 @@ export default function UserCard({ conv, isOnline }) {
           className="mt-1"
           size="small"
         >
-          <Badge
-            dot={true}
-            color={isOnline ? 'green' : 'red'}
-            className="mt-1"
-            size="small"
-          >
-            <Avatar
-              size="small"
-              src={conv.conversationUser.avatarUrl || '/default_profile.jpg'}
-            />
-          </Badge>
+          <Avatar
+            src={
+              conv.conversationUser.avatarUrl ||
+              `https://avatars.dicebear.com/api/avataaars/${conv.conversationUser.username}.svg`
+            }
+            // className="border border-solid"
+          />
         </Badge>
       </div>
       <div className="hidden sm:flex w-3/4 justify-around items-center">
-        <p className="mb-0 text-sm text-white truncate">
-          {conv.conversationUser.isExpert ? 'chuyên gia' : 'bạn tâm sự'}
-          {conv.conversationUser.isExpert ? (
-            <CheckCircleTwoTone
-              className="mb-0 text-sm text-white truncate"
-              twoToneColor="#52c41a"
-              style={{ marginLeft: '10px' }}
-            />
-          ) : (
-            <></>
-          )}
-        </p>
+        <p className="mb-0 text-sm text-white truncate">{'một ai đó'}</p>
         <div className="ml-1">
           <CloseCircleOutlined
             title="Kết thúc cuộc trò chuyện"
