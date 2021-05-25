@@ -17,6 +17,7 @@ export default function SideBar({
   isSiderCollapsed,
   isFirstLogin,
   handleShowExpertList,
+  handleShowFeed,
 }) {
   const {
     conversations,
@@ -146,7 +147,7 @@ export default function SideBar({
             <img
               src={`https://image.flaticon.com/icons/png/512/2040/2040946.png`}
               alt="chatbot"
-              style={{ width: 36, height: 36 }}
+              style={{ width: 36, height: 36, marginLeft: -4, marginRight: 4 }}
               // className="sidebar-icon w-6 h-6 px-0 border border-solid border-white rounded-full"
             />
           </div>
@@ -166,7 +167,7 @@ export default function SideBar({
                 'https://cdn.iconscout.com/icon/free/png-256/star-bookmark-favorite-shape-rank-16-28621.png'
               }
               alt="expert"
-              style={{ width: 28, height: 28, marginRight: 8 }}
+              style={{ width: 28, height: 28, marginRight: 12, marginLeft: -4 }}
               // className="sidebar-icon w-6 h-6 border border-solid border-white rounded-full px-0 "
             />
           </div>
@@ -174,10 +175,27 @@ export default function SideBar({
             Danh sách tâm sự viên
           </p>
         </div>
+        <div
+          className="sidebar-button"
+          onClick={() => {
+            handleShowFeed(true);
+          }}
+          title="Kho cảm xúc"
+        >
+          <div className="sidebar-icon px-2">
+            <img
+              src={'https://img.icons8.com/cotton/2x/like.png'}
+              alt="expert"
+              style={{ width: 32, height: 32, marginRight: 8, marginLeft: -4 }}
+              // className="sidebar-icon w-6 h-6 border border-solid border-white rounded-full px-0 "
+            />
+          </div>
+          <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Kho cảm xúc</p>
+        </div>
         <div className="sidebar-button" onClick={askLogout} title="Đăng xuất">
           <LogoutOutlined
             className="sidebar-icon text-red-600 "
-            style={{ marginRight: 12 }}
+            style={{ marginRight: 12, marginLeft: 2 }}
           />
           <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Đăng xuất</p>
         </div>
