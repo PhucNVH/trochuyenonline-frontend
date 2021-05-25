@@ -178,6 +178,7 @@ export default function SideBar({
         <div
           className="sidebar-button"
           onClick={() => {
+            handleShowExpertList(false);
             handleShowFeed(true);
           }}
           title="Kho cảm xúc"

@@ -44,7 +44,10 @@ const Chat = () => {
   };
 
   return (
-    <ProvideConversation handleShowExpertList={handleShowExpertList}>
+    <ProvideConversation
+      handleShowExpertList={handleShowExpertList}
+      handleShowFeed={handleShowFeed}
+    >
       <Row className="flex flex-nowrap">
         <SideBar
           triggerSider={setIsCollapsed}
