@@ -12,7 +12,7 @@ const ExpertList = () => {
 
   React.useEffect(() => {
     userStore.getListExpert();
-  }, [userStore.expertList]);
+  }, []);
 
   return (
     <>
