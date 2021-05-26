@@ -59,8 +59,8 @@ const Feed = () => {
 
   return (
     <>
-      <div class="feed-container">
-        <div class="feed">
+      <div className="feed-container">
+        <div className="feed">
           <Input.TextArea
             placeholder="Chia sẻ cảm xúc của bạn"
             style={{ width: '98%', margin: 'auto', paddingTop: '5px' }}
@@ -90,7 +90,7 @@ const Feed = () => {
         </div>
         {feeds.map((f) => (
           <>
-            <div class="feed">
+            <div className="feed">
               <PageHeader
                 subTitle={f.subContent}
                 // tags={<Tag color="blue">Running</Tag>}

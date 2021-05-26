@@ -215,6 +215,7 @@
 
 .feed-container {
   overflow: auto;
+  height: 100%;
 }
 
 .feed {
