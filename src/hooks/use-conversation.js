@@ -68,7 +68,7 @@ function useProvideConversation(handleShowExpertList) {
   }, []);
 
   useEffect(() => {
-    socket.emit('online', { username: user.username });
+    socket.emit('online', { username: user.username, token: user.token });
     socket.on('connected', (data) => {
       setNumUser(data.numUser);
       setListUser(data.onlineUsers);
@@ -120,6 +120,12 @@ function useProvideConversation(handleShowExpertList) {
           description: 'Cuộc trò chuyện đã được kết thúc',
           icon: <FrownOutlined style={{ color: '#108ee9' }} />,
         });
+        setIsChatbotActive(false);
+        setMessage([]);
+        setPartnerId(-1);
+        setCurrentConversation(-1);
+        setConversationName('');
+        setConv(null);
         getAll();
         return;
       }
@@ -146,6 +152,7 @@ function useProvideConversation(handleShowExpertList) {
         });
         history.push('/dang-nhap');
       }
+
       setMessage((prev) => [
         ...prev,
         {
@@ -167,7 +174,6 @@ function useProvideConversation(handleShowExpertList) {
   }, [isDisconnected]);
 
   const handleRemovePersonality = async (values) => {
-    console.log(values);
     await Personality.remove(values.id);
     getPersonality();
   };
@@ -177,7 +183,6 @@ function useProvideConversation(handleShowExpertList) {
       skipPersonality,
       takePersonality,
     });
-    console.log(result);
     setPersonalities(result.data.reverse());
   }, [skipPersonality, takePersonality]);
 
@@ -198,9 +203,23 @@ function useProvideConversation(handleShowExpertList) {
     socket.emit('find', {
       token: user.token,
     });
-    getAll();
     setCurrentConversation(-1);
     setConv(null);
+    getAll();
+  };
+
+  const handleChatExpert = (expertId, username) => {
+    setIsChatbotActive(false);
+    setMessage([]);
+    socket.emit('chat-expert', {
+      token: user.token,
+      userId: user.id,
+      expertId: expertId,
+      username: username,
+    });
+    setCurrentConversation(-1);
+    setConv(null);
+    getAll();
   };
 
   const handleChatbot = () => {
@@ -220,17 +239,18 @@ function useProvideConversation(handleShowExpertList) {
 
   const handleEndConversation = (conv) => {
     setIsChatbotActive(false);
+    setMessage([]);
+    setPartnerId(-1);
+    setCurrentConversation(-1);
+    setConversationName('');
+    setConv(null);
+    getAll();
     socket.emit('end', {
       token: user.token,
       conversationName: conv.name,
       selectedConversation: conv.id,
       partnerId: conv.conversationUser.id,
     });
-    setMessage([]);
-
-    setPartnerId(-1);
-    setCurrentConversation(-1);
-    setConv(null);
   };
 
   const handleSendMessage = (message) => {
@@ -277,6 +297,7 @@ function useProvideConversation(handleShowExpertList) {
     setIsChatbotActive(false);
     setCurrentConversation(values.id);
     setConv(values);
+    setTake(+PER_PAGE_OPTIONS[1]);
     setPartnerId(values.conversationUser.id);
     setConversationName(values.name);
     getMessage(values.id);
@@ -288,14 +309,11 @@ function useProvideConversation(handleShowExpertList) {
     });
   };
 
-  // useEffect(() => {
-  //   if (setCurrentConversation !== -1) {
-  //     messageStore.getConversation(setCurrentConversation, {
-  //       skip,
-  //       take,
-  //     });
-  //   }
-  // }, [setCurrentConversation, skip, take]);
+  useEffect(async () => {
+    if (currentConversation !== -1) {
+      getMessage(currentConversation, skip, take);
+    }
+  }, [skip, take]);
 
   const handleDisconnected = () => {
     setIsDisconnected(true);
@@ -306,9 +324,12 @@ function useProvideConversation(handleShowExpertList) {
     setConversations(data);
   };
 
-  const getMessage = async (conversation) => {
+  const getMessage = async (
+    conversation,
+    skip = 0,
+    take = +PER_PAGE_OPTIONS[1]
+  ) => {
     handleShowExpertList(false);
-
     const { data, count } = await messageService.getConversation(conversation, {
       skip,
       take,
@@ -352,5 +373,6 @@ function useProvideConversation(handleShowExpertList) {
     onlineUsers: listUser,
     personalities,
     handleRemovePersonality,
+    handleChatExpert,
   };
 }

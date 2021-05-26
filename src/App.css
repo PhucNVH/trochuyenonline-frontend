@@ -150,7 +150,8 @@
 @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
 
 .expert-container {
-  overflow: auto;
+  overflow: hidden;
+  height: 110px;
 }
 
 .expert {
@@ -161,7 +162,7 @@
   margin: 10px auto;
   overflow: hidden;
   width: 90%;
-  height: 110px;
+  height: 100px;
 }
 
 .expert h6 {
@@ -178,9 +179,13 @@
 }
 
 .expert-image {
+  @apply p-3;
   background-color: #1e3239;
   /* padding: 6px; */
   max-width: 100px;
+  max-height: 100px;
+  width: 100%;
+  height: 100%;
   display: flex;
 }
 

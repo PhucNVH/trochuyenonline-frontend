@@ -58,7 +58,7 @@ export default function Profile() {
         <img
           src={
             avatarUrl ||
-            `https://avatars.dicebear.com/api/avataaars/${user.username}.svg`
+            `https://avatars.dicebear.com/api/micah/${user.username}.svg`
           }
           alt="Profile Picture"
           style={{ height: 128, width: 128, borderRadius: '50%' }}

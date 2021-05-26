@@ -1,41 +1,40 @@
 import { observer } from 'mobx-react';
 import React from 'react';
+import { useConversation } from '../hooks/use-conversation';
 import { UserStoreContext } from '../stores/user.store';
 
 const ExpertList = () => {
   const userStore = React.useContext(UserStoreContext);
-
-  const handleChatWithExpert = (id) => {
-    // conversationStore.create({id})
-    console.log({ id });
-  };
+  const { handleChatExpert } = useConversation();
 
   React.useEffect(() => {
     userStore.getListExpert();
-  }, [userStore.expertList]);
+  }, []);
 
   return (
     <>
       {userStore.expertList.map((e) => (
-        <div class="expert-container">
-          <div class="expert">
-            <div class="expert-image">
+        <div className="expert-container" key={e.id}>
+          <div className="expert">
+            <div className="expert-image">
               <img
+                style={{ height: 100, width: 100 }}
                 src={
                   e.avatarUrl !== ''
                     ? e.avatarUrl
-                    : 'https://cdn.iconscout.com/icon/free/png-256/star-bookmark-favorite-shape-rank-16-28621.png'
+                    : `https://avatars.dicebear.com/api/micah/${e.username}.svg`
                 }
-              ></img>
+              />
             </div>
-            <div class="expert-info">
-              <h6>{e.expertName}</h6>
+            <div className="expert-info">
+              <h6>{e.username}</h6>
               <h2>{e.description}</h2>
               <h2>Hoạt động: {e.schedule}</h2>
-              <div class="arrow-chat">
+              <div className="arrow-chat">
                 <a
                   onClick={() => {
-                    handleChatWithExpert(e.id);
+                    console.log(e);
+                    handleChatExpert(e.id, e.username);
                   }}
                 >
                   Trò chuyện

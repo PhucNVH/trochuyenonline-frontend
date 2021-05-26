@@ -101,7 +101,7 @@ export default function UserInfoBar(props) {
               {isChatbotActive ? 'Chatbot' : ''}
             </Title>
             <Rate
-              // className="flex justify-start text-base"
+              className="flex justify-start text-base"
               allowHalf
               value={score}
               onChange={(value) => {

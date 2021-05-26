@@ -22,6 +22,7 @@ export default function SideBar({
     conversations,
     handleFindPartner,
     handleDisconnected,
+    handleChatExpert,
     isChatbotActive,
     handleChatbot,
     numUser,

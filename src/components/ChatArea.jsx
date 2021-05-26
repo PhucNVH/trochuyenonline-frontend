@@ -33,7 +33,7 @@ const Maximized = ({ alert }) => {
   const avatarUrl =
     conv?.conversationUser.avatarUrl !== ''
       ? conv?.conversationUser.avatarUrl
-      : `https://avatars.dicebear.com/api/avataaars/${conv.conversationUser.username}.svg`;
+      : `https://avatars.dicebear.com/api/micah/${conv.conversationUser.username}.svg`;
 
   useEffect(() => {
     document.getElementById('chat-area').onscroll = (e) => {
