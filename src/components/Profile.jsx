@@ -111,7 +111,7 @@ export default function Profile() {
           );
         })}
       </div>
-
+      {/* 
       <div className="absolute w-full bottom-2 flex justify-center items-center ml-auto mr-2">
         <a
           href="https://facebook.com/trochuyenonline"
@@ -121,7 +121,7 @@ export default function Profile() {
         >
           <FacebookOutlined className="text-4xl text-gray-200 hover:text-primary" />
         </a>
-      </div>
+      </div> */}
     </div>
   );
 }
