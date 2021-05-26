@@ -89,6 +89,35 @@ export default function Guide({ isModalVisible, handleOk }) {
               bạn trở thành chuyên gia tư vấn, lúc này mọi người có thể tìm đến
               bạn để tâm sự thay vì phải tìm kiếm
             </li>
+            <br></br>
+            <li>
+              <img
+                src={
+                  'https://cdn.iconscout.com/icon/free/png-256/star-bookmark-favorite-shape-rank-16-28621.png'
+                }
+                alt="expert"
+                style={{
+                  width: 28,
+                  height: 28,
+                }}
+              />
+              Danh sách những tâm sự viên, được tuyển chọn từ những thành viên
+              tích cực trò chuyện của trochuyenonline
+            </li>
+            <br></br>
+            <li>
+              <img
+                src={'https://img.icons8.com/cotton/2x/like.png'}
+                style={{
+                  width: 32,
+                  height: 32,
+                  marginRight: 8,
+                  marginLeft: -4,
+                }}
+              />
+              Kho cảm xúc, nơi bạn có thể chia sẻ những cảm xúc hiện tại của
+              mình
+            </li>
           </ul>
         </Paragraph>
         <br></br>

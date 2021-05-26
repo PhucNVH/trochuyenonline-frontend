@@ -217,3 +217,24 @@
   bottom: 8px;
   right: 0px;
 }
+
+.feed-container {
+  overflow: auto;
+  height: 100%;
+}
+
+.feed {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+  /* display: flex; */
+  margin: 20px auto;
+  /* overflow: hidden; */
+  width: 90%;
+  height: 300;
+}
+
+.list-conversation {
+  overflow: auto;
+  /* height: 100%; */
+}

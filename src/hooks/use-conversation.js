@@ -1,33 +1,35 @@
-import React, {
-  useState,
-  useContext,
-  createContext,
-  useEffect,
-  useCallback,
-} from 'react';
 import {
-  FrownOutlined,
   AlertOutlined,
+  FrownOutlined,
   LoadingOutlined,
   SmileOutlined,
 } from '@ant-design/icons';
 import notification from 'antd/lib/notification';
 import Spin from 'antd/lib/spin';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import { useHistory } from 'react-router-dom';
+import { Chatbot } from '../apis/chatbot';
 import conversationService from '../apis/conversation.service.ts';
-import { MessageStoreContext } from '../stores/message.store';
-import { useHistory, useLocation } from 'react-router-dom';
+import messageService from '../apis/message.service';
+import Personality from '../apis/personality.service';
+import { PER_PAGE_OPTIONS } from '../dto/commons/PaginationRequest.dto';
 import { useAuth } from '../hooks/use-auth';
 import { SocketStoreContext } from '../stores/socket.store';
-import { PER_PAGE_OPTIONS } from '../dto/commons/PaginationRequest.dto';
-import messageService from '../apis/message.service';
-import { Chatbot } from '../apis/chatbot';
-import Personality from '../apis/personality.service';
 
 const conversationContext = createContext();
 
 export function ProvideConversation(props) {
-  const { children, handleShowExpertList } = props;
-  const conversation = useProvideConversation(handleShowExpertList);
+  const { children, handleShowExpertList, handleShowFeed } = props;
+  const conversation = useProvideConversation(
+    handleShowExpertList,
+    handleShowFeed
+  );
   return (
     <conversationContext.Provider value={conversation}>
       {children}
@@ -39,7 +41,7 @@ export const useConversation = () => {
   return useContext(conversationContext);
 };
 
-function useProvideConversation(handleShowExpertList) {
+function useProvideConversation(handleShowExpertList, handleShowFeed) {
   const { user } = useAuth();
   const history = useHistory();
   const Auth = useAuth();
@@ -100,6 +102,7 @@ function useProvideConversation(handleShowExpertList) {
         setCurrentConversation(-1);
         setMessage([]);
         handleShowExpertList(false);
+        handleShowFeed(false);
         getAll();
       }
       setConversationName(data.conversationName);
@@ -224,6 +227,7 @@ function useProvideConversation(handleShowExpertList) {
 
   const handleChatbot = () => {
     handleShowExpertList(false);
+    handleShowFeed(false);
     setMessage([]);
     setIsChatbotActive(true);
     setCurrentConversation(-1);
@@ -330,6 +334,8 @@ function useProvideConversation(handleShowExpertList) {
     take = +PER_PAGE_OPTIONS[1]
   ) => {
     handleShowExpertList(false);
+    handleShowFeed(false);
+
     const { data, count } = await messageService.getConversation(conversation, {
       skip,
       take,

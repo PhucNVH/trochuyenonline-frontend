@@ -12,6 +12,7 @@ import SideBar from '../components/SideBar';
 import { useAuth } from '../hooks/use-auth';
 import { ProvideConversation } from '../hooks/use-conversation';
 import ExpertList from '../components/ExpertList';
+import Feed from '../components/Feed';
 
 const { Sider, Content } = Layout;
 
@@ -21,6 +22,7 @@ const Chat = () => {
   const location = useLocation();
   const isFirstLogin = false || (location.state && location.state.isFirstLogin);
   const [isShowExpertList, setIsShowExpertList] = React.useState(false);
+  const [isShowFeed, setIsShowFeed] = React.useState(false);
   const [isCollapsed, setIsCollapsed] = useState(
     window.screen.width < 768 ? true : false
   );
@@ -37,21 +39,30 @@ const Chat = () => {
     setIsShowExpertList(value);
   };
 
+  const handleShowFeed = (value) => {
+    setIsShowFeed(value);
+  };
+
   return (
-    <ProvideConversation handleShowExpertList={handleShowExpertList}>
+    <ProvideConversation
+      handleShowExpertList={handleShowExpertList}
+      handleShowFeed={handleShowFeed}
+    >
       <Row className="flex flex-nowrap">
         <SideBar
           triggerSider={setIsCollapsed}
           isSiderCollapsed={isCollapsed}
           isFirstLogin={isFirstLogin}
           handleShowExpertList={handleShowExpertList}
+          handleShowFeed={handleShowFeed}
         />
         <Col className="w-full">
           <Layout className="App">
             <Layout>
               <Content>
                 {isShowExpertList && <ExpertList />}
-                {!isShowExpertList && <ChatArea />}
+                {isShowFeed && <Feed />}
+                {!isShowExpertList && !isShowFeed && <ChatArea />}
               </Content>
             </Layout>
             <Sider

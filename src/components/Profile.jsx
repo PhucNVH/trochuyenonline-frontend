@@ -1,14 +1,16 @@
-import { useState, useContext, useEffect, useCallback } from 'react';
-import Typography from 'antd/lib/typography';
-import { UploadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
-import { useAuth } from '../hooks/use-auth';
-import { Button, Form, message, Modal, Upload, Tooltip, Row } from 'antd';
-const { Title } = Typography;
+import { QuestionCircleOutlined, UploadOutlined } from '@ant-design/icons';
+import FacebookOutlined from '@ant-design/icons/FacebookOutlined';
+import { Button, Form, message, Modal, Row, Tooltip, Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
+import Typography from 'antd/lib/typography';
+import { useContext, useState } from 'react';
+import { useAuth } from '../hooks/use-auth';
+import { useConversation } from '../hooks/use-conversation';
+import { UserStoreContext } from '../stores/user.store';
 import FormButton from './commons/FormButton';
 import PersonalityCard from './PersonalityCard';
-import { UserStoreContext } from '../stores/user.store';
-import { useConversation } from '../hooks/use-conversation';
+const { Title } = Typography;
+
 export default function Profile() {
   const { user } = useAuth();
   const userStore = useContext(UserStoreContext);
@@ -108,6 +110,17 @@ export default function Profile() {
             />
           );
         })}
+      </div>
+
+      <div className="absolute w-full bottom-2 flex justify-center items-center ml-auto mr-2">
+        <a
+          href="https://facebook.com/trochuyenonline"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text"
+        >
+          <FacebookOutlined className="text-4xl text-gray-200 hover:text-primary" />
+        </a>
       </div>
     </div>
   );

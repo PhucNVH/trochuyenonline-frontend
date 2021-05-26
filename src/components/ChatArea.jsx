@@ -83,7 +83,7 @@ const Maximized = ({ alert }) => {
                       ? ''
                       : avatarUrl
                       ? avatarUrl
-                      : '/default_profile.jpg'
+                      : 'https://image.flaticon.com/icons/png/512/2040/2040946.png'
                   }
                   className={v[0].isOwn ? 'flex-row-reverse' : 'flex-row'}
                   onlyFirstWithMeta
