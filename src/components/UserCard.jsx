@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Badge, Avatar } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
-import CloseConversation from './modals/CloseConversation';
+import { Avatar, Badge } from 'antd';
+import React, { useState } from 'react';
 import { useConversation } from '../hooks/use-conversation.js';
+import CloseConversation from './modals/CloseConversation';
 
 export default function UserCard({ conv, isOnline }) {
   const {
@@ -24,35 +24,43 @@ export default function UserCard({ conv, isOnline }) {
       className={`user-item flex justify-center sm:justify-between items-center cursor-pointer p-1.5 mb-2 ${
         currentConversation === conv.id ? 'tab-active' : ''
       }`}
-      onClick={() => handleSelectConversation(conv)}
     >
-      <div className="mr-0 sm:mr-1 w-full sm:w-1/4 text-center">
-        <Badge
-          dot={true}
-          color={isOnline ? 'green' : 'red'}
-          className="mt-1"
-          size="small"
-        >
-          <Avatar
-            src={
-              conv.conversationUser.avatarUrl ||
-              `https://avatars.dicebear.com/api/avataaars/${conv.conversationUser.username}.svg`
-            }
-            className="border border-solid border-white bg-white"
-          />
-        </Badge>
-      </div>
-      <div className="hidden sm:flex w-3/4 justify-around items-center">
-        <p className="mb-0 text-sm text-white truncate">{'Một Ai Đó'}</p>
-        <div className="ml-1">
-          <CloseCircleOutlined
-            title="Kết thúc cuộc trò chuyện"
-            onClick={() => {
-              setIsVisibleClose(true);
-            }}
-            className="w-4 h-4 ml-1 text-red-500"
-          />
+      <div
+        className="w-full flex"
+        onClick={(e) => {
+          console.log(e.target.localName);
+          handleSelectConversation(conv);
+        }}
+      >
+        <div className="mr-0 sm:mr-1 w-full sm:w-1/4 text-center">
+          <Badge
+            dot={true}
+            color={isOnline ? 'green' : 'red'}
+            className="mt-1"
+            size="small"
+          >
+            <Avatar
+              src={
+                conv.conversationUser.avatarUrl ||
+                `https://avatars.dicebear.com/api/micah/${conv.conversationUser.username}.svg`
+              }
+              // className="border border-solid"
+            />
+          </Badge>
         </div>
+        <div className="hidden sm:flex w-3/4 justify-around items-center">
+          <p className="mb-0 text-sm text-white truncate">{'một ai đó'}</p>
+        </div>
+      </div>
+      <div className="ml-1">
+        <CloseCircleOutlined
+          title="Kết thúc cuộc trò chuyện"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsVisibleClose(true);
+          }}
+          className="w-4 h-4 ml-1 text-red-500"
+        />
       </div>
 
       <CloseConversation
