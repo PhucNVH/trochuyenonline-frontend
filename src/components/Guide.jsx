@@ -16,6 +16,7 @@ const { Paragraph } = Typography;
 export default function Guide({ isModalVisible, handleOk }) {
   return (
     <Modal
+      id="guide-modal"
       title={'HƯỚNG DẪN SỬ DỤNG'}
       className="top-8"
       visible={isModalVisible}

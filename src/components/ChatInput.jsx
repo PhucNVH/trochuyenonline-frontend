@@ -33,6 +33,7 @@ export default function ChatInput({
         {isSensitive ? <EyeInvisibleOutlined /> : <EyeOutlined />}
       </div>
       <Input
+        id="text-input"
         className="w-full rounded-lg"
         ref={textInputRef}
         value={inputValue}
@@ -42,6 +43,7 @@ export default function ChatInput({
       <div className="flex w-auto mx-1">
         <EmojiPicker className="mx-1" onSelect={handleSelectEmoji} />
         <SendOutlined
+          id="text-send-button"
           className="text-xl mx-1 hover:text-blue-500"
           onClick={onSend}
         />

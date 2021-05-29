@@ -27,12 +27,13 @@ const ExpertList = () => {
               />
             </div>
             <div className="expert-info">
-              <h6>{e.username}</h6>
+              <h6>{e.expertName}</h6>
               <h2>{e.description}</h2>
               <h2>Hoạt động: {e.schedule}</h2>
               <div className="arrow-chat">
                 <a
                   onClick={() => {
+                    console.log(e);
                     handleChatExpert(e.id, e.username);
                   }}
                 >
