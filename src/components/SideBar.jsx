@@ -101,15 +101,9 @@ export default function SideBar({
           title="Thông tin cá nhân"
         >
           {isSiderCollapsed ? (
-            <UserOutlined
-              className="sidebar-icon text-blue-700"
-              style={{ marginRight: 12 }}
-            />
+            <UserOutlined className="sidebar-icon text-blue-700" />
           ) : (
-            <UserOutlined
-              className="sidebar-icon text-blue-700"
-              style={{ marginRight: 12 }}
-            />
+            <UserOutlined className="sidebar-icon text-blue-700" />
           )}
           <p className="hidden sm:block sm:w-4/5 mb-0 py-2">
             Thông tin cá nhân
@@ -120,7 +114,7 @@ export default function SideBar({
           onClick={handleSetVisibleGuide}
           title="Hướng dẫn sử dụng"
         >
-          <BookTwoTone className="sidebar-icon " style={{ marginRight: 12 }} />
+          <BookTwoTone className="sidebar-icon " />
           <p className="hidden sm:block sm:w-4/5 mb-0 py-2">
             Hướng dẫn sử dụng
           </p>
@@ -130,10 +124,7 @@ export default function SideBar({
           onClick={handleFindPartner}
           title="Tìm kiếm"
         >
-          <CompassTwoTone
-            className="sidebar-icon "
-            style={{ marginRight: 12 }}
-          />
+          <CompassTwoTone className="sidebar-icon " />
           <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Tìm kiếm</p>
         </div>
         <div
@@ -147,7 +138,7 @@ export default function SideBar({
             <img
               src={`https://image.flaticon.com/icons/png/512/2040/2040946.png`}
               alt="chatbot"
-              style={{ width: 36, height: 36, marginLeft: -4, marginRight: 4 }}
+              style={{ width: 36, height: 36 }}
               // className="sidebar-icon w-6 h-6 px-0 border border-solid border-white rounded-full"
             />
           </div>
@@ -168,7 +159,7 @@ export default function SideBar({
                 'https://cdn.iconscout.com/icon/free/png-256/star-bookmark-favorite-shape-rank-16-28621.png'
               }
               alt="expert"
-              style={{ width: 28, height: 28, marginRight: 12, marginLeft: -4 }}
+              style={{ width: 28, height: 28 }}
               // className="sidebar-icon w-6 h-6 border border-solid border-white rounded-full px-0 "
             />
           </div>
@@ -188,17 +179,14 @@ export default function SideBar({
             <img
               src={'https://img.icons8.com/cotton/2x/like.png'}
               alt="expert"
-              style={{ width: 32, height: 32, marginRight: 8, marginLeft: -4 }}
+              style={{ width: 32, height: 32 }}
               // className="sidebar-icon w-6 h-6 border border-solid border-white rounded-full px-0 "
             />
           </div>
           <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Kho cảm xúc</p>
         </div>
         <div className="sidebar-button" onClick={askLogout} title="Đăng xuất">
-          <LogoutOutlined
-            className="sidebar-icon text-red-600 "
-            style={{ marginRight: 12, marginLeft: 2 }}
-          />
+          <LogoutOutlined className="sidebar-icon text-red-600 " />
           <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Đăng xuất</p>
         </div>
         <Modal

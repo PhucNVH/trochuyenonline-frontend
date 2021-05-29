@@ -33,6 +33,7 @@ const ExpertList = () => {
               <div className="arrow-chat">
                 <a
                   onClick={() => {
+                    console.log(e);
                     handleChatExpert(e.id, e.username);
                   }}
                 >

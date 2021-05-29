@@ -8,7 +8,7 @@
     "dev": "craco start",
     "build": "CI=false craco build",
     "build-prod": "env-cmd -f .env.prod --no-override craco build",
-    "test": "craco test",
+    "test": "craco test --watchAll=false",
     "eject": "craco eject",
     "prepare": "husky install"
   },
@@ -76,6 +76,7 @@
     "react-typeform-embed": "^0.2.1",
     "react-use-websocket": "^2.5.0",
     "serve": "^11.3.2",
+    "sleep": "^6.3.0",
     "socket.io": "^4.0.1",
     "socket.io-client": "^4.0.1",
     "survey-react": "^1.8.43",
@@ -97,6 +98,7 @@
     "husky": "^6.0.0",
     "lint-staged": "^11.0.0",
     "postcss": "^7",
+    "selenium-webdriver": "^4.0.0-beta.3",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "typescript-eslint": "^0.0.1-alpha.0",
     "webpack-bundle-analyzer": "^4.4.0"

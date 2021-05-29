@@ -52,7 +52,7 @@ export default function UserCard({ conv, isOnline }) {
           <p className="mb-0 text-sm text-white truncate">{'một ai đó'}</p>
         </div>
       </div>
-      <div className="ml-1">
+      <div className="hidden sm:flex ml-1">
         <CloseCircleOutlined
           title="Kết thúc cuộc trò chuyện"
           onClick={(e) => {

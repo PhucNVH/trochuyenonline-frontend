@@ -97,7 +97,11 @@ export default function UserInfoBar(props) {
                 }
               />
             </Badge>
-            <Title className="mb-0 mr-4 mx-2 text-white" level={3}>
+            <Title
+              id="username"
+              className="mb-0 mr-4 mx-2 text-white"
+              level={3}
+            >
               {isChatbotActive ? 'Chatbot' : ''}
             </Title>
             <Rate
