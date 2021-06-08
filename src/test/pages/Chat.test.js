@@ -52,19 +52,23 @@ describe('Login', () => {
   //   message_input.sendKeys('Chào bạn');
   //   await driver.findElement(By.id(`text-send-button`)).click();
   //   sleep.sleep(2);
-  //   expect(true);
+  //   const messages = await driver.findElements(By.className(`chat-bubble`));
+  //   const text = await messages[0].getText();
+  //   expect(text).toBe('Chào bạn');
   // }, 10000);
 
-  // test('Checking Bot Reply', async () => {
-  //   const button = await driver.findElement(
-  //     By.xpath(`//div[@title="Chat với bot"]`)
-  //   );
-  //   await button.click();
-  //   sleep.sleep(2);
-  //   const message_input = await driver.findElement(By.id(`text-input`));
-  //   message_input.sendKeys('Chào bạn');
-  //   await driver.findElement(By.id(`text-send-button`)).click();
-  //   sleep.sleep(2);
-  //   expect(true);
-  // }, 10000);
+  test('Checking Bot Reply', async () => {
+    const button = await driver.findElement(
+      By.xpath(`//div[@title="Chat với bot"]`)
+    );
+    await button.click();
+    sleep.sleep(2);
+    const message_input = await driver.findElement(By.id(`text-input`));
+    message_input.sendKeys('Chào bạn');
+    await driver.findElement(By.id(`text-send-button`)).click();
+    sleep.sleep(8);
+    const messages = await driver.findElements(By.className(`chat-bubble`));
+    const text = await messages[1].getText();
+    expect(text).toBeTruthy();
+  }, 15000);
 });

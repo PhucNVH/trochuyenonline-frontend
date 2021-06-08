@@ -6,7 +6,7 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import { Home, Login, Signup, Survey } from './pages';
+import { Home, Login, Signup, Survey, Voice } from './pages';
 import { ProvideAuth, useAuth } from './hooks/use-auth';
 import Chat from './pages/Chat';
 import { ToastContainer } from 'react-toastify';
@@ -95,6 +95,9 @@ function App() {
           </Route>
           <Route path="/dieu-khoan">
             <TermPage />
+          </Route>
+          <Route path="/voice">
+            <Voice />
           </Route>
           <Route path="/">
             <Home />

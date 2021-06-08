@@ -1,8 +1,10 @@
-import { CloseCircleOutlined } from '@ant-design/icons';
+import React, { useState, useContext } from 'react';
+import { CloseCircleOutlined, PhoneOutlined } from '@ant-design/icons';
 import { Avatar, Badge, Layout, message, Rate, Typography } from 'antd';
-import React, { useState } from 'react';
 import { RatingStoreContext } from '../stores/rating.store';
 import CloseConversation from './modals/CloseConversation';
+import { usePeer } from '../hooks/voice';
+import { SocketStoreContext } from '../stores/socket.store';
 
 const { Header } = Layout;
 const { Title } = Typography;
@@ -19,8 +21,11 @@ export default function UserInfoBar(props) {
   } = props;
   const [isVisibleClose, setIsVisibleClose] = useState(false);
   const ratingStore = React.useContext(RatingStoreContext);
-
   const [score, setScore] = React.useState(null);
+  const socketStore = useContext(SocketStoreContext);
+  const socket = socketStore.socket;
+
+  const { peer, connect, call, create } = usePeer();
 
   const handleOkClose = () => {
     handleEndConversation(conv);
@@ -58,6 +63,8 @@ export default function UserInfoBar(props) {
 
     return;
   };
+
+  const startPhoneCall = () => {};
 
   React.useEffect(() => {
     if (conv && !isChatbotActive) {
@@ -104,6 +111,10 @@ export default function UserInfoBar(props) {
             >
               {isChatbotActive ? 'Chatbot' : ''}
             </Title>
+            <PhoneOutlined
+              onClick={startPhoneCall}
+              className="w-8 h-8 text-xl mr-4 text-white hover:text-primary"
+            />
             <Rate
               className="flex justify-start text-base"
               allowHalf
