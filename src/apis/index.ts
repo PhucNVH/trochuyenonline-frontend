@@ -44,6 +44,11 @@ axiosInstance.interceptors.response.use(
       return 'checkSubscription';
     }
 
+    if (error.response.status === 401) {
+      message.error('Invalid credential!');
+      return handleResponseError(error);
+    }
+
     if (detailError) {
       if (Array.isArray(detailError.message))
         messageDetail = detailError.message[0];

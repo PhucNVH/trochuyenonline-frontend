@@ -24,6 +24,7 @@ function getRememberCookie() {
   const parts = value.split(`; ${'remember_token'}=`);
   if (parts.length === 2) return parts.pop().split(';').shift();
 }
+
 function useProvideAuth() {
   const [user, setUser] = useState(null);
   const [token, setToken] = useLocalStorage('token', '');
@@ -46,6 +47,10 @@ function useProvideAuth() {
   const login = (data) => {
     return Auth.login(data).then((response) => {
       if (response && response.success === true) {
+        if (response.result.isTwoFactorAuthenticationEnabled) {
+          setToken(response.result.token);
+          return response;
+        }
         setUser(response.result);
         setToken(response.result.token);
         // const deviceId = retrieveFromStorage(LOCAL_STORAGE_KEY.DEVICE_TOKEN);
@@ -73,6 +78,20 @@ function useProvideAuth() {
     });
   };
 
+  const verify2FAToken = (token) => {
+    return Auth.verify2FAToken(token).then((response) => {
+      console.log(response);
+      if (response && response.success === true && response.result != null) {
+        setUser(response.result);
+        setToken(response.result.token);
+      } else if (response.status == 'error') {
+        setUser(false);
+        toast('Error', { position: 'top-center' });
+      }
+      return response;
+    });
+  };
+
   const logout = () => {
     setUser(false);
     setToken('');
@@ -85,5 +104,6 @@ function useProvideAuth() {
     signup,
     logout,
     loading,
+    verify2FAToken,
   };
 }

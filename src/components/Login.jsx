@@ -33,6 +33,14 @@ export const LoginComponent = () => {
       history.push('khao-sat');
       return;
     }
+    if (
+      res &&
+      res.success === true &&
+      res.result.isTwoFactorAuthenticationEnabled === true
+    ) {
+      history.push('2fa');
+      return;
+    }
     if (res && res.success === true) {
       history.push('tro-chuyen');
       return;

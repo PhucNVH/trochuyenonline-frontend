@@ -380,5 +380,6 @@ function useProvideConversation(handleShowExpertList, handleShowFeed) {
     personalities,
     handleRemovePersonality,
     handleChatExpert,
+    getPersonality,
   };
 }

@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { Card } from 'antd';
 import { CloseCircleTwoTone } from '@ant-design/icons';
+import personalityService from '../apis/personality.service';
+
 export default function PersonalityCard({ item, index, onRemove }) {
   const handleSavePersonality = () => {
-    return null;
+    return personalityService.update({ id: item.id, mention: personality });
   };
   const [personality, setPersonality] = useState(item.mention);
+  const inputRef = React.createRef();
+
   return (
     <Card
       size="small"
@@ -27,10 +31,11 @@ export default function PersonalityCard({ item, index, onRemove }) {
               setPersonality(v.target.value);
             }}
             onBlur={handleSavePersonality}
+            ref={inputRef}
             onKeyPress={(e) => {
               if (e.key === 'Enter') {
                 e.preventDefault();
-                handleSavePersonality();
+                inputRef.current.blur();
               }
             }}
           ></input>

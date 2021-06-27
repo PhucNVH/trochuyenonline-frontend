@@ -1,29 +1,30 @@
-import { QuestionCircleOutlined, UploadOutlined } from '@ant-design/icons';
-import FacebookOutlined from '@ant-design/icons/FacebookOutlined';
-import { Button, Form, message, Modal, Row, Tooltip, Upload } from 'antd';
-import ImgCrop from 'antd-img-crop';
+import { QuestionCircleOutlined } from '@ant-design/icons';
+import { Form, message, Modal, Row, Tooltip, Tabs } from 'antd';
 import Typography from 'antd/lib/typography';
 import { useContext, useState } from 'react';
 import { useAuth } from '../hooks/use-auth';
 import { useConversation } from '../hooks/use-conversation';
 import { UserStoreContext } from '../stores/user.store';
-import FormButton from './commons/FormButton';
 import PersonalityCard from './PersonalityCard';
+import TwoFactorAuthenticationForm from './modals/TwoFactorAuthenticationForm';
+import AvatarForm from './modals/AvatarForm';
+import PasswordForm from './modals/PasswordForm';
+import { Auth } from '../apis/auth';
 const { Title } = Typography;
+
+const { TabPane } = Tabs;
 
 export default function Profile() {
   const { user } = useAuth();
   const userStore = useContext(UserStoreContext);
-
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl);
-
   const { personalities, handleRemovePersonality } = useConversation();
   const handleCloseModal = () => {
     setUpdateModalVisible(false);
   };
-
   const [updateForm] = Form.useForm();
+  const [isEnable, setIsEnable] = useState(false);
 
   const handleUpdateProfile = async (values) => {
     const result = await userStore.uploadAvatar(values);
@@ -32,6 +33,14 @@ export default function Profile() {
       const data = await userStore.getUser(user.token);
       setAvatarUrl(data.avatarUrl);
       handleCloseModal();
+    }
+  };
+
+  const callback = async (key) => {
+    console.log(key);
+    if (key === '3') {
+      const data = await Auth.get2fa();
+      setIsEnable(data.result.isTwoFactorAuthenticationEnabled);
     }
   };
 
@@ -79,12 +88,32 @@ export default function Profile() {
         footer={null}
         width={700}
       >
-        <AvatarModal
-          form={updateForm}
-          user={user}
-          handleUpdateProfile={handleUpdateProfile}
-          handleCloseModal={handleCloseModal}
-        />
+        <Tabs defaultActiveKey="1" onChange={callback}>
+          <TabPane tab="Avatar" key="1">
+            <AvatarForm
+              form={updateForm}
+              user={user}
+              handleCloseModal={handleCloseModal}
+              handleUpdateProfile={handleUpdateProfile}
+            />
+          </TabPane>
+          <TabPane tab="Password" key="2">
+            <PasswordForm
+              form={updateForm}
+              user={user}
+              handleCloseModal={handleCloseModal}
+            />
+          </TabPane>
+          <TabPane tab="2FA" key="3">
+            <TwoFactorAuthenticationForm
+              form={updateForm}
+              user={user}
+              isEnable={isEnable}
+              setIsEnable={setIsEnable}
+              handleCloseModal={handleCloseModal}
+            />
+          </TabPane>
+        </Tabs>
       </Modal>
       <div className="mt-8 w-full flex flex-col items-center">
         <Title level={4} className="text-white">
@@ -111,86 +140,6 @@ export default function Profile() {
           );
         })}
       </div>
-      {/* 
-      <div className="absolute w-full bottom-2 flex justify-center items-center ml-auto mr-2">
-        <a
-          href="https://facebook.com/trochuyenonline"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text"
-        >
-          <FacebookOutlined className="text-4xl text-gray-200 hover:text-primary" />
-        </a>
-      </div> */}
     </div>
   );
 }
-
-const AvatarModal = (props) => {
-  const { form, user, handleUpdateProfile, handleCloseModal } = props;
-  const [fileList, setFileList] = useState([]);
-
-  const createFormBeforeCreate = (value) => {
-    if (value.target < 1) {
-      return message.error('Please set an valid amount target');
-    }
-    handleUpdateProfile({
-      ...value,
-      images: fileList,
-    });
-    setFileList([]);
-  };
-
-  return (
-    <Form
-      labelCol={{ span: 7 }}
-      wrapperCol={{ span: 19 }}
-      layout="horizontal"
-      onFinish={(value) => {
-        createFormBeforeCreate(value);
-      }}
-      scrollToFirstError
-      form={form}
-    >
-      <Form.Item label="Tên đăng nhập">{user.username}</Form.Item>
-
-      <Form.Item label="Ảnh đại diện">
-        <ImgCrop rotate>
-          <Upload
-            multiple={true}
-            name="file"
-            listType="text"
-            fileList={fileList}
-            showUploadList={{ showRemoveIcon: true }}
-            beforeUpload={(file) => {
-              setFileList([...fileList, file]);
-              return false;
-            }}
-            onRemove={(file) => {
-              const list = fileList.filter((f) => {
-                if (f.uid !== file.uid) {
-                  return true;
-                }
-                return false;
-              });
-              setFileList(list);
-            }}
-          >
-            <Button>
-              <UploadOutlined /> Chọn tệp
-            </Button>
-          </Upload>
-        </ImgCrop>
-      </Form.Item>
-
-      <FormButton
-        handleCloseModal={handleCloseModal}
-        submit={
-          <Button className="ml-2" type="primary" htmlType="submit">
-            Cập nhật
-          </Button>
-        }
-      />
-    </Form>
-  );
-};
