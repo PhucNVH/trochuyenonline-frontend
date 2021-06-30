@@ -25,19 +25,17 @@ export default function SideBar({
     conversations,
     handleFindPartner,
     handleDisconnected,
-    handleChatExpert,
     isChatbotActive,
     handleChatbot,
     numUser,
     onlineUsers,
     personalities,
-    getPersonality,
   } = useConversation();
-  const { user } = useAuth();
+  console.log(personalities);
   const [isVisible, setVisible] = useState(false);
   const [isMapVisible, setIsMapVisible] = useState(false);
   const [isVisibleGuide, setVisibleGuide] = useState(isFirstLogin);
-  const [isChatbotModalVisible, setIsChatbotModalVisible] = useState(user.is);
+  const [isChatbotModalVisible, setIsChatbotModalVisible] = useState();
 
   const showModal = () => {
     setVisible(true);
@@ -228,9 +226,6 @@ export default function SideBar({
         <Modal
           visible={isChatbotModalVisible}
           title="Personalities"
-          onOk={() => {
-            setIsChatbotModalVisible(false);
-          }}
           onCancel={() => {
             setIsChatbotModalVisible(false);
           }}
@@ -255,7 +250,9 @@ export default function SideBar({
             </Button>,
           ]}
         >
-          <PersonalityForm />
+          <PersonalityForm
+            setIsChatbotModalVisible={setIsChatbotModalVisible}
+          />
         </Modal>
       </div>
 

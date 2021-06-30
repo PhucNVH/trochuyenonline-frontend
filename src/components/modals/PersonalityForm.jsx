@@ -1,18 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Input, Button } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import personalityService from '../../apis/personality.service';
 import { useAuth } from '../../hooks/use-auth';
+import { Chatbot } from '../../apis/chatbot';
 
-export default function PersonalityForm() {
+export default function PersonalityForm({ setIsChatbotModalVisible }) {
   const { user } = useAuth();
+
   const onFinish = async (values) => {
-    const data = await personalityService.save({
+    await Chatbot.init(values.personalities);
+    await personalityService.save({
       personalities: values.personalities,
       userId: user.id,
     });
-    console.log(data);
   };
+
+  useEffect(async () => {
+    const result = await personalityService.get({
+      skip: 0,
+      take: '15',
+    });
+    if (result.data.length != 0) {
+      setIsChatbotModalVisible(false);
+    }
+  }, []);
 
   return (
     <Form id="chatbotform" name="dynamic_form_item" onFinish={onFinish}>

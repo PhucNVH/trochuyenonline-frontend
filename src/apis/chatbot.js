@@ -19,11 +19,17 @@ export const Chatbot = {
       return { status: 'error', error: err };
     }
   },
-  init: async () => {
+  init: async (personalities) => {
     try {
-      const res = await axios.get(`${REACT_APP_BOT_URI}/init`, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        `${REACT_APP_BOT_URI}/init`,
+        {
+          personality: personalities,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       return res.data;
     } catch (err) {
       return { status: 'error', error: err };

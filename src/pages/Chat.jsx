@@ -27,14 +27,6 @@ const Chat = () => {
     window.screen.width < 768 ? true : false
   );
 
-  React.useEffect(() => {
-    Chatbot.init();
-  }, []);
-
-  useEffect(() => {
-    Chatbot.init();
-  }, []);
-
   const handleShowExpertList = (value) => {
     setIsShowExpertList(value);
   };
