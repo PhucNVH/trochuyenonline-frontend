@@ -6,7 +6,7 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import { Home, Login, Signup, Survey } from './pages';
+import { Home, Login, Signup, Survey, Verify } from './pages';
 import { ProvideAuth, useAuth } from './hooks/use-auth';
 import Chat from './pages/Chat';
 import { ToastContainer } from 'react-toastify';
@@ -90,6 +90,9 @@ function App() {
           <AuthorizedRoute path="/khao-sat">
             <Survey />
           </AuthorizedRoute>
+          <Route path="/2fa">
+            <Verify />
+          </Route>
           <Route path="/chinh-sach">
             <PolicyPage />
           </Route>

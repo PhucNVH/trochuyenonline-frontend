@@ -10,8 +10,24 @@ class PersonalityService {
     return result.data.result;
   }
 
+  public async save(data: any) {
+    const result = await http.post(`${this.prefix}`, {
+      personalities: data.personalities,
+      userId: data.userId,
+    });
+    return result.data;
+  }
+
   public async remove(id: number) {
     const result = await http.delete(`${this.prefix}/${id}`);
+    return result.data.result;
+  }
+
+  public async update(model: { id: number; mention: string }) {
+    const result = await http.post(`${this.prefix}/${model.id}`, {
+      mention: model.mention,
+    });
+
     return result.data.result;
   }
 }

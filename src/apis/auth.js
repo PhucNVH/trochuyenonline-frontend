@@ -1,4 +1,5 @@
 import axios from 'axios';
+import http from '../apis';
 import { NOTIFICATION_API } from '../dto/enums/router.enum';
 const { REACT_APP_SERVER_URI } = process.env;
 
@@ -61,5 +62,58 @@ export const Auth = {
       { withCredentials: true }
     );
     return result;
+  },
+  generate2FAToken: async (data) => {
+    try {
+      const result = await http.post(
+        `${REACT_APP_SERVER_URI}/users/generate2fa`,
+        {
+          password: data.password,
+          username: data.username,
+          userId: data.userId,
+        },
+        { responseType: 'blob' }
+      );
+      return { status: 'success', image: result.data };
+    } catch (err) {
+      console.log(err);
+      return { status: 'fail', image: null };
+    }
+  },
+  get2fa: async () => {
+    try {
+      const result = await http.get(`${REACT_APP_SERVER_URI}/users/get2fa`);
+      return result.data;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  verify2FAToken: async (token) => {
+    try {
+      const result = await http.post(
+        `${REACT_APP_SERVER_URI}/users/verify2fa`,
+        {
+          token: token,
+        }
+      );
+      return result.data;
+    } catch (err) {
+      console.log(err);
+      return result.data;
+    }
+  },
+  save2fasetting: async (isEnable) => {
+    try {
+      const result = await http.post(
+        `${REACT_APP_SERVER_URI}/users/enable2fa`,
+        {
+          isEnabled: isEnable,
+        }
+      );
+      return result.data;
+    } catch (err) {
+      console.log(err);
+    }
   },
 };
