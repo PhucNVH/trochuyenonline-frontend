@@ -1,5 +1,5 @@
 import { CloseCircleOutlined } from '@ant-design/icons';
-import { Avatar, Badge, Layout, message, Rate, Typography } from 'antd';
+import { Avatar, Badge, Button, Layout, message, Rate, Typography } from 'antd';
 import React, { useState } from 'react';
 import { RatingStoreContext } from '../stores/rating.store';
 import CloseConversation from './modals/CloseConversation';
@@ -15,6 +15,7 @@ export default function UserInfoBar(props) {
     handleEndConversation,
     avatarUrl,
     isChatbotActive,
+    onChatbotSelected,
     conv,
   } = props;
   const [isVisibleClose, setIsVisibleClose] = useState(false);
@@ -115,8 +116,27 @@ export default function UserInfoBar(props) {
           </div>
           <div className="ml-1 flex items-center justify-end w-1/2">
             {/* <SearchBar /> */}
+
             {isChatbotActive ? (
-              <></>
+              <>
+                <Button
+                  className="mr-4"
+                  type="primary"
+                  onClick={() => {
+                    onChatbotSelected('chatbot1');
+                  }}
+                >
+                  Chatbot 1
+                </Button>
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    onChatbotSelected('chatbot2');
+                  }}
+                >
+                  Chatbot 2
+                </Button>
+              </>
             ) : (
               <CloseCircleOutlined
                 title="Kết thúc cuộc trò chuyện"

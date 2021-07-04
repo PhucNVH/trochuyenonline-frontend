@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import theme from './theme';
 import {
   MessageList,
@@ -29,11 +29,15 @@ const Maximized = ({ alert }) => {
     isChatbotActive,
     conv,
   } = useConversation();
-
+  const [chatbotUrl, setChatbotUrl] = useState('chatbot1');
   const avatarUrl =
     conv?.conversationUser.avatarUrl !== ''
       ? conv?.conversationUser.avatarUrl
       : `https://avatars.dicebear.com/api/micah/${conv.conversationUser.username}.svg`;
+
+  const onChatbotSelected = (value) => {
+    setChatbotUrl(value);
+  };
 
   useEffect(() => {
     document.getElementById('chat-area').onscroll = (e) => {
@@ -63,6 +67,7 @@ const Maximized = ({ alert }) => {
           handleEndConversation={handleEndConversation}
           conv={conv}
           avatarUrl={avatarUrl}
+          onChatbotSelected={onChatbotSelected}
         />
         <div
           className={`${conv !== null || isChatbotActive ? 'mt-12' : ''}`}
@@ -123,7 +128,10 @@ const Maximized = ({ alert }) => {
           <Row align="center">
             <Fill>
               <ChatInput
-                handleSendMessage={handleSendMessage}
+                handleSendMessage={(v) => {
+                  console.log(v, chatbotUrl);
+                  handleSendMessage(v, chatbotUrl);
+                }}
                 handleSensitive={setIsSensitive}
                 isSensitive={isSensitive}
               />
