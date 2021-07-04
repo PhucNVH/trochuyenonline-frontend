@@ -257,13 +257,14 @@ function useProvideConversation(handleShowExpertList, handleShowFeed) {
     });
   };
 
-  const handleSendMessage = (message) => {
+  const handleSendMessage = (message, chatbot) => {
     if (isChatbotActive) {
       setMessage((prev) => [
         ...prev,
         { message: message, isOwn: true, updatedAt: new Date().toISOString() },
       ]);
-      Chatbot.get_response({ text: message }).then((res) => {
+      console.log(message, chatbot);
+      Chatbot.get_response({ text: message, type: chatbot }).then((res) => {
         setMessage((prev) => [
           ...prev,
           {

@@ -1,12 +1,15 @@
 import axios from 'axios';
 
-const { REACT_APP_BOT_URI } = process.env;
+const { REACT_APP_BOT_URI_1, REACT_APP_BOT_URI_2 } = process.env;
 
 export const Chatbot = {
   get_response: async (data) => {
     try {
+      console.log(data);
       const res = await axios.post(
-        `${REACT_APP_BOT_URI}/get-response`,
+        `${
+          data.type === 'chatbot1' ? REACT_APP_BOT_URI_1 : REACT_APP_BOT_URI_2
+        }/get-response`,
         {
           text: data.text,
         },
@@ -22,7 +25,9 @@ export const Chatbot = {
   init: async (personalities) => {
     try {
       const res = await axios.post(
-        `${REACT_APP_BOT_URI}/init`,
+        `${
+          data.type === 'chatbot1' ? REACT_APP_BOT_URI_1 : REACT_APP_BOT_URI_2
+        }/init`,
         {
           personality: personalities,
         },
