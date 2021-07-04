@@ -67,6 +67,7 @@ const Maximized = ({ alert }) => {
           handleEndConversation={handleEndConversation}
           conv={conv}
           avatarUrl={avatarUrl}
+          currentChatbot={chatbotUrl}
           onChatbotSelected={onChatbotSelected}
         />
         <div
@@ -129,7 +130,6 @@ const Maximized = ({ alert }) => {
             <Fill>
               <ChatInput
                 handleSendMessage={(v) => {
-                  console.log(v, chatbotUrl);
                   handleSendMessage(v, chatbotUrl);
                 }}
                 handleSensitive={setIsSensitive}

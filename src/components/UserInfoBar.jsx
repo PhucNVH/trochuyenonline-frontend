@@ -11,10 +11,10 @@ export default function UserInfoBar(props) {
   const {
     isVisible,
     isOnline,
-    username,
     handleEndConversation,
     avatarUrl,
     isChatbotActive,
+    currentChatbot,
     onChatbotSelected,
     conv,
   } = props;
@@ -103,7 +103,7 @@ export default function UserInfoBar(props) {
               className="mb-0 mr-4 mx-2 text-white"
               level={3}
             >
-              {isChatbotActive ? 'Chatbot' : ''}
+              {isChatbotActive ? currentChatbot : ''}
             </Title>
             <Rate
               className="flex justify-start text-base"
@@ -121,7 +121,8 @@ export default function UserInfoBar(props) {
               <>
                 <Button
                   className="mr-4"
-                  type="primary"
+                  disabled={currentChatbot === 'chatbot1'}
+                  type={'primary'}
                   onClick={() => {
                     onChatbotSelected('chatbot1');
                   }}
@@ -129,7 +130,8 @@ export default function UserInfoBar(props) {
                   Chatbot 1
                 </Button>
                 <Button
-                  type="primary"
+                  disabled={currentChatbot === 'chatbot2'}
+                  type={'primary'}
                   onClick={() => {
                     onChatbotSelected('chatbot2');
                   }}
