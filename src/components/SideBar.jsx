@@ -5,14 +5,11 @@ import UserOutlined from '@ant-design/icons/UserOutlined';
 import Divider from 'antd/lib/divider';
 import Sider from 'antd/lib/layout/Sider';
 import Modal from 'antd/lib/modal';
-import Button from 'antd/lib/button';
 import React, { useState } from 'react';
 import { useConversation } from '../hooks/use-conversation.js';
 import Guide from './Guide';
 import Map from './Map';
 import UserCard from './UserCard';
-import { useAuth } from '../hooks/use-auth';
-import PersonalityForm from './modals/PersonalityForm.jsx';
 
 export default function SideBar({
   triggerSider,
@@ -31,11 +28,9 @@ export default function SideBar({
     onlineUsers,
     personalities,
   } = useConversation();
-  console.log(personalities);
   const [isVisible, setVisible] = useState(false);
   const [isMapVisible, setIsMapVisible] = useState(false);
   const [isVisibleGuide, setVisibleGuide] = useState(isFirstLogin);
-  const [isChatbotModalVisible, setIsChatbotModalVisible] = useState();
 
   const showModal = () => {
     setVisible(true);
@@ -60,11 +55,6 @@ export default function SideBar({
   };
   const handleMap = () => {
     setIsMapVisible((prev) => !prev);
-  };
-  const handleChatbotModal = () => {
-    if (personalities.length < 10) {
-      setIsChatbotModalVisible(true);
-    }
   };
 
   return (
@@ -142,7 +132,6 @@ export default function SideBar({
           title="Chat với bot"
           onClick={() => {
             handleChatbot();
-            handleChatbotModal();
           }}
         >
           <div className="sidebar-icon px-2">
@@ -222,37 +211,6 @@ export default function SideBar({
           }}
         >
           <Map />
-        </Modal>
-        <Modal
-          visible={isChatbotModalVisible}
-          title="Personalities"
-          onCancel={() => {
-            setIsChatbotModalVisible(false);
-          }}
-          footer={[
-            <Button
-              onClick={() => {
-                setIsChatbotModalVisible(false);
-              }}
-            >
-              Cancel
-            </Button>,
-            <Button
-              form="chatbotform"
-              key="submit"
-              htmlType="submit"
-              type="primary"
-              onClick={() => {
-                setIsChatbotModalVisible(false);
-              }}
-            >
-              Submit
-            </Button>,
-          ]}
-        >
-          <PersonalityForm
-            setIsChatbotModalVisible={setIsChatbotModalVisible}
-          />
         </Modal>
       </div>
 

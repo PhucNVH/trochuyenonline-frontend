@@ -11,10 +11,12 @@ import {
   ThemeProvider,
   Bubble,
 } from '@livechat/ui-kit';
-
+import { useAuth } from '../hooks/use-auth';
+import PersonalityForm from './modals/PersonalityForm.jsx';
+import { Button, Modal } from 'antd';
 import UserInfoBar from './UserInfoBar';
 import ChatInput from './ChatInput';
-
+import { Chatbot } from '../apis/chatbot';
 import { useConversation } from '../hooks/use-conversation.js';
 
 const Maximized = ({ alert }) => {
@@ -27,16 +29,26 @@ const Maximized = ({ alert }) => {
     onlineUsers,
     handleEndConversation,
     isChatbotActive,
+    personalities,
     conv,
+    setMessage,
   } = useConversation();
   const [chatbotUrl, setChatbotUrl] = useState('chatbot1');
   const avatarUrl =
     conv?.conversationUser.avatarUrl !== ''
       ? conv?.conversationUser.avatarUrl
       : `https://avatars.dicebear.com/api/micah/${conv.conversationUser.username}.svg`;
+  const [isChatbotModalVisible, setIsChatbotModalVisible] = useState(false);
 
   const onChatbotSelected = (value) => {
+    setMessage([]);
     setChatbotUrl(value);
+  };
+
+  const handleChatbotModal = () => {
+    if (personalities.length <= 0) {
+      setIsChatbotModalVisible(true);
+    }
   };
 
   useEffect(() => {
@@ -47,6 +59,11 @@ const Maximized = ({ alert }) => {
       }
     };
   }, []);
+  useEffect(async () => {
+    if (isChatbotActive) {
+      await Chatbot.init(personalities.map((e) => e.mention));
+    }
+  }, [isChatbotActive]);
   return (
     <ThemeProvider theme={theme}>
       <div
@@ -57,6 +74,37 @@ const Maximized = ({ alert }) => {
         }}
         className="relative"
       >
+        <Modal
+          visible={isChatbotModalVisible}
+          title="Personalities"
+          onCancel={() => {
+            setIsChatbotModalVisible(false);
+          }}
+          footer={[
+            <Button
+              onClick={() => {
+                setIsChatbotModalVisible(false);
+              }}
+            >
+              Cancel
+            </Button>,
+            <Button
+              form="chatbotform"
+              key="submit"
+              htmlType="submit"
+              type="primary"
+              onClick={() => {
+                setIsChatbotModalVisible(false);
+              }}
+            >
+              Submit
+            </Button>,
+          ]}
+        >
+          <PersonalityForm
+            setIsChatbotModalVisible={setIsChatbotModalVisible}
+          />
+        </Modal>
         <div className="relative w-full">{alert}</div>
         <UserInfoBar
           className="absolute h-12 w-full"
@@ -69,6 +117,7 @@ const Maximized = ({ alert }) => {
           avatarUrl={avatarUrl}
           currentChatbot={chatbotUrl}
           onChatbotSelected={onChatbotSelected}
+          handleChatbotModal={handleChatbotModal}
         />
         <div
           className={`${conv !== null || isChatbotActive ? 'mt-12' : ''}`}

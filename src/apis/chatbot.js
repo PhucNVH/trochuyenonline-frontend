@@ -25,9 +25,7 @@ export const Chatbot = {
   init: async (personalities) => {
     try {
       const res = await axios.post(
-        `${
-          data.type === 'chatbot1' ? REACT_APP_BOT_URI_1 : REACT_APP_BOT_URI_2
-        }/init`,
+        `${REACT_APP_BOT_URI_2}/init`,
         {
           personality: personalities,
         },

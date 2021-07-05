@@ -263,7 +263,6 @@ function useProvideConversation(handleShowExpertList, handleShowFeed) {
         ...prev,
         { message: message, isOwn: true, updatedAt: new Date().toISOString() },
       ]);
-      console.log(message, chatbot);
       Chatbot.get_response({ text: message, type: chatbot }).then((res) => {
         setMessage((prev) => [
           ...prev,
@@ -382,5 +381,6 @@ function useProvideConversation(handleShowExpertList, handleShowFeed) {
     handleRemovePersonality,
     handleChatExpert,
     getPersonality,
+    setMessage,
   };
 }

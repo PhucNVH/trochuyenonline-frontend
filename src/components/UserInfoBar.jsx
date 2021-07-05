@@ -16,7 +16,9 @@ export default function UserInfoBar(props) {
     isChatbotActive,
     currentChatbot,
     onChatbotSelected,
+    handleChatbotModal,
     conv,
+    ...rest
   } = props;
   const [isVisibleClose, setIsVisibleClose] = useState(false);
   const ratingStore = React.useContext(RatingStoreContext);
@@ -133,6 +135,7 @@ export default function UserInfoBar(props) {
                   disabled={currentChatbot === 'chatbot2'}
                   type={'primary'}
                   onClick={() => {
+                    handleChatbotModal();
                     onChatbotSelected('chatbot2');
                   }}
                 >
