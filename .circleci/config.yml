@@ -70,12 +70,7 @@ workflows:
               only:
                 - prod
 
-      - build-source:
-          filters:
-            branches:
-              only:
-                - prod
-                - main
+      - build-source
 
       - deploy:
           requires:
