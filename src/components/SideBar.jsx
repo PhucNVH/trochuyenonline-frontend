@@ -29,6 +29,7 @@ export default function SideBar({
     numUser,
     onlineUsers,
     personalities,
+    isChatbotActive,
     getPersonality,
   } = useConversation();
   const [isVisible, setVisible] = useState(false);
@@ -147,7 +148,7 @@ export default function SideBar({
         </div>
         <div
           className={`sidebar-button ${
-            chatbotUrl === 'chatbot1' ? 'tab-active' : ''
+            chatbotUrl === 'chatbot1' && isChatbotActive ? 'tab-active' : ''
           }`}
           title="Chat với bot 1"
           onClick={() => {
@@ -167,7 +168,7 @@ export default function SideBar({
         </div>
         <div
           className={`sidebar-button ${
-            chatbotUrl === 'chatbot2' ? 'tab-active' : ''
+            chatbotUrl === 'chatbot2' && isChatbotActive ? 'tab-active' : ''
           }`}
           title="Chat với bot 2"
           onClick={() => {

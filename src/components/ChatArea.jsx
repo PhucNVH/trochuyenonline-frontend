@@ -30,8 +30,9 @@ const Maximized = ({ alert }) => {
     isChatbotActive,
     personalities,
     conv,
-    getPersonality,
+    currentConversation,
   } = useConversation();
+  console.log(currentConversation);
   const avatarUrl =
     conv?.conversationUser.avatarUrl !== ''
       ? conv?.conversationUser.avatarUrl
@@ -154,17 +155,21 @@ const Maximized = ({ alert }) => {
           </MessageList>
         </div>
         <TextComposer>
-          <Row align="center">
-            <Fill>
-              <ChatInput
-                handleSendMessage={(v) => {
-                  handleSendMessage(v, chatbotUrl);
-                }}
-                handleSensitive={setIsSensitive}
-                isSensitive={isSensitive}
-              />
-            </Fill>
-          </Row>
+          {isChatbotActive || currentConversation != -1 ? (
+            <Row align="center">
+              <Fill>
+                <ChatInput
+                  handleSendMessage={(v) => {
+                    handleSendMessage(v, chatbotUrl);
+                  }}
+                  handleSensitive={setIsSensitive}
+                  isSensitive={isSensitive}
+                />
+              </Fill>
+            </Row>
+          ) : (
+            <></>
+          )}
         </TextComposer>
 
         <div
