@@ -5,7 +5,10 @@ import personalityService from '../../apis/personality.service';
 import { useAuth } from '../../hooks/use-auth';
 import { Chatbot } from '../../apis/chatbot';
 
-export default function PersonalityForm({ setIsChatbotModalVisible }) {
+export default function PersonalityForm({
+  setIsChatbotModalVisible,
+  getPersonality,
+}) {
   const { user } = useAuth();
 
   const onFinish = async (values) => {
@@ -14,6 +17,7 @@ export default function PersonalityForm({ setIsChatbotModalVisible }) {
       personalities: values.personalities,
       userId: user.id,
     });
+    getPersonality();
   };
 
   useEffect(async () => {

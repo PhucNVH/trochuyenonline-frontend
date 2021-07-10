@@ -11,6 +11,7 @@ import Profile from '../components/Profile';
 import SideBar from '../components/SideBar';
 import { useAuth } from '../hooks/use-auth';
 import { ProvideConversation } from '../hooks/use-conversation';
+import { ProvideChatbot } from '../hooks/use-chatbot';
 import ExpertList from '../components/ExpertList';
 import Feed from '../components/Feed';
 
@@ -40,38 +41,40 @@ const Chat = () => {
       handleShowExpertList={handleShowExpertList}
       handleShowFeed={handleShowFeed}
     >
-      <Row className="flex flex-nowrap">
-        <SideBar
-          triggerSider={setIsCollapsed}
-          isSiderCollapsed={isCollapsed}
-          isFirstLogin={isFirstLogin}
-          handleShowExpertList={handleShowExpertList}
-          handleShowFeed={handleShowFeed}
-        />
-        <Col className="w-full">
-          <Layout className="App">
-            <Layout>
-              <Content>
-                {isShowExpertList && <ExpertList />}
-                {isShowFeed && <Feed />}
-                {!isShowExpertList && !isShowFeed && <ChatArea />}
-              </Content>
+      <ProvideChatbot>
+        <Row className="flex flex-nowrap">
+          <SideBar
+            triggerSider={setIsCollapsed}
+            isSiderCollapsed={isCollapsed}
+            isFirstLogin={isFirstLogin}
+            handleShowExpertList={handleShowExpertList}
+            handleShowFeed={handleShowFeed}
+          />
+          <Col className="w-full">
+            <Layout className="App">
+              <Layout>
+                <Content>
+                  {isShowExpertList && <ExpertList />}
+                  {isShowFeed && <Feed />}
+                  {!isShowExpertList && !isShowFeed && <ChatArea />}
+                </Content>
+              </Layout>
+              <Sider
+                width="20rem"
+                style={{ backgroundColor: '#1e3239' }}
+                breakpoint="md"
+                collapsedWidth="0"
+                trigger={null}
+                collapsible
+                collapsed={isCollapsed}
+              >
+                <Profile />
+              </Sider>
+              {auth.user?.isBecomingExpert && <ExpertInfo />}
             </Layout>
-            <Sider
-              width="20rem"
-              style={{ backgroundColor: '#1e3239' }}
-              breakpoint="md"
-              collapsedWidth="0"
-              trigger={null}
-              collapsible
-              collapsed={isCollapsed}
-            >
-              <Profile />
-            </Sider>
-            {auth.user?.isBecomingExpert && <ExpertInfo />}
-          </Layout>
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      </ProvideChatbot>
     </ProvideConversation>
   );
 };

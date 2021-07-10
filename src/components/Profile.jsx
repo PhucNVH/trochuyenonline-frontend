@@ -1,5 +1,5 @@
-import { QuestionCircleOutlined } from '@ant-design/icons';
-import { Form, message, Modal, Row, Tooltip, Tabs } from 'antd';
+import { PlusCircleOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { Form, message, Modal, Row, Tooltip, Tabs, Card, Button } from 'antd';
 import Typography from 'antd/lib/typography';
 import { useContext, useState } from 'react';
 import { useAuth } from '../hooks/use-auth';
@@ -9,17 +9,24 @@ import PersonalityCard from './PersonalityCard';
 import TwoFactorAuthenticationForm from './modals/TwoFactorAuthenticationForm';
 import AvatarForm from './modals/AvatarForm';
 import PasswordForm from './modals/PasswordForm';
+import PersonalityForm from './modals/PersonalityForm.jsx';
+
 import { Auth } from '../apis/auth';
 const { Title } = Typography;
 
 const { TabPane } = Tabs;
 
 export default function Profile() {
+  const [isChatbotModalVisible, setIsChatbotModalVisible] = useState(false);
   const { user } = useAuth();
   const userStore = useContext(UserStoreContext);
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl);
-  const { personalities, handleRemovePersonality } = useConversation();
+  const {
+    personalities,
+    handleRemovePersonality,
+    getPersonality,
+  } = useConversation();
   const handleCloseModal = () => {
     setUpdateModalVisible(false);
   };
@@ -115,10 +122,42 @@ export default function Profile() {
           </TabPane>
         </Tabs>
       </Modal>
+      <Modal
+        visible={isChatbotModalVisible}
+        title="Personalities"
+        onCancel={() => {
+          setIsChatbotModalVisible(false);
+        }}
+        footer={[
+          <Button
+            onClick={() => {
+              setIsChatbotModalVisible(false);
+            }}
+          >
+            Cancel
+          </Button>,
+          <Button
+            form="chatbotform"
+            key="submit"
+            htmlType="submit"
+            type="primary"
+            onClick={() => {
+              setIsChatbotModalVisible(false);
+            }}
+          >
+            Submit
+          </Button>,
+        ]}
+      >
+        <PersonalityForm
+          setIsChatbotModalVisible={setIsChatbotModalVisible}
+          getPersonality={getPersonality}
+        />
+      </Modal>
       <div className="mt-8 w-full flex flex-col items-center">
         <Title level={4} className="text-white">
           <Row>
-            Thông tin về bạn
+            Tính cách chatbot 2
             <Tooltip
               title="Để huấn luyện chatbot có tính cách, chúng mình rất mong bạn liên tục cập nhật danh sách này đúng với cá nhân bạn. Chúng mình cam kết không sử dụng thông tin này với mục đích nào khác việc training nếu chưa có sự cho phép cụ thể từ bạn"
               color="blue"
@@ -139,6 +178,19 @@ export default function Profile() {
             />
           );
         })}
+        <Card
+          size="small"
+          className="w-11/12 max-h-12 border-0 text-white fact-card px-0.5"
+          hoverable
+          key={'add'}
+          onClick={() => {
+            setIsChatbotModalVisible((prev) => !prev);
+          }}
+        >
+          <div className="flex items-center justify-center h-7">
+            <PlusCircleOutlined className="text-lg pb-2" />
+          </div>
+        </Card>
       </div>
     </div>
   );

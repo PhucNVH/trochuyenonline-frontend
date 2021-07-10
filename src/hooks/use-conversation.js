@@ -259,6 +259,7 @@ function useProvideConversation(handleShowExpertList, handleShowFeed) {
 
   const handleSendMessage = (message, chatbot) => {
     if (isChatbotActive) {
+      console.log(message);
       setMessage((prev) => [
         ...prev,
         { message: message, isOwn: true, updatedAt: new Date().toISOString() },

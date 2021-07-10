@@ -11,8 +11,7 @@ import {
   ThemeProvider,
   Bubble,
 } from '@livechat/ui-kit';
-import { useAuth } from '../hooks/use-auth';
-import PersonalityForm from './modals/PersonalityForm.jsx';
+import { useChatbot } from '../hooks/use-chatbot';
 import { Button, Modal } from 'antd';
 import UserInfoBar from './UserInfoBar';
 import ChatInput from './ChatInput';
@@ -31,25 +30,13 @@ const Maximized = ({ alert }) => {
     isChatbotActive,
     personalities,
     conv,
-    setMessage,
+    getPersonality,
   } = useConversation();
-  const [chatbotUrl, setChatbotUrl] = useState('chatbot1');
   const avatarUrl =
     conv?.conversationUser.avatarUrl !== ''
       ? conv?.conversationUser.avatarUrl
       : `https://avatars.dicebear.com/api/micah/${conv.conversationUser.username}.svg`;
-  const [isChatbotModalVisible, setIsChatbotModalVisible] = useState(false);
-
-  const onChatbotSelected = (value) => {
-    setMessage([]);
-    setChatbotUrl(value);
-  };
-
-  const handleChatbotModal = () => {
-    if (personalities.length <= 0) {
-      setIsChatbotModalVisible(true);
-    }
-  };
+  const { chatbotUrl } = useChatbot();
 
   useEffect(() => {
     document.getElementById('chat-area').onscroll = (e) => {
@@ -74,37 +61,6 @@ const Maximized = ({ alert }) => {
         }}
         className="relative"
       >
-        <Modal
-          visible={isChatbotModalVisible}
-          title="Personalities"
-          onCancel={() => {
-            setIsChatbotModalVisible(false);
-          }}
-          footer={[
-            <Button
-              onClick={() => {
-                setIsChatbotModalVisible(false);
-              }}
-            >
-              Cancel
-            </Button>,
-            <Button
-              form="chatbotform"
-              key="submit"
-              htmlType="submit"
-              type="primary"
-              onClick={() => {
-                setIsChatbotModalVisible(false);
-              }}
-            >
-              Submit
-            </Button>,
-          ]}
-        >
-          <PersonalityForm
-            setIsChatbotModalVisible={setIsChatbotModalVisible}
-          />
-        </Modal>
         <div className="relative w-full">{alert}</div>
         <UserInfoBar
           className="absolute h-12 w-full"
@@ -116,8 +72,6 @@ const Maximized = ({ alert }) => {
           conv={conv}
           avatarUrl={avatarUrl}
           currentChatbot={chatbotUrl}
-          onChatbotSelected={onChatbotSelected}
-          handleChatbotModal={handleChatbotModal}
         />
         <div
           className={`${conv !== null || isChatbotActive ? 'mt-12' : ''}`}
@@ -129,7 +83,32 @@ const Maximized = ({ alert }) => {
           }}
         >
           <MessageList active containScrollInSubtree id="chat-area">
-            {/* {isFetching ? <Spin size="large" /> : <></>} */}
+            <MessageGroup
+              avatar={
+                'https://image.flaticon.com/icons/png/512/2040/2040946.png'
+              }
+              className={'flex-row'}
+              onlyFirstWithMeta
+              isOwn={false}
+              key="survey"
+            >
+              <Message className="text-sm" isOwn={false} key={'survey'}>
+                <Bubble isOwn={false} className="chat-bubble">
+                  <div className="px-4 py-1">
+                    <p>
+                      Các bạn dành thời gian điền vào khảo sát dưới đây để bọn
+                      mình hoàn thiện chatbot nhé.
+                    </p>
+                    <a
+                      href="https://forms.gle/RuonupxMYqunumpo9"
+                      target="_blank"
+                    >
+                      https://forms.gle/RuonupxMYqunumpo9
+                    </a>
+                  </div>
+                </Bubble>
+              </Message>
+            </MessageGroup>
             {formatMessage(messages).map((v, idx) => {
               return (
                 <MessageGroup

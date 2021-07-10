@@ -15,8 +15,6 @@ export default function UserInfoBar(props) {
     avatarUrl,
     isChatbotActive,
     currentChatbot,
-    onChatbotSelected,
-    handleChatbotModal,
     conv,
     ...rest
   } = props;
@@ -44,7 +42,6 @@ export default function UserInfoBar(props) {
       if (result) {
         message.success('Cảm ơn bạn đã đánh giá cuộc trò chuyện này');
       }
-
       return;
     }
 
@@ -100,48 +97,29 @@ export default function UserInfoBar(props) {
                 }
               />
             </Badge>
-            <Title
-              id="username"
-              className="mb-0 mr-4 mx-2 text-white"
-              level={3}
-            >
-              {isChatbotActive ? currentChatbot : ''}
-            </Title>
-            <Rate
-              className="flex justify-start text-base"
-              allowHalf
-              value={score}
-              onChange={(value) => {
-                handleRating(value);
-              }}
-            />
+            <div className="flex md:flex-row flex-col justify-around">
+              <Title
+                id="username"
+                className="mb-0 mr-4 mx-2 text-white"
+                level={3}
+              >
+                {isChatbotActive ? currentChatbot : ''}
+              </Title>
+              <Rate
+                className="flex justify-start text-base"
+                allowHalf
+                value={score}
+                onChange={(value) => {
+                  handleRating(value);
+                }}
+              />
+            </div>
           </div>
           <div className="ml-1 flex items-center justify-end w-1/2">
             {/* <SearchBar /> */}
 
             {isChatbotActive ? (
-              <>
-                <Button
-                  className="mr-4"
-                  disabled={currentChatbot === 'chatbot1'}
-                  type={'primary'}
-                  onClick={() => {
-                    onChatbotSelected('chatbot1');
-                  }}
-                >
-                  Chatbot 1
-                </Button>
-                <Button
-                  disabled={currentChatbot === 'chatbot2'}
-                  type={'primary'}
-                  onClick={() => {
-                    handleChatbotModal();
-                    onChatbotSelected('chatbot2');
-                  }}
-                >
-                  Chatbot 2
-                </Button>
-              </>
+              <></>
             ) : (
               <CloseCircleOutlined
                 title="Kết thúc cuộc trò chuyện"

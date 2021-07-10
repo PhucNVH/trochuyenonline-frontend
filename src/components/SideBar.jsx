@@ -5,11 +5,14 @@ import UserOutlined from '@ant-design/icons/UserOutlined';
 import Divider from 'antd/lib/divider';
 import Sider from 'antd/lib/layout/Sider';
 import Modal from 'antd/lib/modal';
+import Button from 'antd/lib/button';
 import React, { useState } from 'react';
 import { useConversation } from '../hooks/use-conversation.js';
 import Guide from './Guide';
 import Map from './Map';
 import UserCard from './UserCard';
+import { useChatbot } from '../hooks/use-chatbot';
+import PersonalityForm from './modals/PersonalityForm.jsx';
 
 export default function SideBar({
   triggerSider,
@@ -22,15 +25,18 @@ export default function SideBar({
     conversations,
     handleFindPartner,
     handleDisconnected,
-    isChatbotActive,
     handleChatbot,
     numUser,
     onlineUsers,
     personalities,
+    getPersonality,
   } = useConversation();
   const [isVisible, setVisible] = useState(false);
   const [isMapVisible, setIsMapVisible] = useState(false);
   const [isVisibleGuide, setVisibleGuide] = useState(isFirstLogin);
+  const [isSurveyVisible, setIsSurveyVisible] = useState(false);
+
+  const { chatbotUrl, onChatbotSelected } = useChatbot();
 
   const showModal = () => {
     setVisible(true);
@@ -55,6 +61,18 @@ export default function SideBar({
   };
   const handleMap = () => {
     setIsMapVisible((prev) => !prev);
+  };
+
+  const [isChatbotModalVisible, setIsChatbotModalVisible] = useState(false);
+  const handleChatbotModal = () => {
+    if (personalities.length <= 0) {
+      setIsChatbotModalVisible(true);
+    }
+  };
+
+  const gotoForm = () => {
+    window.open('https://forms.gle/RuonupxMYqunumpo9', '_blank').focus();
+    setIsSurveyVisible(false);
   };
 
   return (
@@ -128,9 +146,12 @@ export default function SideBar({
           <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Tìm kiếm</p>
         </div>
         <div
-          className={`sidebar-button ${isChatbotActive ? 'tab-active' : ''}`}
-          title="Chat với bot"
+          className={`sidebar-button ${
+            chatbotUrl === 'chatbot1' ? 'tab-active' : ''
+          }`}
+          title="Chat với bot 1"
           onClick={() => {
+            onChatbotSelected('chatbot1');
             handleChatbot();
           }}
         >
@@ -142,7 +163,28 @@ export default function SideBar({
               // className="sidebar-icon w-6 h-6 px-0 border border-solid border-white rounded-full"
             />
           </div>
-          <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Tâm sự với bot</p>
+          <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Tâm sự với bot 1</p>
+        </div>
+        <div
+          className={`sidebar-button ${
+            chatbotUrl === 'chatbot2' ? 'tab-active' : ''
+          }`}
+          title="Chat với bot 2"
+          onClick={() => {
+            onChatbotSelected('chatbot2');
+            handleChatbot();
+            handleChatbotModal();
+          }}
+        >
+          <div className="sidebar-icon px-2">
+            <img
+              src={`https://image.flaticon.com/icons/png/512/2040/2040946.png`}
+              alt="chatbot"
+              style={{ width: 36, height: 36 }}
+              // className="sidebar-icon w-6 h-6 px-0 border border-solid border-white rounded-full"
+            />
+          </div>
+          <p className="hidden sm:block sm:w-3/5 mb-0 py-2">Tâm sự với bot 2</p>
         </div>
 
         <div
@@ -200,7 +242,26 @@ export default function SideBar({
         >
           <p>Bạn có muốn đăng xuất ngay bây giờ?</p>
         </Modal>
+        <Modal
+          title="Khảo sát"
+          visible={isSurveyVisible}
+          onOk={gotoForm}
+          onCancel={() => {
+            setIsSurveyVisible(false);
+          }}
+          okText="Đồng ý"
+          cancelText="Hủy"
+        >
+          <p>
+            Các bạn dành thời gian điền vào khảo sát dưới đây để bọn mình hoàn
+            thiện chatbot nhé.
+          </p>
+          <a href="https://forms.gle/RuonupxMYqunumpo9" target="_blank">
+            https://forms.gle/RuonupxMYqunumpo9
+          </a>
+        </Modal>
         <Guide isModalVisible={isVisibleGuide} handleOk={handleOk} />
+
         <Modal
           visible={isMapVisible}
           onOk={() => {
@@ -211,6 +272,39 @@ export default function SideBar({
           }}
         >
           <Map />
+        </Modal>
+
+        <Modal
+          visible={isChatbotModalVisible}
+          title="Personalities"
+          onCancel={() => {
+            setIsChatbotModalVisible(false);
+          }}
+          footer={[
+            <Button
+              onClick={() => {
+                setIsChatbotModalVisible(false);
+              }}
+            >
+              Cancel
+            </Button>,
+            <Button
+              form="chatbotform"
+              key="submit"
+              htmlType="submit"
+              type="primary"
+              onClick={() => {
+                setIsChatbotModalVisible(false);
+              }}
+            >
+              Submit
+            </Button>,
+          ]}
+        >
+          <PersonalityForm
+            setIsChatbotModalVisible={setIsChatbotModalVisible}
+            getPersonality={getPersonality}
+          />
         </Modal>
       </div>
 

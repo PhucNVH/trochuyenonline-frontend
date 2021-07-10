@@ -44,7 +44,7 @@ export const SignupComponent = () => {
 
   return (
     <Row className="min-h-screen flex flex-col justify-center items-center">
-      <div className="text-center pt-0 mb-0 md:pt-10 md:-mb-10">
+      <div className="">
         <Link to="/">
           <Title className="text-primary">Trò chuyện online</Title>
         </Link>
