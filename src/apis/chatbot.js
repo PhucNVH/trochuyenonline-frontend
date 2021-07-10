@@ -14,7 +14,7 @@ export const Chatbot = {
           text: data.text,
         },
         {
-          withCredentials: true,
+          withCredentials: data.type === 'chatbot2',
         }
       );
       return res.data;

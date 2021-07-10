@@ -184,7 +184,7 @@ function useProvideConversation(handleShowExpertList, handleShowFeed) {
   const getPersonality = useCallback(async () => {
     const result = await Personality.get({
       skipPersonality,
-      takePersonality,
+      takePersonality: 100,
     });
     setPersonalities(result.data.reverse());
   }, [skipPersonality, takePersonality]);

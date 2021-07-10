@@ -10,14 +10,18 @@ export default function PersonalityForm({
   getPersonality,
 }) {
   const { user } = useAuth();
-
+  const formRef = React.createRef();
   const onFinish = async (values) => {
     await Chatbot.init(values.personalities);
-    await personalityService.save({
+    formRef.current.resetFields();
+    const result = await personalityService.save({
       personalities: values.personalities,
       userId: user.id,
     });
-    getPersonality();
+    console.log(result);
+    if (result.success) {
+      await getPersonality();
+    }
   };
 
   useEffect(async () => {
@@ -31,7 +35,12 @@ export default function PersonalityForm({
   }, []);
 
   return (
-    <Form id="chatbotform" name="dynamic_form_item" onFinish={onFinish}>
+    <Form
+      id="chatbotform"
+      name="dynamic_form_item"
+      onFinish={onFinish}
+      ref={formRef}
+    >
       <Form.List name="personalities">
         {(fields, { add, remove }, { errors }) => (
           <>
