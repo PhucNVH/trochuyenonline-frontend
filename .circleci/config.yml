@@ -69,6 +69,7 @@ workflows:
             branches:
               only:
                 - prod
+                - main
 
       - build-source
 
