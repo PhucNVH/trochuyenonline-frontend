@@ -9,7 +9,6 @@ import Button from 'antd/lib/button';
 import React, { useState } from 'react';
 import { useConversation } from '../hooks/use-conversation.js';
 import Guide from './Guide';
-import Map from './Map';
 import UserCard from './UserCard';
 import { useChatbot } from '../hooks/use-chatbot';
 import PersonalityForm from './modals/PersonalityForm.jsx';
@@ -33,7 +32,7 @@ export default function SideBar({
     getPersonality,
   } = useConversation();
   const [isVisible, setVisible] = useState(false);
-  const [isMapVisible, setIsMapVisible] = useState(false);
+  // const [isMapVisible, setIsMapVisible] = useState(false);
   const [isVisibleGuide, setVisibleGuide] = useState(isFirstLogin);
   const [isSurveyVisible, setIsSurveyVisible] = useState(false);
 
@@ -60,9 +59,9 @@ export default function SideBar({
   const logout = async () => {
     handleDisconnected(false);
   };
-  const handleMap = () => {
-    setIsMapVisible((prev) => !prev);
-  };
+  // const handleMap = () => {
+  //   setIsMapVisible((prev) => !prev);
+  // };
 
   const [isChatbotModalVisible, setIsChatbotModalVisible] = useState(false);
   const handleChatbotModal = () => {
@@ -263,7 +262,7 @@ export default function SideBar({
         </Modal>
         <Guide isModalVisible={isVisibleGuide} handleOk={handleOk} />
 
-        <Modal
+        {/* <Modal
           visible={isMapVisible}
           onOk={() => {
             setIsMapVisible(false);
@@ -273,7 +272,7 @@ export default function SideBar({
           }}
         >
           <Map />
-        </Modal>
+        </Modal> */}
 
         <Modal
           visible={isChatbotModalVisible}
