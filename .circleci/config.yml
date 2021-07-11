@@ -65,11 +65,6 @@ workflows:
       - node/test:
           pkg-manager: 'yarn'
           version: '14.16.0'
-          filters:
-            branches:
-              only:
-                - prod
-                - main
 
       - build-source
 
