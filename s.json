@@ -1,0 +1,21 @@
+{
+  "paragraphs": [
+    {
+      "context": "4. Không đặt quá nhiều áp lực, mục tiêu vào chính bạn Việc này không phải đùa. Nếu bạn đang cảm thấy áp lực với mục tiêu của mình thì bạn hãy từ bỏ nó đi. Bởi khi bạn tập thói quen là đọc sách là lúc thoải mái nhất, chẳng có bài kiểm tra nào mà bạn phải làm khi đọc sách. Đọc sách là cho vui, không áp lực. Do đó, không đẩy mình quá khó khăn nếu không sẽ phản tác dụng.",
+      "qas": [
+        {
+          "question": "Nếu đang cảm thấy áp lực với mục tiêu của mình thì mình nên làm gì?",
+          "answers": [
+            {
+              "text": "từ bỏ nó",
+              "answer_start": 141
+            }
+          ],
+          "id": "80c29888-8ea2-11eb-a14c-5378f47bf100",
+          "is_impossible": false,
+          "test": false
+        }
+      ]
+    }
+  ]
+}
