@@ -137,7 +137,7 @@ export default function Profile() {
             Cancel
           </Button>,
           <Button
-            form="chatbotform"
+            form="chatbotform1"
             key="submit"
             htmlType="submit"
             type="primary"
@@ -152,12 +152,14 @@ export default function Profile() {
         <PersonalityForm
           setIsChatbotModalVisible={setIsChatbotModalVisible}
           getPersonality={getPersonality}
+          id="chatbotform1"
+          key="chatbotform1"
         />
       </Modal>
       <div className="mt-8 w-full flex flex-col items-center">
         <Title level={4} className="text-white">
           <Row>
-            Tính cách chatbot 2
+            Personalities
             <Tooltip
               title="Để huấn luyện chatbot có tính cách, chúng mình rất mong bạn liên tục cập nhật danh sách này đúng với cá nhân bạn. Chúng mình cam kết không sử dụng thông tin này với mục đích nào khác việc training nếu chưa có sự cho phép cụ thể từ bạn"
               color="blue"

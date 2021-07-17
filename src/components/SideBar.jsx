@@ -277,6 +277,7 @@ export default function SideBar({
         <Modal
           visible={isChatbotModalVisible}
           title="Personalities"
+          key="sidebar-personalities"
           onCancel={() => {
             setIsChatbotModalVisible(false);
           }}
@@ -289,7 +290,7 @@ export default function SideBar({
               Cancel
             </Button>,
             <Button
-              form="chatbotform"
+              form="chatbotform2"
               key="submit"
               htmlType="submit"
               type="primary"
@@ -304,6 +305,8 @@ export default function SideBar({
           <PersonalityForm
             setIsChatbotModalVisible={setIsChatbotModalVisible}
             getPersonality={getPersonality}
+            id="chatbotform2"
+            key="chatbotform2"
           />
         </Modal>
       </div>

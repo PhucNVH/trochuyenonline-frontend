@@ -8,10 +8,13 @@ import { Chatbot } from '../../apis/chatbot';
 export default function PersonalityForm({
   setIsChatbotModalVisible,
   getPersonality,
+  id,
+  key,
 }) {
   const { user } = useAuth();
   const formRef = React.createRef();
   const onFinish = async (values) => {
+    console.log(values);
     await Chatbot.init(values.personalities);
     formRef.current.resetFields();
     const result = await personalityService.save({
@@ -36,7 +39,8 @@ export default function PersonalityForm({
 
   return (
     <Form
-      id="chatbotform"
+      id={id}
+      key={key}
       name="dynamic_form_item"
       onFinish={onFinish}
       ref={formRef}
