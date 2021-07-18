@@ -43,7 +43,7 @@ jobs:
       - run:
           name: Download artifact
           command: |
-            curl -H "Circle-Token: a93d4d8eafd4f6c2a5818bd8e1ea74b06f777ce9" https://circleci.com/api/v1.1/project/github/PhucNVH/trochuyenonline-frontend/$(($CIRCLE_BUILD_NUM-1))/artifacts \
+            curl -H "Circle-Token: a93d4d8eafd4f6c2a5818bd8e1ea74b06f777ce9" https://circleci.com/api/v1.1/project/github/PhucNVH/trochuyenonline-frontend/$(($CIRCLE_BUILD_NUM-2))/artifacts \
             | grep -o 'https://[^"]*'  \
             | wget --verbose --header "Circle-Token: a93d4d8eafd4f6c2a5818bd8e1ea74b06f777ce9" --input-file -
       - run:
@@ -62,17 +62,16 @@ jobs:
 workflows:
   build-app:
     jobs:
+      - build-source
       - node/test:
           pkg-manager: 'yarn'
           version: '14.16.0'
-
-      - build-source:
           requires:
-            - node/test
+            - build-source
 
       - deploy:
           requires:
-            - build-source
+            - node/test
           filters:
             branches:
               only:
