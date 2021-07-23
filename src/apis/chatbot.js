@@ -38,4 +38,18 @@ export const Chatbot = {
       return { status: 'error', error: err };
     }
   },
+  reset: async () => {
+    try {
+      const res = await axios.post(
+        `${REACT_APP_BOT_URI_2}/reset`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      return res.data;
+    } catch (err) {
+      return { status: 'error', error: err };
+    }
+  },
 };

@@ -15,6 +15,7 @@ export default function UserInfoBar(props) {
     avatarUrl,
     isChatbotActive,
     currentChatbot,
+    resetChat,
     conv,
     ...rest
   } = props;
@@ -102,6 +103,7 @@ export default function UserInfoBar(props) {
                 id="username"
                 className="mb-0 mr-4 mx-2 text-white"
                 level={3}
+                onClick={resetChat}
               >
                 {isChatbotActive ? currentChatbot : ''}
               </Title>

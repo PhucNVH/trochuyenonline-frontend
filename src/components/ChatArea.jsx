@@ -12,7 +12,6 @@ import {
   Bubble,
 } from '@livechat/ui-kit';
 import { useChatbot } from '../hooks/use-chatbot';
-import { Button, Modal } from 'antd';
 import UserInfoBar from './UserInfoBar';
 import ChatInput from './ChatInput';
 import { Chatbot } from '../apis/chatbot';
@@ -31,8 +30,8 @@ const Maximized = ({ alert }) => {
     personalities,
     conv,
     currentConversation,
+    setMessage,
   } = useConversation();
-  console.log(currentConversation);
   const avatarUrl =
     conv?.conversationUser.avatarUrl !== ''
       ? conv?.conversationUser.avatarUrl
@@ -52,6 +51,12 @@ const Maximized = ({ alert }) => {
       await Chatbot.init(personalities.map((e) => e.mention));
     }
   }, [isChatbotActive]);
+  const resetChat = async () => {
+    setMessage([]);
+    if (chatbotUrl === 'chatbot2') {
+      await Chatbot.reset();
+    }
+  };
   return (
     <ThemeProvider theme={theme}>
       <div
@@ -73,6 +78,7 @@ const Maximized = ({ alert }) => {
           conv={conv}
           avatarUrl={avatarUrl}
           currentChatbot={chatbotUrl}
+          resetChat={resetChat}
         />
         <div
           className={`${conv !== null || isChatbotActive ? 'mt-12' : ''}`}
