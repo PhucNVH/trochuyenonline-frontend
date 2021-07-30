@@ -53,13 +53,11 @@ export const LoginComponent = () => {
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center">
-      <div className="text-center">
-        <div className="">
-          <Link to="/">
-            <Title className="text-primary">Trò chuyện online</Title>
-          </Link>
-        </div>
-        <div className="w-96 md:w-full">
+      <div className="text-center flex flex-col items-center">
+        <Link to="/">
+          <Title className="text-primary">Trò chuyện online</Title>
+        </Link>
+        <div className="w-96 md:w-9/12 flex justify-center">
           <Lottie options={defaultOptions} />
         </div>
       </div>
